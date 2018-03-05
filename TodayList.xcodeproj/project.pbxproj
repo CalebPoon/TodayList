@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7837045B204D65F800F673E5 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7837045A204D65F800F673E5 /* Task.swift */; };
+		789E583E204C25CE00068695 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789E583D204C25CE00068695 /* Checkbox.swift */; };
 		789EE12920499408009FD9FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE12820499408009FD9FD /* AppDelegate.swift */; };
-		789EE12B20499408009FD9FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE12A20499408009FD9FD /* ViewController.swift */; };
+		789EE12B20499408009FD9FD /* TodayListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE12A20499408009FD9FD /* TodayListViewController.swift */; };
 		789EE12E20499408009FD9FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 789EE12C20499408009FD9FD /* Main.storyboard */; };
 		789EE13020499408009FD9FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 789EE12F20499408009FD9FD /* Assets.xcassets */; };
 		789EE13320499408009FD9FD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 789EE13120499408009FD9FD /* LaunchScreen.storyboard */; };
 		789EE13E20499409009FD9FD /* TodayListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE13D20499409009FD9FD /* TodayListTests.swift */; };
+		789EE14920499A70009FD9FD /* TodayListTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */; };
+		789EE14B2049A2F7009FD9FD /* OtherFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE14A2049A2F7009FD9FD /* OtherFunc.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,9 +30,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7837045A204D65F800F673E5 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		789E583D204C25CE00068695 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		789EE12520499408009FD9FD /* TodayList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodayList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		789EE12820499408009FD9FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		789EE12A20499408009FD9FD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		789EE12A20499408009FD9FD /* TodayListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayListViewController.swift; sourceTree = "<group>"; };
 		789EE12D20499408009FD9FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		789EE12F20499408009FD9FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		789EE13220499408009FD9FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -36,6 +42,8 @@
 		789EE13920499409009FD9FD /* TodayListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodayListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		789EE13D20499409009FD9FD /* TodayListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayListTests.swift; sourceTree = "<group>"; };
 		789EE13F20499409009FD9FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayListTaskTableViewCell.swift; sourceTree = "<group>"; };
+		789EE14A2049A2F7009FD9FD /* OtherFunc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OtherFunc.swift; path = ../../../../NewToSwift/FoodTracker/FoodTracker/OtherFunc.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +86,12 @@
 			isa = PBXGroup;
 			children = (
 				789EE12820499408009FD9FD /* AppDelegate.swift */,
-				789EE12A20499408009FD9FD /* ViewController.swift */,
+				789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */,
+				789EE12A20499408009FD9FD /* TodayListViewController.swift */,
+				789E583D204C25CE00068695 /* Checkbox.swift */,
+				7837045A204D65F800F673E5 /* Task.swift */,
 				789EE12C20499408009FD9FD /* Main.storyboard */,
+				789EE14A2049A2F7009FD9FD /* OtherFunc.swift */,
 				789EE12F20499408009FD9FD /* Assets.xcassets */,
 				789EE13120499408009FD9FD /* LaunchScreen.storyboard */,
 				789EE13420499408009FD9FD /* Info.plist */,
@@ -199,8 +211,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				789EE12B20499408009FD9FD /* ViewController.swift in Sources */,
+				789EE14B2049A2F7009FD9FD /* OtherFunc.swift in Sources */,
+				789EE12B20499408009FD9FD /* TodayListViewController.swift in Sources */,
+				789E583E204C25CE00068695 /* Checkbox.swift in Sources */,
 				789EE12920499408009FD9FD /* AppDelegate.swift in Sources */,
+				7837045B204D65F800F673E5 /* Task.swift in Sources */,
+				789EE14920499A70009FD9FD /* TodayListTaskTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
