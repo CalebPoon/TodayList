@@ -24,10 +24,12 @@ class CheckBox: UIButton {
     }
     
     override func awakeFromNib() {
-        self.addTarget(self, action: #selector(CheckBox.buttonClicked), for: .touchUpInside)
+        //self.addTarget(self, action: #selector(CheckBox.buttonClicked), for: .touchUpInside)
         self.isChecked = false
+        self.setBackgroundImage(unCheckedImage, for: .normal)
     }
     
+    /*
     @objc func buttonClicked(sender: UIButton) {
         if (sender == self){
             if isChecked == true{
@@ -37,5 +39,6 @@ class CheckBox: UIButton {
             }
         }
     }
+ */
         
 }

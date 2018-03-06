@@ -8,11 +8,12 @@
 
 import UIKit
 
-class TodayListViewController: UITableViewController {
+class TodayListViewController: UITableViewController, TodayListTaskTableViewCellDelegate {
 
     //MARK: Properties
     
-    var tasks = [Task]()
+    var uncheckedTasks = [Task]()
+    var checkedTasks = [Task]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,8 @@ class TodayListViewController: UITableViewController {
         self.navigationController?.navigationBar.barTintColor = customColor.globalBackground
         self.navigationController?.navigationBar.shadowImage = UIImage()
         //self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .any, barMetrics: .default)
+
         
         // Whole Background appearabce
         view.backgroundColor = customColor.globalBackground
@@ -53,7 +56,7 @@ class TodayListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return tasks.count
+        return uncheckedTasks.count
     }
     
     
@@ -63,9 +66,12 @@ class TodayListViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? TodayListTaskTableViewCell else {
             fatalError("The dequeued cell is not an instance of TodayListTaskTableViewCell.")
         }
+        
+        // Assign cell delegate to view controller
+        cell.delegate = self
      
         // Fetches the appropriate task for the data source layout.
-        let task = tasks[indexPath.row]
+        let task = uncheckedTasks[indexPath.row]
         
         cell.TaskTitle.text = task.title
         cell.Checkbox.isChecked = task.isChecked
@@ -119,6 +125,24 @@ class TodayListViewController: UITableViewController {
      }
      */
 
+    // Implement Delegate Method
+    func checkboxTapped(cell: TodayListTaskTableViewCell) {
+        // Get the indexpath of cell where checkbox was tapped
+        let indexPath = self.tableView.indexPath(for: cell)
+        let row = indexPath!.row
+        
+        // Change checkbox states and appearance
+        if cell.Checkbox.isChecked {
+            cell.Checkbox.isChecked = false
+        } else {
+            cell.Checkbox.isChecked = true
+        }
+        
+        
+        uncheckedTasks[row].isChecked = cell.Checkbox.isChecked
+        print("\(row), task:isChecked: \(uncheckedTasks[row].isChecked), cell:isChecked:\(cell.Checkbox.isChecked)")
+    }
+    
     //MARK: Private Methods
     private func loadSampleTask() {
         guard let task1 = Task(title: "点击左侧方框完成任务", isChecked: false) else {
@@ -133,7 +157,9 @@ class TodayListViewController: UITableViewController {
             fatalError("Unable to instantiate task3")
         }
         
-        tasks += [task1, task2, task3]
+        //let task4 = Task(title: "已完成任务", isChecked: true)
+        
+        //uncheckedTasks += [task1, task2, task3]
     }
 }
 

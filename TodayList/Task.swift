@@ -27,6 +27,11 @@ class Task {
             return nil
         }
         
+        // isChecked must be false
+        if isChecked {
+            return nil
+        }
+        
         // Initialize stored properties.
         self.title = title
         self.isChecked = isChecked

@@ -8,11 +8,19 @@
 
 import UIKit
 
+//MARK: Delegate method
+protocol TodayListTaskTableViewCellDelegate: AnyObject {
+    func checkboxTapped(cell : TodayListTaskTableViewCell)
+}
+
+
 class TodayListTaskTableViewCell: UITableViewCell {
+    
     //MARK: Properties
 
     @IBOutlet weak var TaskTitle: UILabel!
     @IBOutlet weak var Checkbox: CheckBox!
+    weak var delegate: TodayListTaskTableViewCellDelegate?
     
     
     override func awakeFromNib() {
@@ -24,8 +32,16 @@ class TodayListTaskTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
+    
+    //MARK: Action
+    
+    // Assign the action of checkbox
+    @IBAction func checkboxTapped(_ sender: CheckBox) {
+        // Check delegate is not nil with '?'
+        delegate?.checkboxTapped(cell: self)
+    }
+    
 
 }

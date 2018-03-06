@@ -25,5 +25,9 @@ class TodayListTests: XCTestCase {
         // Empty String
         let emptyStringTask = Task.init(title: "", isChecked: false)
         XCTAssertNil(emptyStringTask)
+        
+        // isChecked
+        let CheckedTask = Task.init(title: "sampleCheckedTask", isChecked: true)
+        XCTAssertNil(CheckedTask)
     }
 }
