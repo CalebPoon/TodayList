@@ -29,7 +29,6 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         self.navigationController?.navigationBar.barTintColor = customColor.globalBackground
         self.navigationController?.navigationBar.shadowImage = UIImage()
         //self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
-        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .any, barMetrics: .default)
 
         
         // Whole Background appearabce
@@ -138,9 +137,20 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             cell.Checkbox.isChecked = true
         }
         
+        // Transfer the checkedTask to the array of checkedTasks, and delete it from the table view
         
-        uncheckedTasks[row].isChecked = cell.Checkbox.isChecked
-        print("\(row), task:isChecked: \(uncheckedTasks[row].isChecked), cell:isChecked:\(cell.Checkbox.isChecked)")
+        // Transfer
+        let checkedTask = uncheckedTasks[row]
+        uncheckedTasks.remove(at: row)
+        checkedTask.isChecked = cell.Checkbox.isChecked
+        checkedTasks.append(checkedTask)
+        
+        // Delete
+        tableView.deleteRows(at: [indexPath!], with: .fade)
+        
+        // print("\(row), task:isChecked: \(uncheckedTasks[row].isChecked), cell:isChecked:\(cell.Checkbox.isChecked)")\
+        print("After check: checkedTasks: \(checkedTasks.count), uncheckedTasks: \(uncheckedTasks.count)")
+        
     }
     
     //MARK: Private Methods
@@ -159,7 +169,8 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         
         //let task4 = Task(title: "已完成任务", isChecked: true)
         
-        //uncheckedTasks += [task1, task2, task3]
+        uncheckedTasks += [task1, task2, task3]
+        print("Before check: checkedTasks: \(checkedTasks.count), uncheckedTasks: \(uncheckedTasks.count)")
     }
 }
 
