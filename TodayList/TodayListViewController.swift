@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 class TodayListViewController: UITableViewController, TodayListTaskTableViewCellDelegate {
 
@@ -14,6 +15,9 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     
     var uncheckedTasks = [Task]()
     var checkedTasks = [Task]()
+    
+    var addButton = UIButton()
+    //var addButtonFrame: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,12 +39,21 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         view.backgroundColor = customColor.globalBackground
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         
+        // Add space below the navBar
+        self.tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
+        
+        //Add Gesture of Tap and LongPress
+        let TapGesture = UITapGestureRecognizer(target: self, action: #selector(TodayListViewController.addButtonTapped(_:)))
+        let LongPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(TodayListViewController.addButtonLongPressed(_:)))
+        addButton.addGestureRecognizer(TapGesture)
+        addButton.addGestureRecognizer(LongPressGesture)
+        
         // Load the sample data.
         loadSampleTask()
         
+        setupAddButton()
         
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -78,6 +91,15 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         return cell
      }
     
+    // Keep the addButton floating
+    override func scrollViewDidScroll(_ scrollView: UIScrollView){
+        
+        var frame: CGRect = self.addButton.frame
+        frame.origin.y = scrollView.contentOffset.y + self.tableView.frame.size.height
+        addButton.frame.origin.y = scrollView.contentOffset.y + self.tableView.frame.size.height - 60 - 12
+        
+        tableView.bringSubview(toFront: addButton)
+    }
     
     /*
      // Override to support conditional editing of the table view.
@@ -136,7 +158,8 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         } else {
             cell.Checkbox.isChecked = true
         }
-        
+        cell.backgroundColor = UIColor.clear
+        cell.backgroundView = UIImageView(image: #imageLiteral(resourceName: "CheckedCell"))
         // Transfer the checkedTask to the array of checkedTasks, and delete it from the table view
         
         // Transfer
@@ -171,6 +194,75 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         
         uncheckedTasks += [task1, task2, task3]
         print("Before check: checkedTasks: \(checkedTasks.count), uncheckedTasks: \(uncheckedTasks.count)")
+    }
+    
+
+    //MARK: AddButon functions
+    
+    // Setup the addButton on homepage
+    private func setupAddButton() {
+        addButton.setTitle("", for: .normal)
+        addButton.setImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
+        addButton.frame.size = CGSize(width: 60, height: 60)
+        
+        // Set its original place by frame
+        addButton.frame = CGRect(x: self.view.frame.width - 60 - 12, y: self.view.frame.height - 112 - 12 - 60 - 12, width: 60, height: 60)
+        
+        // Add Target of press and long press
+        //addButton.addTarget(self, action: #selector(TodayListViewController.addButtonClicked), for: .touchUpInside)
+        //addButton.addTarget(self, action: #selector(TodayListViewController.addButtonLongPressed), for: .touchDown)\
+        
+        self.view.addSubview(addButton)
+        
+        /*
+        // Keep floating by setting constraints
+        addTask.translatesAutoresizingMaskIntoConstraints = false
+        addTask.heightAnchor.constraint(equalToConstant: 60)
+        addTask.widthAnchor.constraint(equalToConstant: 500)
+        if #available(iOS 11.0, *) {
+            addTask.rightAnchor.constraint(equalTo: self.tableView.safeAreaLayoutGuide.rightAnchor, constant: -12).isActive = true
+            addTask.bottomAnchor.constraint(equalTo: self.tableView.safeAreaLayoutGuide.bottomAnchor, constant: -12).isActive = true
+        } else {
+            addTask.rightAnchor.constraint(equalTo: tableView.layoutMarginsGuide.rightAnchor, constant: 0).isActive = true
+            addTask.bottomAnchor.constraint(equalTo: tableView.layoutMarginsGuide.bottomAnchor , constant: -12).isActive = true
+        }*/
+    }
+    
+    @objc func addButtonTapped(_ sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+             print("Tapped")
+            
+            // Animation
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut ,animations: {
+                self.addButton.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+                self.addButton.alpha = 0.6
+            }, completion: {(finished:Bool) in
+                UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+                    self.addButton.alpha = 1.0
+                    self.addButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+                }, completion: nil)
+            })
+            
+            AudioServicesPlaySystemSound(1519) // Actuate `Peek` feedback (weak boom)
+        }
+    }
+    
+    
+    @objc func addButtonLongPressed(_ sender: UILongPressGestureRecognizer) {
+        if sender.state == .ended {
+
+            print("Long Pressed")
+            // Animation
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut ,animations: {
+                self.addButton.setImage(#imageLiteral(resourceName: "AddIdea"), for: .normal)
+                self.addButton.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            }, completion: {(finished:Bool) in
+                UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+                    self.addButton.setImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
+                    self.addButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+                }, completion: nil)
+            })
+        }
     }
 }
 
