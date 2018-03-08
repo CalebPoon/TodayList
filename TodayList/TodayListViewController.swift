@@ -51,6 +51,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         // Load the sample data.
         loadSampleTask()
         
+        // Setup AddButton
         setupAddButton()
         
     }
@@ -136,16 +137,31 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
      }
      */
     
-    /*
+    
+    
      // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        /*
+        switch (segue.identifier ?? "") {
+        case "AddTask":
+            /*
+            guard let AddTaskPop = segue.destination as? AddTaskPopViewController
+                else {
+                    fatalError("Unexpected destination: \(segue.destination)")
+            }
+            guard let AddTaskButton = sender as? UIButton else {
+                fatalError("Unexpected sender: \(sender)")
+            }*/
+            
+        default:
+            fatalError("Unexpected Segue Identifier: \(segue.identifier)")
+        }*/
+        
+    }
 
+    
     // Implement Delegate Method
     func checkboxTapped(cell: TodayListTaskTableViewCell) {
         // Get the indexpath of cell where checkbox was tapped
@@ -232,21 +248,22 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         if sender.state == .ended {
              print("Tapped")
             
-            // Animation
+            // Animation and Add Segue
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut ,animations: {
-                self.addButton.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+                self.addButton.transform = CGAffineTransform(scaleX: 0.9 , y: 0.9)
                 self.addButton.alpha = 0.6
             }, completion: {(finished:Bool) in
                 UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
                     self.addButton.alpha = 1.0
                     self.addButton.transform = CGAffineTransform(scaleX: 1, y: 1)
-                }, completion: nil)
+                }, completion: {(finished:Bool) in
+                    self.performSegue(withIdentifier: "AddTask", sender: self)
+                })
             })
             
             AudioServicesPlaySystemSound(1519) // Actuate `Peek` feedback (weak boom)
         }
     }
-    
     
     @objc func addButtonLongPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .ended {
@@ -264,5 +281,12 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             })
         }
     }
+    
+    /*
+    // AddTask Segue
+    @IBAction func addTaskClicked(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "AddTask", sender: self)
+    }*/
+    
 }
 

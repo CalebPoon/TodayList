@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -52,11 +53,65 @@
                             <outlet property="delegate" destination="5MH-c0-dfh" id="6TQ-qm-F5S"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="今日" id="Lmm-zr-dnN"/>
+                    <navigationItem key="navigationItem" title="今日" id="Lmm-zr-dnN">
+                        <barButtonItem key="backBarButtonItem" title="a " id="QCD-LE-7jv"/>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="ChP-I6-jG0" kind="presentation" identifier="AddTask" id="CIW-xv-M20"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ht9-1I-UpC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="392.80000000000001" y="14.842578710644679"/>
+        </scene>
+        <!--Add Task Pop View Controller-->
+        <scene sceneID="xPH-Ik-QEw">
+            <objects>
+                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="ChP-I6-jG0" customClass="AddTaskPopViewController" customModule="TodayList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Oef-3e-99Q">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="teX-aK-7ML">
+                                <rect key="frame" x="0.0" y="527" width="375" height="140"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uws-uu-zp8">
+                                        <rect key="frame" x="313" y="92" width="46" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="46" id="Apd-tW-Hmc"/>
+                                            <constraint firstAttribute="height" constant="32" id="q7P-im-7ff"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="AddConfrim:" destination="ChP-I6-jG0" eventType="touchUpInside" id="2WW-nF-45b"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.9882352941176471" green="0.98431372549019602" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="375" id="2P7-9g-fPN"/>
+                                    <constraint firstAttribute="trailing" secondItem="uws-uu-zp8" secondAttribute="trailing" constant="16" id="KcG-XE-D7U"/>
+                                    <constraint firstAttribute="height" constant="140" id="oJa-Tb-qKf"/>
+                                    <constraint firstAttribute="bottom" secondItem="uws-uu-zp8" secondAttribute="bottom" constant="16" id="rzW-A1-jqx"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="teX-aK-7ML" firstAttribute="leading" secondItem="GM2-nZ-T33" secondAttribute="leading" id="flf-a9-Wqy"/>
+                            <constraint firstItem="GM2-nZ-T33" firstAttribute="bottom" secondItem="teX-aK-7ML" secondAttribute="bottom" id="gte-WM-UzM"/>
+                            <constraint firstItem="teX-aK-7ML" firstAttribute="trailing" secondItem="GM2-nZ-T33" secondAttribute="trailing" id="xOX-26-iCf"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="GM2-nZ-T33"/>
+                    </view>
+                    <connections>
+                        <outlet property="AddConFirm" destination="uws-uu-zp8" id="myf-cA-M9z"/>
+                        <outlet property="PopView" destination="teX-aK-7ML" id="cTn-t5-OZ6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g1l-3t-L6R" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1165.5999999999999" y="14.842578710644679"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Y3R-x7-5OD">
