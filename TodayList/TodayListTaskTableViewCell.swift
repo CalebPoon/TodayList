@@ -31,7 +31,6 @@ class TodayListTaskTableViewCell: UITableViewCell {
         backgroundColor = customColor.globalBackground
         backgroundView = UIImageView(image: #imageLiteral(resourceName: "CheckedCell"))
         backgroundView?.alpha = 0
-        //backgroundView?.frame = CGRect(x: 0 - self.frame.width, y: 0, width: self.frame.width, height: self.frame.height)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -181,12 +181,16 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     }
 
     
+    // MARK: - Check Task
+    
     // Implement Delegate Method
     func checkboxTapped(cell: TodayListTaskTableViewCell) {
         // Get the indexpath of cell where checkbox was tapped
         let indexPath = self.tableView.indexPath(for: cell)
         let row = indexPath!.row
         
+        let width = cell.frame.width
+        let height = cell.frame.height
         
         // Change checkbox states and update CheckingRowArray
         if cell.Checkbox.isChecked {
@@ -195,7 +199,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             //Animation
             UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
                 cell.backgroundView?.alpha = 0
-                cell.backgroundView?.frame = CGRect(x: 0 - cell.frame.width, y: 0, width: cell.frame.width, height: cell.frame.height)
+                cell.backgroundView?.frame = CGRect(x: 0 - width, y: 0, width: width, height: height)
             }, completion: nil)
             
         } else {
@@ -203,11 +207,11 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             
             //Animation
             cell.backgroundView = UIImageView(image: #imageLiteral(resourceName: "CheckedCell"))
-            cell.backgroundView?.frame = CGRect(x: 0 - cell.frame.width, y: 0, width: cell.frame.width, height: cell.frame.height)
+            cell.backgroundView?.frame = CGRect(x: 0 - width, y: 0, width: width, height: height)
             
             UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
                 cell.backgroundView?.alpha = 1
-                cell.backgroundView?.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
+                cell.backgroundView?.frame = CGRect(x: 0, y: 0, width: width, height: height)
             }, completion: nil)
             
             // push the row in CheckingRowArray when it is checked at the first time
@@ -226,6 +230,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                 let toCheckedRow = self.checkingRow.first
                 
                 if cell.Checkbox.isChecked {
+                    cell.Checkbox.isEnabled = false
                     // Transfer the checkedTask to the array of checkedTasks, and delete it from the table view
                     // Transfer
                     
@@ -271,7 +276,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         }
     }
     
-    //MARK: Private Methods
+    //MARK: - Private Methods
     private func loadSampleTask() {
         guard let task1 = Task(title: "点击左侧方框完成任务", isChecked: false) else {
             fatalError("Unable to instantiate task1")
@@ -287,20 +292,20 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
 
         uncheckedTasks += [task1, task2, task3]
         
-        
+        /*
         // Test Tasks
         for index in 0...12 {
             guard let task = Task(title: "测试任务\(index)", isChecked: false) else {
                 fatalError("Unable to instantiate task\(index)")
             }
             self.uncheckedTasks += [task]
-        }
+        }*/
         
         print("Before check: checkedTasks: \(checkedTasks.count), uncheckedTasks: \(uncheckedTasks.count)")
     }
     
 
-    //MARK: AddButon functions
+    // MARK: - AddButon functions
     
     // Setup the addButton on homepage
     func setupAddButton() {
@@ -374,7 +379,5 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         }
     }
     
-
-
 }
 
