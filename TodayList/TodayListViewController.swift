@@ -187,60 +187,85 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         let indexPath = self.tableView.indexPath(for: cell)
         let row = indexPath!.row
         
+        
         // Change checkbox states and update CheckingRowArray
         if cell.Checkbox.isChecked {
             cell.Checkbox.isChecked = false
-            cell.backgroundView = UIImageView()
             
-            // Pop the row in CheckingRowArray when it is unchecked
-            if self.checkingRow.count == 1 {
-                self.checkingRow.removeAll()
-            } else {
-                self.checkingRow = self.checkingRow.filter({$0 != row})
-            }
+            //Animation
+            UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
+                cell.backgroundView?.alpha = 0
+                cell.backgroundView?.frame = CGRect(x: 0 - cell.frame.width, y: 0, width: cell.frame.width, height: cell.frame.height)
+            }, completion: nil)
             
         } else {
-
-            cell.backgroundView = UIImageView(image: #imageLiteral(resourceName: "CheckedCell"))
             cell.Checkbox.isChecked = true
             
-            // push the row in CheckingRowArray when it is checked
-            self.checkingRow.append(row)
+            //Animation
+            cell.backgroundView = UIImageView(image: #imageLiteral(resourceName: "CheckedCell"))
+            cell.backgroundView?.frame = CGRect(x: 0 - cell.frame.width, y: 0, width: cell.frame.width, height: cell.frame.height)
+            
+            UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
+                cell.backgroundView?.alpha = 1
+                cell.backgroundView?.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
+            }, completion: nil)
+            
+            // push the row in CheckingRowArray when it is checked at the first time
+            if self.checkingRow.filter({$0 == row}).isEmpty {
+                self.checkingRow.append(row)
+                delayCheck(cell: cell, indexPath: indexPath)
+            }
         }
-        
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+    }
+    
+    func delayCheck(cell: TodayListTaskTableViewCell, indexPath: IndexPath?) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             // Func should be executed when there is a row waiting for checked
             if !self.checkingRow.isEmpty {
                 // FIFO
-                // Transfer the checkedTask to the array of checkedTasks, and delete it from the table view
-                // Transfer
                 let toCheckedRow = self.checkingRow.first
-                let checkedTask = self.uncheckedTasks[toCheckedRow!]
-                self.uncheckedTasks.remove(at: toCheckedRow!)
-                checkedTask.isChecked = cell.Checkbox.isChecked
-                self.checkedTasks.append(checkedTask)
                 
-                // Delete from tableView
-                var toCheckedIndexPath = indexPath
-                toCheckedIndexPath?.row = toCheckedRow!
-                self.tableView.deleteRows(at: [toCheckedIndexPath!], with: .fade)
-                
-                // print("\(row), task:isChecked: \(uncheckedTasks[row].isChecked), cell:isChecked:\(cell.Checkbox.isChecked)")\
-                print("After row\(toCheckedRow) is checked: checkedTasks: \(self.checkedTasks.count), uncheckedTasks: \(self.uncheckedTasks.count)")
-                
-
-                // Update the checkingRow's row nunmber after deleting and pop the first one
-                if self.checkingRow.count == 1 {
-                    self.checkingRow.removeFirst()
-                } else {
-                    let count = self.checkingRow.count
-                    for index in 1..<count  {
-                        if self.checkingRow[index] > self.checkingRow[0] {
-                            self.checkingRow[index] -= 1
+                if cell.Checkbox.isChecked {
+                    // Transfer the checkedTask to the array of checkedTasks, and delete it from the table view
+                    // Transfer
+                    
+                    let checkedTask = self.uncheckedTasks[toCheckedRow!]
+                    self.uncheckedTasks.remove(at: toCheckedRow!)
+                    checkedTask.isChecked = cell.Checkbox.isChecked
+                    self.checkedTasks.append(checkedTask)
+                    
+                    // Delete from tableView
+                    var toCheckedIndexPath = indexPath
+                    toCheckedIndexPath?.row = toCheckedRow!
+                    self.tableView.deleteRows(at: [toCheckedIndexPath!], with: .fade)
+                    cell.backgroundView = nil
+                    
+                    //print("After row\(toCheckedRow) is checked: checkedTasks: \(self.checkedTasks.count), uncheckedTasks: \(self.uncheckedTasks.count)")
+                    
+                    
+                    // Update the checkingRow's row nunmber after deleting and pop the first one
+                    if self.checkingRow.count == 1 {
+                        self.checkingRow.removeFirst()
+                    } else {
+                        let count = self.checkingRow.count
+                        for index in 1..<count  {
+                            if self.checkingRow[index] > self.checkingRow[0] {
+                                self.checkingRow[index] -= 1
+                            }
                         }
+                        self.checkingRow.removeFirst()
                     }
+                    
+                } else {
+                    
+                    // Pop the row in CheckingRowArray if it is unchecked
                     self.checkingRow.removeFirst()
+                    /*
+                    if self.checkingRow.count == 1 {
+                        self.checkingRow.removeAll()
+                    } else {
+                        self.checkingRow = self.checkingRow.filter({$0 != row})
+                    }*/
                 }
             }
         }
@@ -259,19 +284,17 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         guard let task3 = Task(title: "点击任务标题编辑详情", isChecked: false) else {
             fatalError("Unable to instantiate task3")
         }
-        
 
-        //let task4 = Task(title: "已完成任务", isChecked: true)
-        
         uncheckedTasks += [task1, task2, task3]
         
+        
+        // Test Tasks
         for index in 0...12 {
             guard let task = Task(title: "测试任务\(index)", isChecked: false) else {
                 fatalError("Unable to instantiate task\(index)")
             }
             self.uncheckedTasks += [task]
         }
-        
         
         print("Before check: checkedTasks: \(checkedTasks.count), uncheckedTasks: \(uncheckedTasks.count)")
     }
@@ -287,10 +310,6 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         
         // Set its original place by frame
         addButton.frame = CGRect(x: self.view.frame.width - 60 - 12, y: self.view.frame.height - 112 - 12 - 60 - 12, width: 60, height: 60)
-        
-        // Add Target of press and long press
-        //addButton.addTarget(self, action: #selector(TodayListViewController.addButtonClicked), for: .touchUpInside)
-        //addButton.addTarget(self, action: #selector(TodayListViewController.addButtonLongPressed), for: .touchDown)\
         
         self.view.addSubview(addButton)
         
@@ -326,7 +345,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                 })
             })
             
-            // Actuate `Peek` feedback
+            // Actuate 'Peek' feedback
             AudioServicesPlaySystemSound(1519)
         }
     }
@@ -341,14 +360,14 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                 self.addButton.setBackgroundImage(#imageLiteral(resourceName: "AddIdea"), for: .normal)
                 self.addButton.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
                 
-                // Actuate `Pop` feedback
+                // Actuate 'Pop' feedback
                 AudioServicesPlaySystemSound(1520)
             }, completion: {(finished:Bool) in
                 UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
                     //self.addButton.setBackgroundImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
                     self.addButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                     
-                    // Actuate `Peek` feedback
+                    // Actuate 'Peek' feedback
                     AudioServicesPlaySystemSound(1519)
                 }, completion: nil)
             })

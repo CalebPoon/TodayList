@@ -38,6 +38,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
        
         // Update View
         NotificationCenter.default.addObserver(self, selector: #selector(AddTaskPopViewController.updateView(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AddTaskPopViewController.updateView(notification:)), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(AddTaskPopViewController.updateView(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
 
     }
@@ -145,12 +146,14 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         let keyboardEndFrame = self.view.convert(keyboardEndFrameScreenCoordinates, to: view.window)
         
         // change y when keyboard shows
-        if notification.name == Notification.Name.UIKeyboardWillShow {
+        if notification.name == Notification.Name.UIKeyboardWillHide {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut , animations: {
-                self.view.frame.origin.y -= keyboardEndFrame.height
+                self.view.frame.origin.y = 0
             }, completion: nil)
-        } else if notification.name == Notification.Name.UIKeyboardWillHide {
+        } else {
             self.view.frame.origin.y = 0
+            self.view.frame.origin.y -= keyboardEndFrame.height
+            print("show: \(self.view.frame.origin.y)")
         }
     }
     

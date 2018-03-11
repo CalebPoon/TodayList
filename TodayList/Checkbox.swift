@@ -12,11 +12,30 @@ class CheckBox: UIButton {
     
     var isChecked:Bool = false{
         didSet {
+            // Animation
             if isChecked == true{
-                
-                self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_S_OK"), for: .normal)
+                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                    self.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                }, completion: { (_: Bool) in
+                    UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                        self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_S_OK"), for: .normal)
+                        self.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                    }, completion: { (_: Bool) in
+                        UIView.animate(withDuration: 0.1, animations: {
+                            self.transform = CGAffineTransform(scaleX: 1, y: 1)
+                        })
+                    })
+                })
             }else{
-                self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_S"), for: .normal)
+                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                    self.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                    self.alpha = 0
+                }, completion: { (_: Bool) in
+                    UIView.animate(withDuration: 0.1, animations: {
+                        self.alpha = 1
+                        self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_S"), for: .normal)
+                    })
+                })
             }
         }
     }

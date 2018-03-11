@@ -29,6 +29,7 @@
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Hd-Ka-thl" customClass="CheckBox" customModule="TodayList" customModuleProvider="target">
                                             <rect key="frame" x="16" y="12" width="24" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <inset key="imageEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
                                             <connections>
                                                 <action selector="checkboxTapped:" destination="69E-cg-Uw1" eventType="touchUpInside" id="RZd-89-032"/>
                                             </connections>
