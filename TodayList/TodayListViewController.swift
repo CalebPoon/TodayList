@@ -9,6 +9,8 @@
 import UIKit
 import AudioToolbox
 
+
+
 class TodayListViewController: UITableViewController, TodayListTaskTableViewCellDelegate {
 
     //MARK: Properties
@@ -16,8 +18,11 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     var uncheckedTasks = [Task]()
     var checkedTasks = [Task]()
     
-    var addButton = UIButton()
+    var addButton = UIButton.init(type: UIButtonType.system)
     //var addButtonFrame: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
+    
+    var checkingRow =  [Int]()
+    var checkingRowValue = [Int: Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +60,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         setupAddButton()
         
     }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -160,6 +166,19 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         }*/
         
     }
+    
+    @IBAction func unwindToTodayList(segue: UIStoryboardSegue){
+        // AddButton animate
+        UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
+            self.addButton.setBackgroundImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
+            self.addButton.alpha = 1
+            self.addButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        }, completion: {(finished: Bool) in
+            UIView.animate(withDuration: 0.2, animations: {
+                self.addButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            })
+        })
+    }
 
     
     // Implement Delegate Method
@@ -168,28 +187,63 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         let indexPath = self.tableView.indexPath(for: cell)
         let row = indexPath!.row
         
-        // Change checkbox states and appearance
+        // Change checkbox states and update CheckingRowArray
         if cell.Checkbox.isChecked {
             cell.Checkbox.isChecked = false
+            cell.backgroundView = UIImageView()
+            
+            // Pop the row in CheckingRowArray when it is unchecked
+            if self.checkingRow.count == 1 {
+                self.checkingRow.removeAll()
+            } else {
+                self.checkingRow = self.checkingRow.filter({$0 != row})
+            }
+            
         } else {
+
+            cell.backgroundView = UIImageView(image: #imageLiteral(resourceName: "CheckedCell"))
             cell.Checkbox.isChecked = true
+            
+            // push the row in CheckingRowArray when it is checked
+            self.checkingRow.append(row)
         }
-        cell.backgroundColor = UIColor.clear
-        cell.backgroundView = UIImageView(image: #imageLiteral(resourceName: "CheckedCell"))
-        // Transfer the checkedTask to the array of checkedTasks, and delete it from the table view
         
-        // Transfer
-        let checkedTask = uncheckedTasks[row]
-        uncheckedTasks.remove(at: row)
-        checkedTask.isChecked = cell.Checkbox.isChecked
-        checkedTasks.append(checkedTask)
         
-        // Delete
-        tableView.deleteRows(at: [indexPath!], with: .fade)
-        
-        // print("\(row), task:isChecked: \(uncheckedTasks[row].isChecked), cell:isChecked:\(cell.Checkbox.isChecked)")\
-        print("After check: checkedTasks: \(checkedTasks.count), uncheckedTasks: \(uncheckedTasks.count)")
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            // Func should be executed when there is a row waiting for checked
+            if !self.checkingRow.isEmpty {
+                // FIFO
+                // Transfer the checkedTask to the array of checkedTasks, and delete it from the table view
+                // Transfer
+                let toCheckedRow = self.checkingRow.first
+                let checkedTask = self.uncheckedTasks[toCheckedRow!]
+                self.uncheckedTasks.remove(at: toCheckedRow!)
+                checkedTask.isChecked = cell.Checkbox.isChecked
+                self.checkedTasks.append(checkedTask)
+                
+                // Delete from tableView
+                var toCheckedIndexPath = indexPath
+                toCheckedIndexPath?.row = toCheckedRow!
+                self.tableView.deleteRows(at: [toCheckedIndexPath!], with: .fade)
+                
+                // print("\(row), task:isChecked: \(uncheckedTasks[row].isChecked), cell:isChecked:\(cell.Checkbox.isChecked)")\
+                print("After row\(toCheckedRow) is checked: checkedTasks: \(self.checkedTasks.count), uncheckedTasks: \(self.uncheckedTasks.count)")
+                
+
+                // Update the checkingRow's row nunmber after deleting and pop the first one
+                if self.checkingRow.count == 1 {
+                    self.checkingRow.removeFirst()
+                } else {
+                    let count = self.checkingRow.count
+                    for index in 1..<count  {
+                        if self.checkingRow[index] > self.checkingRow[0] {
+                            self.checkingRow[index] -= 1
+                        }
+                    }
+                    self.checkingRow.removeFirst()
+                }
+            }
+        }
     }
     
     //MARK: Private Methods
@@ -206,9 +260,19 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             fatalError("Unable to instantiate task3")
         }
         
+
         //let task4 = Task(title: "已完成任务", isChecked: true)
         
         uncheckedTasks += [task1, task2, task3]
+        
+        for index in 0...12 {
+            guard let task = Task(title: "测试任务\(index)", isChecked: false) else {
+                fatalError("Unable to instantiate task\(index)")
+            }
+            self.uncheckedTasks += [task]
+        }
+        
+        
         print("Before check: checkedTasks: \(checkedTasks.count), uncheckedTasks: \(uncheckedTasks.count)")
     }
     
@@ -216,9 +280,9 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     //MARK: AddButon functions
     
     // Setup the addButton on homepage
-    private func setupAddButton() {
+    func setupAddButton() {
         addButton.setTitle("", for: .normal)
-        addButton.setImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
+        addButton.setBackgroundImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
         addButton.frame.size = CGSize(width: 60, height: 60)
         
         // Set its original place by frame
@@ -253,40 +317,45 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                 self.addButton.transform = CGAffineTransform(scaleX: 0.9 , y: 0.9)
                 self.addButton.alpha = 0.6
             }, completion: {(finished:Bool) in
-                UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
-                    self.addButton.alpha = 1.0
+                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                    self.addButton.alpha = 0
                     self.addButton.transform = CGAffineTransform(scaleX: 1, y: 1)
                 }, completion: {(finished:Bool) in
+                    self.addButton.transform = CGAffineTransform(scaleX: 0, y: 0)
                     self.performSegue(withIdentifier: "AddTask", sender: self)
                 })
             })
             
-            AudioServicesPlaySystemSound(1519) // Actuate `Peek` feedback (weak boom)
+            // Actuate `Peek` feedback
+            AudioServicesPlaySystemSound(1519)
         }
     }
     
     @objc func addButtonLongPressed(_ sender: UILongPressGestureRecognizer) {
-        if sender.state == .ended {
+        if sender.state == UIGestureRecognizerState.began {
 
             print("Long Pressed")
             // Animation
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut ,animations: {
-                self.addButton.setImage(#imageLiteral(resourceName: "AddIdea"), for: .normal)
-                self.addButton.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut ,animations: {
+                self.addButton.alpha = 1
+                self.addButton.setBackgroundImage(#imageLiteral(resourceName: "AddIdea"), for: .normal)
+                self.addButton.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
+                
+                // Actuate `Pop` feedback
+                AudioServicesPlaySystemSound(1520)
             }, completion: {(finished:Bool) in
                 UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
-                    self.addButton.setImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
-                    self.addButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    //self.addButton.setBackgroundImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
+                    self.addButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                    
+                    // Actuate `Peek` feedback
+                    AudioServicesPlaySystemSound(1519)
                 }, completion: nil)
             })
         }
     }
     
-    /*
-    // AddTask Segue
-    @IBAction func addTaskClicked(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "AddTask", sender: self)
-    }*/
-    
+
+
 }
 

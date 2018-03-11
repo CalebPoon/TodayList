@@ -13,6 +13,7 @@ class CheckBox: UIButton {
     var isChecked:Bool = false{
         didSet {
             if isChecked == true{
+                
                 self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_S_OK"), for: .normal)
             }else{
                 self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_S"), for: .normal)
