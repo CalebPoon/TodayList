@@ -106,7 +106,6 @@
                                         <state key="normal" title="Button"/>
                                         <connections>
                                             <action selector="AddConfrim:" destination="ChP-I6-jG0" eventType="touchUpInside" id="2WW-nF-45b"/>
-                                            <segue destination="slY-c7-YCp" kind="unwind" unwindAction="unwindToTodayListWithSender:" id="WcR-Fb-g5f"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -123,7 +122,8 @@
                         <outlet property="PopView" destination="teX-aK-7ML" id="cTn-t5-OZ6"/>
                         <outlet property="TaskTitleTextView" destination="Tt7-K8-CDT" id="ZNu-FO-q5F"/>
                         <outlet property="TopicButton" destination="ITb-k2-Hes" id="krH-P4-od7"/>
-                        <segue destination="slY-c7-YCp" kind="unwind" identifier="unwindToTodayList" unwindAction="unwindToTodayListWithSegue:" id="XGZ-Aw-JHp"/>
+                        <segue destination="slY-c7-YCp" kind="unwind" identifier="dismissToTodayList" unwindAction="dismissToTodayListWithSender:" id="6W9-nF-mhJ"/>
+                        <segue destination="slY-c7-YCp" kind="unwind" identifier="unwindToTodayList" unwindAction="unwindToTodayListWithSender:" id="2s1-Bh-B1h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g1l-3t-L6R" userLabel="First Responder" sceneMemberID="firstResponder"/>
