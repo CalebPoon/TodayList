@@ -33,6 +33,7 @@ class CheckBox: UIButton {
                 }, completion: { (_: Bool) in
                     UIView.animate(withDuration: 0.1, animations: {
                         self.alpha = 1
+                        self.transform = CGAffineTransform(scaleX: 1, y: 1)
                         self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_S"), for: .normal)
                     })
                 })

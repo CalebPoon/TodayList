@@ -27,8 +27,9 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
 
         // Setup View
-        setupPopView()
         SetupButtons()
+        setupPopView()
+        
         
         // Show Keyborad
         TaskTitleTextView.becomeFirstResponder()
@@ -47,9 +48,11 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         placeholderLabel.isHidden = !TaskTitleTextView.text.isEmpty
 
         if TaskTitleTextView.contentSize.height > 45 {
-            resizeTextView()
+            resizeTextView(resizeOrRecover: true)
             print("TextViewFrame: y: \(TaskTitleTextView.frame.origin.y), height: \(TaskTitleTextView.frame.height), ContentHeight: \(TaskTitleTextView.contentSize.height)")
             print("PopViewFrame: y: \(PopView.frame.origin.y), height:\(PopView.frame.height)")
+        } else {
+            resizeTextView(resizeOrRecover: false)
         }
     }
 
@@ -94,7 +97,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         let width = self.view.frame.width
         let height = self.view.frame.height
         PopView.frame = CGRect(x: 0, y: height - 140, width: width, height: 140)
-
         UpdatePopViewLayout()
     }
     
@@ -112,22 +114,23 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         
         // Date
         DateButton.setImage(#imageLiteral(resourceName: "Date"), for: .normal)
-        DateButton.setTitle("", for: .normal)
-        //DateButton.setTitle("今日", for: .normal)
-        //DateButton.
+        DateButton.setTitle(" 今日", for: .normal)
+        DateButton.setTitleColor(customColor.Green_date, for: .normal)
+        DateButton.sizeToFit()
         
         // Alert
         AlertButton.setImage(#imageLiteral(resourceName: "Alert"), for: .normal)
-        AlertButton.setTitle("", for: .normal)
         
         // Topic
         //TopicButton.buttonType = .custom
         TopicButton.setImage(#imageLiteral(resourceName: "Topic"), for: .normal)
-        TopicButton.setTitle("", for: .normal)
+
     }
     
     // Setup Textiew
     private func setupTextView() {
+        TaskTitleTextView.frame = CGRect(x: 16, y: self.PopView.frame.height - 64 - 52, width: self.PopView.frame.width - 32, height: 64)
+        
         // Set placeholder
         TaskTitleTextView.delegate = self
         
@@ -157,9 +160,13 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         
         // Buttons
         AddConFirm.frame = CGRect(x: PopView.frame.width - 46 - 16, y: PopView.frame.height - 32 - 16, width: 46, height: 32)
-        DateButton.frame = CGRect(x: 16, y: PopView.frame.height - 24 - 20, width: 24, height: 24)
-        AlertButton.frame = CGRect(x: 16 + 24 + 16, y: PopView.frame.height - 24 - 20, width: 24, height: 24)
-        TopicButton.frame = CGRect(x: 16 + (24 + 16) * 2, y: PopView.frame.height - 24 - 20, width: 24, height: 24)
+        
+        let dateWidth = DateButton.frame.width
+        let alertWidth = AlertButton.frame.width
+        let topicWidth = TopicButton.frame.width
+        DateButton.frame = CGRect(x: 16, y: PopView.frame.height - 24 - 20, width: dateWidth, height: 24)
+        AlertButton.frame = CGRect(x: 16 + DateButton.frame.width + 20, y: PopView.frame.height - 24 - 20, width: alertWidth, height: 24)
+        TopicButton.frame = CGRect(x: 16 + DateButton.frame.width + 20 + AlertButton.frame.width + 20, y: PopView.frame.height - 24 - 20, width: topicWidth, height: 24)
     }
     
    // MARK: Update Methods
@@ -208,22 +215,25 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     }
     
     // Resize when editing
-    func resizeTextView() {
-        // Resize TextView
-        if !PopViewHasUpdatedOnce {
-            PopViewHasUpdatedOnce = true
+    func resizeTextView(resizeOrRecover: Bool) {
+        let PopViewFrame = PopView.frame
+        
+        switch resizeOrRecover {
+        case true:
+            // Resize TextView
+            if !PopViewHasUpdatedOnce {
+                PopViewHasUpdatedOnce = true
+                
+                PopView.frame = CGRect(x: PopViewFrame.origin.x, y: PopViewFrame.origin.y - 24, width: PopViewFrame.width, height: 164)
+                UpdatePopViewLayout()
+            }
+        default:
+            if PopViewHasUpdatedOnce {
+                PopViewHasUpdatedOnce = false
 
-            let TextViewFrame = TaskTitleTextView.frame
-            let PopViewFrame = PopView.frame
-            
-            TaskTitleTextView.frame = CGRect(x: TextViewFrame.origin.x, y: TextViewFrame.origin.y, width: TextViewFrame.width, height: 64)
-            PopView.frame = CGRect(x: PopViewFrame.origin.x, y: PopViewFrame.origin.y - 24, width: PopViewFrame.width, height: 164)
-            
-            //TaskTitleTextView.contentInset = UIEdgeInsets(top: , left: 0, bottom: 0, right: 0)
-            //TaskTitleTextView.scrollIndicatorInsets = TaskTitleTextView.contentInset
-
-            
-            UpdatePopViewLayout()
+                PopView.frame = CGRect(x: PopViewFrame.origin.x, y: PopViewFrame.origin.y + 24, width: PopViewFrame.width, height: 140)
+                UpdatePopViewLayout()
+            }
         }
     }
 }
