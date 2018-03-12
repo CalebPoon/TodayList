@@ -106,6 +106,7 @@
                                         <state key="normal" title="Button"/>
                                         <connections>
                                             <action selector="AddConfrim:" destination="ChP-I6-jG0" eventType="touchUpInside" id="2WW-nF-45b"/>
+                                            <segue destination="slY-c7-YCp" kind="unwind" unwindAction="unwindToTodayListWithSender:" id="WcR-Fb-g5f"/>
                                         </connections>
                                     </button>
                                 </subviews>

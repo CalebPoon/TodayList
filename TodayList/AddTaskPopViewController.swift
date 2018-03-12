@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os.log
 
 class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     // MARK: - Properties
@@ -22,6 +23,8 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var TopicButton: UIButton!
     
     var PopViewHasUpdatedOnce = false
+    
+    var task: Task?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,22 +59,30 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         }
     }
 
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        
+        /*
+        guard let button = sender as? UIButton else {
+            os_log("The addTask button was not pressed, cancelling", log: OSLog.default, type: .debug)
+            return
+        }*/
+        
+        let title = TaskTitleTextView.text ?? ""
+        
+        // Set the task to be passed to TodayListViewController after the unwind segue.
+        task = Task(title: title, isChecked: false)
     }
-    */
+    
     
     @IBAction func AddConfrim(_ sender: Any) {
         UIView.animate(withDuration: 0.2, animations: {
@@ -173,7 +184,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     
     func dropShadow(offSet: CGSize, scale: Bool = true) {
         PopView.layer.masksToBounds = false
-        PopView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.40).cgColor
+        PopView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.50).cgColor
         PopView.layer.shadowOpacity = 1
         PopView.layer.shadowOffset = offSet
         PopView.layer.shadowRadius = 24

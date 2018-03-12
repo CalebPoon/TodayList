@@ -177,7 +177,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         
     }
     
-    @IBAction func unwindToTodayList(segue: UIStoryboardSegue){
+    @IBAction func unwindToTodayList(sender: UIStoryboardSegue){
         // AddButton animate
         UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
             self.addButton.setBackgroundImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
@@ -188,6 +188,14 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                 self.addButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             })
         })
+        
+        if let sourceViewController = sender.source as? AddTaskPopViewController, let task = sourceViewController.task {
+            //Add a new task
+            let newIndexPath = IndexPath(row: uncheckedTasks.count, section: 0)
+            
+            uncheckedTasks.append(task)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        }
     }
 
     
