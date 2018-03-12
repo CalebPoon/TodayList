@@ -18,12 +18,14 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     var uncheckedTasks = [Task]()
     var checkedTasks = [Task]()
     
+    var checkingRow =  [Int]()
+    //var checkingRowValue = [Int: Int]()
+    
     var addButton = UIButton.init(type: UIButtonType.system)
     //var addButtonFrame: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
     
-    var checkingRow =  [Int]()
-    var checkingRowValue = [Int: Int]()
-    
+    var emptyStateView: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,6 +60,14 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         
         // Setup AddButton
         setupAddButton()
+        
+        // Setup EmptyState
+        setupEmptyStateView()
+        
+        // EmptyState
+        if self.uncheckedTasks.count == 0 {
+            TodayListIsEmpty()
+        }
         
     }
 
@@ -261,6 +271,10 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                         self.checkingRow.removeFirst()
                     }
                     
+                    if self.uncheckedTasks.count == 0 {
+                        self.TodayListIsEmpty()
+                    }
+                    
                 } else {
                     
                     // Pop the row in CheckingRowArray if it is unchecked
@@ -302,6 +316,34 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         }*/
         
         print("Before check: checkedTasks: \(checkedTasks.count), uncheckedTasks: \(uncheckedTasks.count)")
+    }
+    
+    func setupEmptyStateView() {
+        emptyStateView = UILabel()
+        emptyStateView.text = "无事。"
+        emptyStateView.textColor = customColor.Black2
+        emptyStateView.font = UIFont.systemFont(ofSize: 34, weight: .light)
+        emptyStateView.sizeToFit()
+        
+        let frame = emptyStateView.frame
+        emptyStateView.frame = CGRect(x: 16, y: 0, width: frame.width, height: frame.height)
+        
+        emptyStateView.alpha = 0
+        emptyStateView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        self.view.addSubview(emptyStateView)
+        
+        emptyStateView.isHidden = true
+    }
+    
+    func TodayListIsEmpty() {
+        emptyStateView.isHidden = false
+        
+        // Animation
+        UIView.animate(withDuration: 0.3, delay: 1, options: .curveEaseInOut, animations: {
+            self.emptyStateView.alpha = 1
+            self.emptyStateView.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }, completion: nil)
+        
     }
     
 

@@ -165,8 +165,8 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         let alertWidth = AlertButton.frame.width
         let topicWidth = TopicButton.frame.width
         DateButton.frame = CGRect(x: 16, y: PopView.frame.height - 24 - 20, width: dateWidth, height: 24)
-        AlertButton.frame = CGRect(x: 16 + DateButton.frame.width + 20, y: PopView.frame.height - 24 - 20, width: alertWidth, height: 24)
-        TopicButton.frame = CGRect(x: 16 + DateButton.frame.width + 20 + AlertButton.frame.width + 20, y: PopView.frame.height - 24 - 20, width: topicWidth, height: 24)
+        AlertButton.frame = CGRect(x: 16 + DateButton.frame.width + 16, y: PopView.frame.height - 24 - 20, width: alertWidth, height: 24)
+        TopicButton.frame = CGRect(x: 16 + DateButton.frame.width + 16 + AlertButton.frame.width + 16, y: PopView.frame.height - 24 - 20, width: topicWidth, height: 24)
     }
     
    // MARK: Update Methods
@@ -224,15 +224,33 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             if !PopViewHasUpdatedOnce {
                 PopViewHasUpdatedOnce = true
                 
-                PopView.frame = CGRect(x: PopViewFrame.origin.x, y: PopViewFrame.origin.y - 24, width: PopViewFrame.width, height: 164)
-                UpdatePopViewLayout()
+                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                    self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: PopViewFrame.origin.y - 24, width: PopViewFrame.width, height: 164)
+                    self.UpdatePopViewLayout()
+                }, completion: nil)
             }
         default:
             if PopViewHasUpdatedOnce {
                 PopViewHasUpdatedOnce = false
 
-                PopView.frame = CGRect(x: PopViewFrame.origin.x, y: PopViewFrame.origin.y + 24, width: PopViewFrame.width, height: 140)
-                UpdatePopViewLayout()
+                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                    self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: PopViewFrame.origin.y + 24, width: PopViewFrame.width, height: 164)
+                    self.UpdatePopViewLayout()
+
+                    // Buttons
+                    self.AddConFirm.frame = CGRect(x: self.PopView.frame.width - 46 - 16, y: self.PopView.frame.height - 32 - 16 - 24, width: 46, height: 32)
+                    
+                    let dateWidth = self.DateButton.frame.width
+                    let alertWidth = self.AlertButton.frame.width
+                    let topicWidth = self.TopicButton.frame.width
+                    
+                    self.DateButton.frame = CGRect(x: 16, y: self.PopView.frame.height - 24 - 20 - 24, width: dateWidth, height: 24)
+                    self.AlertButton.frame = CGRect(x: 16 + self.DateButton.frame.width + 16, y: self.PopView.frame.height - 24 - 20 - 24, width: alertWidth, height: 24)
+                    self.TopicButton.frame = CGRect(x: 16 + self.DateButton.frame.width + 16 + self.AlertButton.frame.width + 16, y: self.PopView.frame.height - 24 - 20 - 24, width: topicWidth, height: 24)
+                    
+                }, completion: {(finished: Bool) in
+                    self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.PopView.frame.origin.y, width: PopViewFrame.width, height: 140)
+                })
             }
         }
     }
