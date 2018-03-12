@@ -9,8 +9,6 @@
 import UIKit
 import AudioToolbox
 
-
-
 class TodayListViewController: UITableViewController, TodayListTaskTableViewCellDelegate {
 
     //MARK: Properties
@@ -177,17 +175,13 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         
     }
     
-    @IBAction func unwindToTodayList(sender: UIStoryboardSegue){
-        // AddButton animate
-        UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
-            self.addButton.setBackgroundImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
-            self.addButton.alpha = 1
-            self.addButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-        }, completion: {(finished: Bool) in
-            UIView.animate(withDuration: 0.2, animations: {
-                self.addButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            })
-        })
+    @IBAction func dismissToTodayList(sender: UIStoryboardSegue) {
+        loadAddButtonAnimation()
+    }
+    
+        
+    @IBAction func unwindToTodayList(sender: UIStoryboardSegue) {
+        loadAddButtonAnimation()
         
         if let sourceViewController = sender.source as? AddTaskPopViewController, let task = sourceViewController.task {
             //Add a new task
@@ -352,6 +346,22 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             self.emptyStateView.transform = CGAffineTransform(scaleX: 1, y: 1)
         }, completion: nil)
         
+    }
+    
+    private func loadAddButtonAnimation() {
+        // AddButton animate
+        UIView.animate(withDuration: 0.3, delay: 0.3, options: .curveEaseInOut, animations: {
+            self.addButton.setBackgroundImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
+            self.addButton.alpha = 1
+            self.addButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            
+        }, completion: {(finished: Bool) in
+            
+            UIView.animate(withDuration: 0.2, animations: {
+                self.addButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                
+            })
+        })
     }
     
 

@@ -57,13 +57,23 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         } else {
             resizeTextView(resizeOrRecover: false)
         }
+        
+        // Line Space
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 8
+        //attributes
+        let attributes = [NSAttributedStringKey.paragraphStyle: style, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20), NSAttributedStringKey.foregroundColor: customColor.Black1]
+        TaskTitleTextView.attributedText = NSAttributedString(string: TaskTitleTextView.text, attributes:attributes)
+        
+        updateAddButtonState()
     }
+
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     
     // MARK: - Navigation
@@ -71,11 +81,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
-        /*
-        guard let button = sender as? UIButton else {
-            os_log("The addTask button was not pressed, cancelling", log: OSLog.default, type: .debug)
-            return
-        }*/
         
         let title = TaskTitleTextView.text ?? ""
         
@@ -85,20 +90,57 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     
     
     @IBAction func AddConfrim(_ sender: Any) {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.AddConFirm.alpha = 0
-        }) { (finished: Bool) in
-            //self.dismiss(animated: true, completion: nil)
-        }
+        let TextViewFrame = self.TaskTitleTextView.frame
+        self.TaskTitleTextView.frame = CGRect(x: TextViewFrame.origin.x, y: 8, width: TextViewFrame.width, height: 38)
+        
+        self.AddConFirm.alpha = 0
+        self.DateButton.alpha = 0
+        self.DateButton.alpha = 0
+
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            
+            let Popframe = self.PopView.frame
+            self.PopView.frame = CGRect(x: 0, y: self.view.frame.height/2 - Popframe.height/2, width: Popframe.width, height: 56)
+            
+            self.PopView.alpha = 0.8
+            
+            // CornerRadius
+            self.setupCornerRadius(corner: 4)
+            
+            // Shadow
+            self.dropShadow(offSet: CGSize(width: 0, height: 0))
+            self.TaskTitleTextView.resignFirstResponder()
+            self.PopView.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+            
+        }, completion: {(_ :Bool) in
+            
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+                self.PopView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                self.PopView.alpha = 0
+            }, completion: {(_: Bool) in
+                
+                self.performSegue(withIdentifier: "unwindToTodayList", sender: self)
+            })
+        })
     }
     
     // Dismiss
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         self.TaskTitleTextView.resignFirstResponder()
-        self.performSegue(withIdentifier: "unwindToTodayList", sender: self)
+        self.performSegue(withIdentifier: "dismissToTodayList", sender: self)
     }
     
+    // MARK: - Private Methods
+    private func updateAddButtonState() {
+        //Disable the Add button if the textView is empty
+        let text = TaskTitleTextView.text ?? ""
+        AddConFirm.isEnabled = !text.isEmpty
+        
+        if AddConFirm.isEnabled {
+            AddConFirm.alpha = 1
+        }
+    }
     
     // MARK: - Setup View
 
@@ -120,8 +162,9 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         AddConFirm.backgroundColor = customColor.Blue_Background
         AddConFirm.layer.cornerRadius = 8
         UIView.animate(withDuration: 0.1, animations: {
-            self.AddConFirm.alpha = 1
+            self.AddConFirm.alpha = 0.5
         })
+        AddConFirm.isEnabled = false
         
         // Date
         DateButton.setImage(#imageLiteral(resourceName: "Date"), for: .normal)
@@ -156,6 +199,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         
         // Cursor Color
         TaskTitleTextView.tintColor = customColor.Blue_Background
+
     }
     
     // MARK: - Update view
@@ -163,11 +207,11 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     // Update PopView Layout
     func UpdatePopViewLayout() {
         // CornerRadius
-        setupCornerRadius()
+        setupCornerRadius(corner: 2)
         
         // Shadow
         self.dropShadow(offSet: CGSize(width: 0, height: -24))
-        self.dropShadow(offSet: CGSize(width: 0, height: 0))
+        //self.dropShadow(offSet: CGSize(width: 0, height: 0))
         
         // Buttons
         AddConFirm.frame = CGRect(x: PopView.frame.width - 46 - 16, y: PopView.frame.height - 32 - 16, width: 46, height: 32)
@@ -194,10 +238,14 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         PopView.layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
 
-    func setupCornerRadius() {
+    func setupCornerRadius(corner: Int) {
         // Set cornerRadius
-        let maskPath = UIBezierPath(roundedRect: PopView.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 12, height: 0))
-        
+        let maskPath: UIBezierPath
+        if corner == 2 {
+            maskPath = UIBezierPath(roundedRect: PopView.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 12, height: 0))
+        } else  {
+            maskPath = UIBezierPath(roundedRect: PopView.bounds, byRoundingCorners: [.bottomLeft, .bottomRight, .topLeft, .topRight], cornerRadii: CGSize(width: 12, height: 0))
+        }
         let maskLayer = CAShapeLayer()
         maskLayer.path = maskPath.cgPath
         PopView.layer.mask = maskLayer
