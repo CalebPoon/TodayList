@@ -47,6 +47,13 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
 
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: - TextView Delegate Methods
+    
     func textViewDidChange(_  TaskTitleTextView: UITextView) {
         placeholderLabel.isHidden = !TaskTitleTextView.text.isEmpty
 
@@ -67,13 +74,15 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         
         updateAddButtonState()
     }
-
-
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if (text == "\n") {
+            //textView.resignFirstResponder()
+            AddConfrim(AddConFirm)
+        }
+        return true
     }
+
 
     
     // MARK: - Navigation
@@ -161,9 +170,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         AddConFirm.setTitleColor(UIColor.white, for: .normal)
         AddConFirm.backgroundColor = customColor.Blue_Background
         AddConFirm.layer.cornerRadius = 8
-        UIView.animate(withDuration: 0.1, animations: {
-            self.AddConFirm.alpha = 0.5
-        })
+        AddConFirm.alpha = 0.5
         AddConFirm.isEnabled = false
         
         // Date
@@ -199,7 +206,10 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         
         // Cursor Color
         TaskTitleTextView.tintColor = customColor.Blue_Background
-
+        
+        // Return Key
+        TaskTitleTextView.returnKeyType = .done
+        TaskTitleTextView.enablesReturnKeyAutomatically = true
     }
     
     // MARK: - Update view

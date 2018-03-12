@@ -405,8 +405,10 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                     self.addButton.alpha = 0
                     self.addButton.transform = CGAffineTransform(scaleX: 1, y: 1)
                 }, completion: {(finished:Bool) in
-                    self.addButton.transform = CGAffineTransform(scaleX: 0, y: 0)
-                    self.performSegue(withIdentifier: "AddTask", sender: self)
+                    UIView.animate(withDuration: 0.1, animations: {
+                        self.addButton.transform = CGAffineTransform(scaleX: 0, y: 0)
+                        self.performSegue(withIdentifier: "AddTask", sender: self)
+                    })
                 })
             })
             
