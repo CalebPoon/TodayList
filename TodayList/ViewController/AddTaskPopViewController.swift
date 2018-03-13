@@ -16,11 +16,11 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var TaskTitleTextView: UITextView!
     var placeholderLabel: UILabel!
     
-    @IBOutlet weak var AddConFirm: UIButton!
+    @IBOutlet weak var AddConFirm: AddedTouchAreaButton!
 
-    @IBOutlet weak var DateButton: UIButton!
-    @IBOutlet weak var AlertButton: UIButton!
-    @IBOutlet weak var TopicButton: UIButton!
+    @IBOutlet weak var DateButton: AddedTouchAreaButton!
+    @IBOutlet weak var AlertButton: AddedTouchAreaButton!
+    @IBOutlet weak var TopicButton: AddedTouchAreaButton!
     
     var PopViewHasUpdatedOnce = false
     
@@ -59,8 +59,8 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
 
         if TaskTitleTextView.contentSize.height > 45 {
             resizeTextView(resizeOrRecover: true)
-            print("TextViewFrame: y: \(TaskTitleTextView.frame.origin.y), height: \(TaskTitleTextView.frame.height), ContentHeight: \(TaskTitleTextView.contentSize.height)")
-            print("PopViewFrame: y: \(PopView.frame.origin.y), height:\(PopView.frame.height)")
+            // print("TextViewFrame: y: \(TaskTitleTextView.frame.origin.y), height: \(TaskTitleTextView.frame.height), ContentHeight: \(TaskTitleTextView.contentSize.height)")
+            // print("PopViewFrame: y: \(PopView.frame.origin.y), height:\(PopView.frame.height)")
         } else {
             resizeTextView(resizeOrRecover: false)
         }
@@ -171,20 +171,25 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         AddConFirm.backgroundColor = customColor.Blue_Background
         AddConFirm.layer.cornerRadius = 8
         AddConFirm.alpha = 0.5
+        AddConFirm.addedTouchArea = 6
         AddConFirm.isEnabled = false
+        
         
         // Date
         DateButton.setImage(#imageLiteral(resourceName: "Date"), for: .normal)
         DateButton.setTitle(" 今日", for: .normal)
         DateButton.setTitleColor(customColor.Green_date, for: .normal)
         DateButton.sizeToFit()
+        DateButton.addedTouchArea = 2
         
         // Alert
         AlertButton.setImage(#imageLiteral(resourceName: "Alert"), for: .normal)
+        AlertButton.addedTouchArea = 2
         
         // Topic
         //TopicButton.buttonType = .custom
         TopicButton.setImage(#imageLiteral(resourceName: "Topic"), for: .normal)
+        TopicButton.addedTouchArea = 2
 
     }
     

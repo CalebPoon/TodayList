@@ -64,7 +64,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         
         // EmptyState
         if self.uncheckedTasks.count == 0 {
-            TodayListIsEmpty()
+            TodayListIsEmpty(isEmpty: true)
         }
         
     }
@@ -190,6 +190,10 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             uncheckedTasks.append(task)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         }
+        
+        if !emptyStateView.isHidden {
+            self.TodayListIsEmpty(isEmpty: false)
+        }
     }
 
     
@@ -197,6 +201,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     
     // Implement Delegate Method
     func checkboxTapped(cell: TodayListTaskTableViewCell) {
+        print("Checkbox Tapped")
         // Get the indexpath of cell where checkbox was tapped
         let indexPath = self.tableView.indexPath(for: cell)
         let row = indexPath!.row
@@ -242,7 +247,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                 let toCheckedRow = self.checkingRow.first
                 
                 if cell.Checkbox.isChecked {
-                    cell.Checkbox.isEnabled = false
+                    //cell.Checkbox.isEnabled = false
                     // Transfer the checkedTask to the array of checkedTasks, and delete it from the table view
                     // Transfer
                     
@@ -274,7 +279,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                     }
                     
                     if self.uncheckedTasks.count == 0 {
-                        self.TodayListIsEmpty()
+                        self.TodayListIsEmpty(isEmpty: true)
                     }
                     
                 } else {
@@ -317,7 +322,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             self.uncheckedTasks += [task]
         }*/
         
-        print("Before check: checkedTasks: \(checkedTasks.count), uncheckedTasks: \(uncheckedTasks.count)")
+        //print("Before check: checkedTasks: \(checkedTasks.count), uncheckedTasks: \(uncheckedTasks.count)")
     }
     
     func setupEmptyStateView() {
@@ -337,14 +342,24 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         emptyStateView.isHidden = true
     }
     
-    func TodayListIsEmpty() {
-        emptyStateView.isHidden = false
-        
-        // Animation
-        UIView.animate(withDuration: 0.3, delay: 1, options: .curveEaseInOut, animations: {
-            self.emptyStateView.alpha = 1
-            self.emptyStateView.transform = CGAffineTransform(scaleX: 1, y: 1)
-        }, completion: nil)
+    func TodayListIsEmpty(isEmpty: Bool) {
+        if isEmpty {
+            emptyStateView.isHidden = false
+            //emptyStateView.isEnabled = true
+            
+            UIView.animate(withDuration: 0.3, delay: 1, options: .curveEaseInOut, animations: {
+                self.emptyStateView.alpha = 1
+                self.emptyStateView.transform = CGAffineTransform(scaleX: 1, y: 1)
+            }, completion: nil)
+            
+        } else {
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+                self.emptyStateView.alpha = 0
+                self.emptyStateView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+            }, completion: nil)
+            emptyStateView.isHidden = true
+            //emptyStateView.isEnabled = false
+        }
         
     }
     

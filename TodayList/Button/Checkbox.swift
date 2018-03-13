@@ -9,6 +9,7 @@
 import UIKit
 
 class CheckBox: UIButton {
+    var addedTouchArea = CGFloat(0)
     
     var isChecked:Bool = false{
         didSet {
@@ -47,6 +48,15 @@ class CheckBox: UIButton {
         self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_S"), for: .normal)
     }
     
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let newBound = CGRect(
+            x: self.bounds.origin.x - addedTouchArea,
+            y: self.bounds.origin.y - addedTouchArea,
+            width: self.bounds.width + 2 * addedTouchArea,
+            height: self.bounds.height + 2 * addedTouchArea
+        )
+        return newBound.contains(point)
+    }
     /*
     @objc func buttonClicked(sender: UIButton) {
         if (sender == self){

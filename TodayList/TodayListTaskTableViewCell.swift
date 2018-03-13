@@ -32,6 +32,8 @@ class TodayListTaskTableViewCell: UITableViewCell {
         backgroundColor = customColor.globalBackground
         backgroundView = UIImageView(image: #imageLiteral(resourceName: "CheckedCell"))
         backgroundView?.alpha = 0
+        
+        Checkbox.addedTouchArea = 6
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

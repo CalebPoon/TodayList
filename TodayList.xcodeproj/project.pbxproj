@@ -18,6 +18,7 @@
 		789EE13E20499409009FD9FD /* TodayListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE13D20499409009FD9FD /* TodayListTests.swift */; };
 		789EE14920499A70009FD9FD /* TodayListTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */; };
 		789FF68F205171DC00ED70F8 /* AddTaskPopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */; };
+		78F186FC2057793400486E3B /* AddedTouchAreaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F186FB2057793400486E3B /* AddedTouchAreaButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		789EE13F20499409009FD9FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayListTaskTableViewCell.swift; sourceTree = "<group>"; };
 		789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskPopViewController.swift; sourceTree = "<group>"; };
+		78F186FB2057793400486E3B /* AddedTouchAreaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedTouchAreaButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,11 +91,10 @@
 			children = (
 				789EE12820499408009FD9FD /* AppDelegate.swift */,
 				789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */,
-				789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */,
-				789EE12A20499408009FD9FD /* TodayListViewController.swift */,
-				789E583D204C25CE00068695 /* Checkbox.swift */,
 				78370460204D884C00F673E5 /* Others.swift */,
-				7837045A204D65F800F673E5 /* Task.swift */,
+				78F186FF2057798100486E3B /* Model */,
+				78F186FD2057794F00486E3B /* Button */,
+				78F186FE2057796600486E3B /* ViewController */,
 				789EE12C20499408009FD9FD /* Main.storyboard */,
 				789EE12F20499408009FD9FD /* Assets.xcassets */,
 				789EE13120499408009FD9FD /* LaunchScreen.storyboard */,
@@ -109,6 +110,32 @@
 				789EE13F20499409009FD9FD /* Info.plist */,
 			);
 			path = TodayListTests;
+			sourceTree = "<group>";
+		};
+		78F186FD2057794F00486E3B /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				78F186FB2057793400486E3B /* AddedTouchAreaButton.swift */,
+				789E583D204C25CE00068695 /* Checkbox.swift */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
+		78F186FE2057796600486E3B /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */,
+				789EE12A20499408009FD9FD /* TodayListViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		78F186FF2057798100486E3B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7837045A204D65F800F673E5 /* Task.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,6 +248,7 @@
 				78370461204D884C00F673E5 /* Others.swift in Sources */,
 				7837045B204D65F800F673E5 /* Task.swift in Sources */,
 				789EE14920499A70009FD9FD /* TodayListTaskTableViewCell.swift in Sources */,
+				78F186FC2057793400486E3B /* AddedTouchAreaButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
