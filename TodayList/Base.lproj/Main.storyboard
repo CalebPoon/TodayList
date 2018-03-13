@@ -111,6 +111,13 @@
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.99607843137254903" blue="0.9882352941176471" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cET-T9-DT7">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="519"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="dismissArea:" destination="ChP-I6-jG0" eventType="touchUpInside" id="69l-PA-u6i"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.5428082191780822" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="GM2-nZ-T33"/>
@@ -122,6 +129,7 @@
                         <outlet property="PopView" destination="teX-aK-7ML" id="cTn-t5-OZ6"/>
                         <outlet property="TaskTitleTextView" destination="Tt7-K8-CDT" id="ZNu-FO-q5F"/>
                         <outlet property="TopicButton" destination="ITb-k2-Hes" id="krH-P4-od7"/>
+                        <outlet property="dismissArea" destination="cET-T9-DT7" id="J8y-P5-c2f"/>
                         <segue destination="slY-c7-YCp" kind="unwind" identifier="dismissToTodayList" unwindAction="dismissToTodayListWithSender:" id="6W9-nF-mhJ"/>
                         <segue destination="slY-c7-YCp" kind="unwind" identifier="unwindToTodayList" unwindAction="unwindToTodayListWithSender:" id="2s1-Bh-B1h"/>
                     </connections>
@@ -151,6 +159,13 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ozc-C4-vwe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-463" y="15"/>
+        </scene>
+        <!--Storyboard Reference-->
+        <scene sceneID="ei4-x0-XaD">
+            <objects>
+                <viewControllerPlaceholder id="gGT-7d-aC5" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wsO-ci-D6l" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
 </document>
