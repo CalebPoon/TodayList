@@ -226,6 +226,14 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             cell.backgroundView = UIImageView(image: #imageLiteral(resourceName: "CheckedCell"))
             cell.backgroundView?.frame = CGRect(x: 0 - width, y: 0, width: width, height: height)
             
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                cell.transform = CGAffineTransform(scaleX: 0.96, y: 0.96)
+            }, completion: {(_: Bool) in
+                UIView.animate(withDuration: 0.1, animations: {
+                    cell.transform = CGAffineTransform(scaleX: 1, y: 1)
+                })
+            })
+            
             UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
                 cell.backgroundView?.alpha = 1
                 cell.backgroundView?.frame = CGRect(x: 0, y: 0, width: width, height: height)
