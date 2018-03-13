@@ -69,10 +69,9 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         // Line Space
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 8
+        //attributes
         let attributes = [NSAttributedStringKey.paragraphStyle: style, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20), NSAttributedStringKey.foregroundColor: customColor.Black1]
-        if TaskTitleTextView.markedTextRange == nil {
-            TaskTitleTextView.attributedText = NSAttributedString(string: TaskTitleTextView.text, attributes:attributes)
-        }
+        TaskTitleTextView.attributedText = NSAttributedString(string: TaskTitleTextView.text, attributes:attributes)
         
         updateAddButtonState()
     }
@@ -101,18 +100,15 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     
     
     @IBAction func AddConfrim(_ sender: Any) {
-        let TaskIcon = UIImageView(image: #imageLiteral(resourceName: "Checkmark_S"))
-        TaskIcon.frame = CGRect(x: 16, y: 16, width: 24, height: 24)
-        self.PopView.addSubview(TaskIcon)
-        
         let TextViewFrame = self.TaskTitleTextView.frame
-        self.TaskTitleTextView.frame = CGRect(x: 40, y: 8, width: TextViewFrame.width - 28, height: 38)
+        self.TaskTitleTextView.frame = CGRect(x: TextViewFrame.origin.x, y: 8, width: TextViewFrame.width, height: 38)
         
         self.AddConFirm.alpha = 0
         self.DateButton.alpha = 0
         self.DateButton.alpha = 0
 
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            
             let Popframe = self.PopView.frame
             self.PopView.frame = CGRect(x: 0, y: self.view.frame.height/2 - Popframe.height/2, width: Popframe.width, height: 56)
             
