@@ -69,10 +69,10 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         // Line Space
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 8
-        //attributes
         let attributes = [NSAttributedStringKey.paragraphStyle: style, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20), NSAttributedStringKey.foregroundColor: customColor.Black1]
-        TaskTitleTextView.attributedText = NSAttributedString(string: TaskTitleTextView.text, attributes:attributes)
-        
+        if TaskTitleTextView.markedTextRange == nil {
+            TaskTitleTextView.attributedText = NSAttributedString(string: TaskTitleTextView.text, attributes:attributes)
+        }
         updateAddButtonState()
     }
     
