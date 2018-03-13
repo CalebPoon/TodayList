@@ -12,7 +12,6 @@ import os.log
 class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     // MARK: - Properties
     @IBOutlet weak var PopView: UIView!
-    @IBOutlet weak var dismissArea: UIButton!
     
     @IBOutlet weak var TaskTitleTextView: UITextView!
     var placeholderLabel: UILabel!
@@ -135,18 +134,11 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     }
     
     // Dismiss
-    /*
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         self.TaskTitleTextView.resignFirstResponder()
         self.performSegue(withIdentifier: "dismissToTodayList", sender: self)
-    }*/
-    
-    @IBAction func dismissArea(_ sender: Any) {
-        self.TaskTitleTextView.resignFirstResponder()
-        self.performSegue(withIdentifier: "dismissToTodayList", sender: self)
     }
-    
     
     // MARK: - Private Methods
     private func updateAddButtonState() {
@@ -156,8 +148,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         
         if AddConFirm.isEnabled {
             AddConFirm.alpha = 1
-        } else {
-            AddConFirm.alpha = 0.5
         }
     }
     
@@ -170,8 +160,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         let height = self.view.frame.height
         PopView.frame = CGRect(x: 0, y: height - 140, width: width, height: 140)
         UpdatePopViewLayout()
-        
-        dismissArea.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: PopView.frame.origin.y - 4)
     }
     
     // Setup Buttons
@@ -183,7 +171,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         AddConFirm.backgroundColor = customColor.Blue_Background
         AddConFirm.layer.cornerRadius = 8
         AddConFirm.alpha = 0.5
-        AddConFirm.addedTouchArea = 12
+        AddConFirm.addedTouchArea = 6
         AddConFirm.isEnabled = false
         
         
@@ -249,7 +237,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         DateButton.frame = CGRect(x: 16, y: PopView.frame.height - 24 - 20, width: dateWidth, height: 24)
         AlertButton.frame = CGRect(x: 16 + DateButton.frame.width + 16, y: PopView.frame.height - 24 - 20, width: alertWidth, height: 24)
         TopicButton.frame = CGRect(x: 16 + DateButton.frame.width + 16 + AlertButton.frame.width + 16, y: PopView.frame.height - 24 - 20, width: topicWidth, height: 24)
-
     }
     
    // MARK: Update Methods
@@ -298,8 +285,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             self.view.frame.origin.y -= keyboardEndFrame.height
             //print("show: \(self.view.frame.origin.y)")
         }
-        
-        dismissArea.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: PopView.frame.origin.y - 4)
         
     }
     
