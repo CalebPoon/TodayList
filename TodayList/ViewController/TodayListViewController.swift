@@ -421,20 +421,24 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             
             // Animation and Add Segue
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut ,animations: {
-                self.addButton.transform = CGAffineTransform(scaleX: 0.9 , y: 0.9)
-                self.addButton.alpha = 0.6
-            }, completion: {(finished:Bool) in
-                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                    self.addButton.alpha = 0
+                self.addButton.transform = CGAffineTransform(scaleX: 1.1 , y: 1.1)
+            }, completion: { (_: Bool) in
+                
+                UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
                     self.addButton.transform = CGAffineTransform(scaleX: 1, y: 1)
-                }, completion: {(finished:Bool) in
-                    UIView.animate(withDuration: 0.1, animations: {
-                        self.addButton.transform = CGAffineTransform(scaleX: 0, y: 0)
+                    
+                }, completion: { (_: Bool) in
+                    
+                    UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+                        self.addButton.alpha = 0
+                        self.addButton.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                        
+                    }, completion: { (_: Bool) in
                         self.performSegue(withIdentifier: "AddTask", sender: self)
                     })
                 })
             })
-            
+        
             // Actuate 'Peek' feedback
             AudioServicesPlaySystemSound(1519)
         }

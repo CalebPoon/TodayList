@@ -18,6 +18,7 @@
 		789EE13E20499409009FD9FD /* TodayListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE13D20499409009FD9FD /* TodayListTests.swift */; };
 		789EE14920499A70009FD9FD /* TodayListTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */; };
 		789FF68F205171DC00ED70F8 /* AddTaskPopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */; };
+		78C367A52058CC60009B759B /* TodayList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 78C367A32058CC60009B759B /* TodayList.xcdatamodeld */; };
 		78F186FC2057793400486E3B /* AddedTouchAreaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F186FB2057793400486E3B /* AddedTouchAreaButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		789EE13F20499409009FD9FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayListTaskTableViewCell.swift; sourceTree = "<group>"; };
 		789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskPopViewController.swift; sourceTree = "<group>"; };
+		78C367A42058CC60009B759B /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		78F186FB2057793400486E3B /* AddedTouchAreaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedTouchAreaButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,6 +91,7 @@
 		789EE12720499408009FD9FD /* TodayList */ = {
 			isa = PBXGroup;
 			children = (
+				78C367A32058CC60009B759B /* TodayList.xcdatamodeld */,
 				789EE12820499408009FD9FD /* AppDelegate.swift */,
 				789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */,
 				78370460204D884C00F673E5 /* Others.swift */,
@@ -246,6 +249,7 @@
 				789EE12920499408009FD9FD /* AppDelegate.swift in Sources */,
 				789FF68F205171DC00ED70F8 /* AddTaskPopViewController.swift in Sources */,
 				78370461204D884C00F673E5 /* Others.swift in Sources */,
+				78C367A52058CC60009B759B /* TodayList.xcdatamodeld in Sources */,
 				7837045B204D65F800F673E5 /* Task.swift in Sources */,
 				789EE14920499A70009FD9FD /* TodayListTaskTableViewCell.swift in Sources */,
 				78F186FC2057793400486E3B /* AddedTouchAreaButton.swift in Sources */,
@@ -492,6 +496,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		78C367A32058CC60009B759B /* TodayList.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				78C367A42058CC60009B759B /* Model.xcdatamodel */,
+			);
+			currentVersion = 78C367A42058CC60009B759B /* Model.xcdatamodel */;
+			path = TodayList.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 789EE11D20499408009FD9FD /* Project object */;
 }
