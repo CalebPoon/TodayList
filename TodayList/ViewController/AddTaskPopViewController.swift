@@ -76,6 +76,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         updateAddButtonState()
     }
     
+    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if (text == "\n") {
             //textView.resignFirstResponder()
@@ -118,7 +119,8 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             self.setupCornerRadius(corner: 4)
             
             // Shadow
-            self.dropShadow(offSet: CGSize(width: 0, height: 0))
+            //self.PopView.dropShadow(offSet: CGSize(width: 0, height: 0))
+            
             self.TaskTitleTextView.resignFirstResponder()
             self.PopView.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
             
@@ -183,7 +185,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         AddConFirm.backgroundColor = customColor.Blue_Background
         AddConFirm.layer.cornerRadius = 8
         AddConFirm.alpha = 0.5
-        AddConFirm.addedTouchArea = 12
+        AddConFirm.addedTouchArea = 6
         AddConFirm.isEnabled = false
         
         
@@ -237,11 +239,10 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         setupCornerRadius(corner: 2)
         
         // Shadow
-        self.dropShadow(offSet: CGSize(width: 0, height: -24))
-        //self.dropShadow(offSet: CGSize(width: 0, height: 0))
+        //PopView.dropShadow(offSet: CGSize(width: 0, height: -24))
         
         // Buttons
-        AddConFirm.frame = CGRect(x: PopView.frame.width - 46 - 16, y: PopView.frame.height - 32 - 16, width: 46, height: 32)
+        AddConFirm.frame = CGRect(x: PopView.frame.width - 54 - 16, y: PopView.frame.height - 32 - 16, width: 54, height: 32)
         
         let dateWidth = DateButton.frame.width
         let alertWidth = AlertButton.frame.width
@@ -254,18 +255,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     
    // MARK: Update Methods
     
-    func dropShadow(offSet: CGSize, scale: Bool = true) {
-        PopView.layer.masksToBounds = false
-        PopView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.50).cgColor
-        PopView.layer.shadowOpacity = 1
-        PopView.layer.shadowOffset = offSet
-        PopView.layer.shadowRadius = 24
-        
-        PopView.layer.shadowPath = UIBezierPath(rect: PopView.bounds).cgPath
-        PopView.layer.shouldRasterize = true
-        PopView.layer.rasterizationScale = scale ? UIScreen.main.scale : 1
-    }
-
     func setupCornerRadius(corner: Int) {
         // Set cornerRadius
         let maskPath: UIBezierPath
@@ -345,4 +334,17 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     }
 }
 
+extension UIView {
+    func dropShadow(offSet: CGSize, scale: Bool = true) {
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.red.cgColor
+        layer.shadowOpacity = 1
+        layer.shadowOffset = offSet
+        layer.shadowRadius = 24
+        
+        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+    }
+}
 
