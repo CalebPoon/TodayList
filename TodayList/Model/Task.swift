@@ -14,6 +14,7 @@ class Task {
     
     var title: String
     var isChecked: Bool
+    var date: Date
     
     //var date: Date
     //var alert:
@@ -21,7 +22,7 @@ class Task {
     
     //MARK: Initialization
     
-    init?(title: String, isChecked: Bool) {
+    init?(title: String, isChecked: Bool, date: Date) {
         // The title must not be empty
         if title.isEmpty {
             return nil
@@ -32,8 +33,14 @@ class Task {
             return nil
         }
         
+        /*
+        if date.isEmpty {
+            return nil
+        }*/
+        
         // Initialize stored properties.
         self.title = title
         self.isChecked = isChecked
+        self.date = date
     }
 }

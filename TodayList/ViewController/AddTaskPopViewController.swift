@@ -12,6 +12,7 @@ import os.log
 class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     // MARK: - Properties
     @IBOutlet weak var PopView: UIView!
+    
     @IBOutlet weak var dismissArea: UIButton!
     
     @IBOutlet weak var TaskTitleTextView: UITextView!
@@ -23,13 +24,15 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var AlertButton: AddedTouchAreaButton!
     @IBOutlet weak var TopicButton: AddedTouchAreaButton!
     
+    let settedDate = Date()
+    
     var PopViewHasUpdatedOnce = false
     
     var task: Task?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Setup View
         SetupButtons()
         setupPopView()
@@ -96,7 +99,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         let title = TaskTitleTextView.text ?? ""
         
         // Set the task to be passed to TodayListViewController after the unwind segue.
-        task = Task(title: title, isChecked: false)
+        task = Task(title: title, isChecked: false, date: settedDate)
     }
     
     
@@ -116,7 +119,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             self.PopView.alpha = 0.8
             
             // CornerRadius
-            self.setupCornerRadius(corner: 4)
+            self.setupCornerRadius(corner: 4, sender: self.PopView)
             
             // Shadow
             //self.PopView.dropShadow(offSet: CGSize(width: 0, height: 0))
@@ -171,6 +174,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         let width = self.view.frame.width
         let height = self.view.frame.height
         PopView.frame = CGRect(x: 0, y: height - 140, width: width, height: 140)
+        PopView.alpha = 1
         UpdatePopViewLayout()
         
         dismissArea.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: PopView.frame.origin.y - 4)
@@ -189,21 +193,26 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         AddConFirm.isEnabled = false
         
         
+        
         // Date
         DateButton.setImage(#imageLiteral(resourceName: "Date"), for: .normal)
         DateButton.setTitle(" 今日", for: .normal)
         DateButton.setTitleColor(customColor.Green_date, for: .normal)
         DateButton.sizeToFit()
         DateButton.addedTouchArea = 2
+        DateButton.addTarget(self, action: #selector(AddTaskPopViewController.setDate(button:)), for: .touchUpInside)
+        DateButton.layer.cornerRadius = 4
         
         // Alert
         AlertButton.setImage(#imageLiteral(resourceName: "Alert"), for: .normal)
         AlertButton.addedTouchArea = 2
+        AlertButton.layer.cornerRadius = 4
         
         // Topic
         //TopicButton.buttonType = .custom
         TopicButton.setImage(#imageLiteral(resourceName: "Topic"), for: .normal)
         TopicButton.addedTouchArea = 2
+        TopicButton.layer.cornerRadius = 4
 
     }
     
@@ -236,7 +245,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     // Update PopView Layout
     func UpdatePopViewLayout() {
         // CornerRadius
-        setupCornerRadius(corner: 2)
+        setupCornerRadius(corner: 2, sender: PopView)
         
         // Shadow
         //PopView.dropShadow(offSet: CGSize(width: 0, height: -24))
@@ -255,17 +264,17 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     
    // MARK: Update Methods
     
-    func setupCornerRadius(corner: Int) {
+    func setupCornerRadius(corner: Int, sender: UIView) {
         // Set cornerRadius
         let maskPath: UIBezierPath
         if corner == 2 {
-            maskPath = UIBezierPath(roundedRect: PopView.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 12, height: 0))
+            maskPath = UIBezierPath(roundedRect: sender.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 12, height: 0))
         } else  {
-            maskPath = UIBezierPath(roundedRect: PopView.bounds, byRoundingCorners: [.bottomLeft, .bottomRight, .topLeft, .topRight], cornerRadii: CGSize(width: 12, height: 0))
+            maskPath = UIBezierPath(roundedRect: sender.bounds, byRoundingCorners: [.bottomLeft, .bottomRight, .topLeft, .topRight], cornerRadii: CGSize(width: 12, height: 0))
         }
         let maskLayer = CAShapeLayer()
         maskLayer.path = maskPath.cgPath
-        PopView.layer.mask = maskLayer
+        sender.layer.mask = maskLayer
     }
     
 
@@ -332,8 +341,29 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             }
         }
     }
-}
+    
+    // MARK: - Set Task Properties
+    
+    // Set Date
+    @objc func setDate(button: UIButton) {
+        let PopViewFrame = PopView.frame
+        
+        self.DateButton.backgroundColor = customColor.globalShadow
+        
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+            self.TaskTitleTextView.resignFirstResponder()
+        }) { (_: Bool) in
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+                self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.view.frame.height, width: PopViewFrame.width, height: PopViewFrame.height)
+                self.performSegue(withIdentifier: "SetDateSegue", sender: self)
+            }, completion: { (_: Bool) in
+                
+            })
+        }
+    }
 
+}
+/*
 extension UIView {
     func dropShadow(offSet: CGSize, scale: Bool = true) {
         layer.masksToBounds = false
@@ -346,5 +376,5 @@ extension UIView {
         layer.shouldRasterize = true
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
-}
+}*/
 

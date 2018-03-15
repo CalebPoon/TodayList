@@ -36,6 +36,8 @@ func hexStringToUIColor (hex:String) -> UIColor {
 
 class customColor {
     static let globalBackground = hexStringToUIColor(hex: "#FCFBF8")
+    static let globalShadow = hexStringToUIColor(hex: "F5F4F0")
+    
     static let Blue_Background = hexStringToUIColor(hex: "4A90E2")
     static let Orange_alert = hexStringToUIColor(hex: "#F38722")
     static let Green_date = hexStringToUIColor(hex: "#109F7C")

@@ -12,7 +12,9 @@ import AudioToolbox
 class TodayListViewController: UITableViewController, TodayListTaskTableViewCellDelegate {
 
     //MARK: Properties
+    let todayDate = Date()
     
+    var AllTasks = [Task]()
     var uncheckedTasks = [Task]()
     var checkedTasks = [Task]()
     
@@ -23,9 +25,11 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     //var addButtonFrame: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
     
     var emptyStateView: UILabel!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         // Custom Navigation Bar: LageTitle
         self.title = "今日"
@@ -54,7 +58,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         addButton.addGestureRecognizer(LongPressGesture)
         
         // Load the sample data.
-        loadSampleTask()
+        loadUncheckedTasks()
         
         // Setup AddButton
         setupAddButton()
@@ -184,12 +188,19 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         loadAddButtonAnimation()
         
         if let sourceViewController = sender.source as? AddTaskPopViewController, let task = sourceViewController.task {
-            //Add a new task
-            let newIndexPath = IndexPath(row: uncheckedTasks.count, section: 0)
+            // Add a new task
+            AllTasks.append(task)
             
-            uncheckedTasks.append(task)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            // if the task is on today, add it to the uncheckedTasks array and tableView
+            if compareDate(date1: task.date, date2: todayDate)  {
+                let newIndexPath = IndexPath(row: uncheckedTasks.count, section: 0)
+                uncheckedTasks.append(task)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+            
         }
+        
+        print("AllTasks: \(AllTasks.count), CheckedTasks: \(checkedTasks.count), UncheckedTasks: \(uncheckedTasks.count)")
         
         if !emptyStateView.isHidden {
             self.TodayListIsEmpty(isEmpty: false)
@@ -307,19 +318,24 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     
     //MARK: - Private Methods
     private func loadSampleTask() {
-        guard let task1 = Task(title: "点击左侧方框完成任务", isChecked: false) else {
+        guard let task1 = Task(title: "点击左侧方框完成任务", isChecked: false, date: todayDate) else {
             fatalError("Unable to instantiate task1")
         }
         
-        guard let task2 = Task(title: "点击右下角加号按钮添加任务", isChecked: false) else {
+        guard let task2 = Task(title: "点击右下角加号按钮添加任务", isChecked: false, date: todayDate) else {
             fatalError("Unable to instantiate task2")
         }
         
-        guard let task3 = Task(title: "点击任务标题编辑详情", isChecked: false) else {
+        guard let task3 = Task(title: "点击任务标题编辑详情", isChecked: false, date: todayDate) else {
             fatalError("Unable to instantiate task3")
         }
+        
+        let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: todayDate)
+        guard let task4 = Task(title: "明天的任务", isChecked: false, date: tomorrowDate!) else {
+            fatalError("Unable to instantiate task4")
+        }
 
-        uncheckedTasks += [task1, task2, task3]
+        AllTasks += [task1, task2, task3, task4]
         
         /*
         // Test Tasks
@@ -330,8 +346,33 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             self.uncheckedTasks += [task]
         }*/
         
-        //print("Before check: checkedTasks: \(checkedTasks.count), uncheckedTasks: \(uncheckedTasks.count)")
+        
     }
+    
+    private func loadUncheckedTasks() {
+        loadSampleTask()
+        
+        for element in AllTasks {
+            if compareDate(date1: element.date, date2: todayDate) {
+                uncheckedTasks += [element]
+            }
+        }
+        
+        print("AllTasks: \(AllTasks.count), CheckedTasks: \(checkedTasks.count), UncheckedTasks: \(uncheckedTasks.count)")
+    }
+    
+    private func compareDate(date1: Date, date2: Date) -> Bool {
+        let calendar = Calendar.current
+        let date1Componet = calendar.component(.day, from: date1)
+        let date2Componet = calendar.component(.day, from: date2)
+        
+        if date1Componet == date2Componet {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     
     func setupEmptyStateView() {
         emptyStateView = UILabel()
@@ -373,7 +414,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     
     private func loadAddButtonAnimation() {
         // AddButton animate
-        UIView.animate(withDuration: 0.3, delay: 0.3, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.2, delay: 0.5, options: .curveEaseInOut, animations: {
             self.addButton.setBackgroundImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
             self.addButton.alpha = 1
             self.addButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
@@ -420,8 +461,8 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
              print("Tapped")
             
             // Animation and Add Segue
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut ,animations: {
-                self.addButton.transform = CGAffineTransform(scaleX: 1.1 , y: 1.1)
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut ,animations: {
+                self.addButton.transform = CGAffineTransform(scaleX: 1.15 , y: 1.15)
             }, completion: { (_: Bool) in
                 
                 UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
@@ -429,10 +470,10 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                     
                 }, completion: { (_: Bool) in
                     
-                    UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+                    UIView.animate(withDuration: 0.08, delay: 0, options: .curveEaseInOut, animations: {
                         self.addButton.alpha = 0
                         self.addButton.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-                        
+                    
                     }, completion: { (_: Bool) in
                         self.performSegue(withIdentifier: "AddTask", sender: self)
                     })
@@ -467,6 +508,28 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             })
         }
     }
+    /*
+    func printDate() {
+        print(self.WeekdayString(date: todayDate))
+        
+        //let calendar = Calendar.current
+        //let calendar = Calendar.autoupdatingCurrent
+        //let weekday = calendar.component(.weekday, from: currentday)
+        //print(weekday)
+        let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: todayDate)
+        let nextWeekDate = Calendar.current.date(byAdding: .day, value: 7, to: todayDate)
+        print(self.WeekdayString(date: tomorrowDate!))
+        print(self.WeekdayString(date: nextWeekDate!))
+    }
+    
+    func WeekdayString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEE"
+        let weekdayString = dateFormatter.string(from: date)
+        
+        let UppercasedString = weekdayString.uppercased()
+        return UppercasedString
+    }*/
     
 }
 

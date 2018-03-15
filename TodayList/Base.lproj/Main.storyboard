@@ -83,10 +83,13 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
                                     </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0xY-Xz-5LQ" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0xY-Xz-5LQ" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                         <rect key="frame" x="16" y="96" width="24" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="tintColor" red="0.062745098040000002" green="0.62352941179999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="0.062745098040000002" green="0.62352941179999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HMJ-cP-5Cu" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                         <rect key="frame" x="56" y="96" width="24" height="24"/>
@@ -119,7 +122,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.15565321180555555" alpha="0.57673373287671237" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="GM2-nZ-T33"/>
                     </view>
                     <connections>
@@ -132,6 +135,7 @@
                         <outlet property="dismissArea" destination="cET-T9-DT7" id="J8y-P5-c2f"/>
                         <segue destination="slY-c7-YCp" kind="unwind" identifier="dismissToTodayList" unwindAction="dismissToTodayListWithSender:" id="6W9-nF-mhJ"/>
                         <segue destination="slY-c7-YCp" kind="unwind" identifier="unwindToTodayList" unwindAction="unwindToTodayListWithSender:" id="2s1-Bh-B1h"/>
+                        <segue destination="P77-gn-RLL" kind="presentation" identifier="SetDateSegue" id="6hS-sv-w3O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g1l-3t-L6R" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -139,20 +143,67 @@
             </objects>
             <point key="canvasLocation" x="1165.5999999999999" y="14.842578710644679"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="wf7-LH-sOt">
+        <!--Date View Controller-->
+        <scene sceneID="L7x-JC-fkF">
             <objects>
-                <viewController modalTransitionStyle="crossDissolve" id="VeN-Nb-O9e" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="vNP-CN-0dq">
+                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="P77-gn-RLL" customClass="DateViewController" customModule="TodayList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OT3-LX-mao">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="B99-ax-ZBC"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4E3-l4-tqE">
+                                <rect key="frame" x="0.0" y="493" width="375" height="174"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="选择日期" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tmd-Xx-ZSB">
+                                        <rect key="frame" x="16" y="24" width="82" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zdh-LV-Qze">
+                                        <rect key="frame" x="16" y="64" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.062745098040000002" green="0.62352941179999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mv8-AL-hPj">
+                                        <rect key="frame" x="98" y="64" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.062745098040000002" green="0.62352941179999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3TN-ld-cb3">
+                                        <rect key="frame" x="180" y="64" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.062745098040000002" green="0.62352941179999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="au3-Xh-xdm">
+                                        <rect key="frame" x="300" y="64" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.29019607843137252" green="0.56470588235294117" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="dismiss:" destination="P77-gn-RLL" eventType="touchUpInside" id="C6M-FK-ULo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="k6k-rN-VO1"/>
                     </view>
+                    <connections>
+                        <outlet property="PopView" destination="4E3-l4-tqE" id="K36-8W-niH"/>
+                        <outlet property="moreDateButton" destination="au3-Xh-xdm" id="11k-Gf-vNq"/>
+                        <outlet property="nextWeekButton" destination="3TN-ld-cb3" id="bm1-Cm-NMq"/>
+                        <outlet property="selectDate" destination="Tmd-Xx-ZSB" id="cVJ-Ck-Jq4"/>
+                        <outlet property="todayButton" destination="Zdh-LV-Qze" id="tGb-O7-tPv"/>
+                        <outlet property="tomorrowButton" destination="mv8-AL-hPj" id="M8h-z9-Jt7"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mF1-CX-gWV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cd7-PW-P5w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1961" y="15"/>
+            <point key="canvasLocation" x="1967" y="15"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Y3R-x7-5OD">

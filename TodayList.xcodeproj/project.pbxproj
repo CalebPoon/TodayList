@@ -19,6 +19,7 @@
 		789EE14920499A70009FD9FD /* TodayListTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */; };
 		789FF68F205171DC00ED70F8 /* AddTaskPopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */; };
 		78C367A52058CC60009B759B /* TodayList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 78C367A32058CC60009B759B /* TodayList.xcdatamodeld */; };
+		78C88A202059564A0087FF06 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C88A1F2059564A0087FF06 /* DateViewController.swift */; };
 		78F186FC2057793400486E3B /* AddedTouchAreaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F186FB2057793400486E3B /* AddedTouchAreaButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayListTaskTableViewCell.swift; sourceTree = "<group>"; };
 		789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskPopViewController.swift; sourceTree = "<group>"; };
 		78C367A42058CC60009B759B /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		78C88A1F2059564A0087FF06 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
 		78F186FB2057793400486E3B /* AddedTouchAreaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedTouchAreaButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,7 +93,6 @@
 		789EE12720499408009FD9FD /* TodayList */ = {
 			isa = PBXGroup;
 			children = (
-				78C367A32058CC60009B759B /* TodayList.xcdatamodeld */,
 				789EE12820499408009FD9FD /* AppDelegate.swift */,
 				789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */,
 				78370460204D884C00F673E5 /* Others.swift */,
@@ -101,6 +102,7 @@
 				789EE12C20499408009FD9FD /* Main.storyboard */,
 				789EE12F20499408009FD9FD /* Assets.xcassets */,
 				789EE13120499408009FD9FD /* LaunchScreen.storyboard */,
+				78C367A32058CC60009B759B /* TodayList.xcdatamodeld */,
 				789EE13420499408009FD9FD /* Info.plist */,
 			);
 			path = TodayList;
@@ -127,8 +129,9 @@
 		78F186FE2057796600486E3B /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */,
 				789EE12A20499408009FD9FD /* TodayListViewController.swift */,
+				789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */,
+				78C88A1F2059564A0087FF06 /* DateViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78C88A202059564A0087FF06 /* DateViewController.swift in Sources */,
 				789EE12B20499408009FD9FD /* TodayListViewController.swift in Sources */,
 				789E583E204C25CE00068695 /* Checkbox.swift in Sources */,
 				789EE12920499408009FD9FD /* AppDelegate.swift in Sources */,
