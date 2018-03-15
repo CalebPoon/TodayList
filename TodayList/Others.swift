@@ -39,7 +39,7 @@ class customColor {
     static let globalShadow = hexStringToUIColor(hex: "F5F4F0")
     
     static let Blue_Background = hexStringToUIColor(hex: "4A90E2")
-    static let Orange_alert = hexStringToUIColor(hex: "#F38722")
+    static let Orange_alert = hexStringToUIColor(hex: "#FB912F")
     static let Green_date = hexStringToUIColor(hex: "#109F7C")
     static let Gray_topic = hexStringToUIColor(hex: "#666666")
     
