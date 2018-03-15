@@ -197,7 +197,6 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                 uncheckedTasks.append(task)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
-            
         }
         
         print("AllTasks: \(AllTasks.count), CheckedTasks: \(checkedTasks.count), UncheckedTasks: \(uncheckedTasks.count)")

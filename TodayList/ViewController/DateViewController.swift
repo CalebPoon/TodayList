@@ -19,7 +19,7 @@ class DateViewController: UIViewController {
     @IBOutlet weak var tomorrowButton: AddedTouchAreaButton!
     @IBOutlet weak var nextWeekButton: AddedTouchAreaButton!
     
-    @IBOutlet weak var moreDateButton: UIButton!
+    @IBOutlet weak var moreDateButton: AddedTouchAreaButton!
     
     var todayDate: Date!
     var tomorrowDate: Date!
@@ -74,17 +74,19 @@ class DateViewController: UIViewController {
         todayButton.setImage(#imageLiteral(resourceName: "today"), for: .normal)
         todayButton.frame = CGRect(x: 16, y: 64, width: 50, height: 50)
         addLabel(type: 1)
-        
+        todayButton.addedTouchArea = 40
         
         // TomorrowButton
         tomorrowButton.setImage(#imageLiteral(resourceName: "tomorrow"), for: .normal)
         tomorrowButton.frame = CGRect(x: 16 + 50 + 32, y: 64, width: 50, height: 50)
         addLabel(type: 2)
+        tomorrowButton.addedTouchArea = 40
         
         // NextWeekButton
         nextWeekButton.setImage(#imageLiteral(resourceName: "nextWeek"), for: .normal)
         nextWeekButton.frame = CGRect(x: 16 + (50 + 32) * 2, y: 64, width: 50, height: 50)
         addLabel(type: 3)
+        nextWeekButton.addedTouchArea = 40
         
         // MoreDateButton
         moreDateButton.setImage(#imageLiteral(resourceName: "moreDate"), for: .normal)
@@ -96,6 +98,7 @@ class DateViewController: UIViewController {
         moreLabel.sizeToFit()
         moreLabel.center = CGPoint(x: moreDateButton.center.x, y: moreDateButton.center.y + moreDateButton.frame.height/2 + 4 + moreLabel.frame.height/2)
         PopView.addSubview(moreLabel)
+        moreDateButton.addedTouchArea = 40
     }
     
     // Add different types of labels depending on buttons' type

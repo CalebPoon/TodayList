@@ -15,19 +15,19 @@ class AddedTouchAreaButton: UIButton {
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         if addedTouchArea == 40 {
-                let newBound = CGRect(
-                x: self.bounds.origin.x - addedTouchArea,
-                y: self.bounds.origin.y - addedTouchArea,
-                width: self.bounds.width + 2 * addedTouchArea,
-                height: self.bounds.height + 2 * addedTouchArea
-            )
-            return newBound.contains(point)
-        } else {
-                let newBound = CGRect(
+            let newBound = CGRect(
                 x: self.bounds.origin.x,
                 y: self.bounds.origin.y,
                 width: self.bounds.width,
                 height: self.bounds.height + 40
+            )
+            return newBound.contains(point)
+        } else {
+            let newBound = CGRect(
+                x: self.bounds.origin.x - addedTouchArea,
+                y: self.bounds.origin.y - addedTouchArea,
+                width: self.bounds.width + 2 * addedTouchArea,
+                height: self.bounds.height + 2 * addedTouchArea
             )
             return newBound.contains(point)
         }
