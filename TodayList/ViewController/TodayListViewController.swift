@@ -71,6 +71,8 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             TodayListIsEmpty(isEmpty: true)
         }
         
+        //printDate()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -359,18 +361,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         
         print("AllTasks: \(AllTasks.count), CheckedTasks: \(checkedTasks.count), UncheckedTasks: \(uncheckedTasks.count)")
     }
-    
-    private func compareDate(date1: Date, date2: Date) -> Bool {
-        let calendar = Calendar.current
-        let date1Componet = calendar.component(.day, from: date1)
-        let date2Componet = calendar.component(.day, from: date2)
-        
-        if date1Componet == date2Componet {
-            return true
-        } else {
-            return false
-        }
-    }
+
     
     
     func setupEmptyStateView() {
@@ -507,20 +498,24 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             })
         }
     }
+    
     /*
     func printDate() {
-        print(self.WeekdayString(date: todayDate))
+        //print(self.WeekdayString(date: todayDate))
         
         //let calendar = Calendar.current
         //let calendar = Calendar.autoupdatingCurrent
         //let weekday = calendar.component(.weekday, from: currentday)
         //print(weekday)
-        let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: todayDate)
-        let nextWeekDate = Calendar.current.date(byAdding: .day, value: 7, to: todayDate)
-        print(self.WeekdayString(date: tomorrowDate!))
-        print(self.WeekdayString(date: nextWeekDate!))
-    }
+        //let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: todayDate)
+        //let nextWeekDate = Calendar.current.date(byAdding: .day, value: 7, to: todayDate)
+        //print(self.WeekdayString(date: tomorrowDate!))
+        //print(self.WeekdayString(date: nextWeekDate!))
+        
+        print(self.getStringOfDate(date: Date()))
+    }*/
     
+    /*
     func WeekdayString(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEE"
@@ -529,6 +524,8 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         let UppercasedString = weekdayString.uppercased()
         return UppercasedString
     }*/
+    
+
     
 }
 

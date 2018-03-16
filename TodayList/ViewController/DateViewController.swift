@@ -21,10 +21,12 @@ class DateViewController: UIViewController {
     
     @IBOutlet weak var moreDateButton: AddedTouchAreaButton!
     
+    
     var todayDate: Date!
     var tomorrowDate: Date!
     var nextWeekDate: Date!
 
+    var toSetDate: Date!
     
     
     override func viewDidLoad() {
@@ -44,25 +46,56 @@ class DateViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
     
 
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        /*
+        guard  let date = toSetDate else {
+            return
+        }*/
     }
-    */
+
+    @IBAction func todayButtonClicked(_ sender: Any) {
+        toSetDate = todayDate
+       unwindAnimation()
+    }
+    
+    @IBAction func tomorrowButtonClicked(_ sender: Any) {
+        toSetDate = tomorrowDate
+        unwindAnimation()
+    }
+    
+    @IBAction func nextWeekButtonClicked(_ sender: Any) {
+        toSetDate = nextWeekDate
+        unwindAnimation()
+    }
+    
+    @IBAction func moreDateButtonClicked(_ sender: Any) {
+        newLayout()
+    }
+    
+    
+    
+    func unwindAnimation() {
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+            let frame = self.PopView.frame
+            self.PopView.frame = CGRect(x: 0, y: self.view.frame.height, width: frame.width, height: frame.height)
+        }) { (_: Bool) in
+            self.performSegue(withIdentifier: "todayButtonUnwind", sender: self)
+        }
+    }
     
     // MARK: - Setup View
     private func setupView() {
         // PopView
         PopView.frame = CGRect(x: 0, y: self.view.frame.height - 74, width: self.view.frame.width, height: 174)
-        PopView.alpha = 0
+        PopView.backgroundColor = customColor.popViewBackground
+        //PopView.alpha = 0
         setupCornerRadius()
 
         // Title
@@ -73,20 +106,21 @@ class DateViewController: UIViewController {
         // TodayButton
         todayButton.setImage(#imageLiteral(resourceName: "today"), for: .normal)
         todayButton.frame = CGRect(x: 16, y: 64, width: 50, height: 50)
-        addLabel(type: 1)
         todayButton.addedTouchArea = 40
+        addLabel(type: 1)
         
         // TomorrowButton
         tomorrowButton.setImage(#imageLiteral(resourceName: "tomorrow"), for: .normal)
         tomorrowButton.frame = CGRect(x: 16 + 50 + 32, y: 64, width: 50, height: 50)
-        addLabel(type: 2)
         tomorrowButton.addedTouchArea = 40
+        addLabel(type: 2)
         
         // NextWeekButton
         nextWeekButton.setImage(#imageLiteral(resourceName: "nextWeek"), for: .normal)
         nextWeekButton.frame = CGRect(x: 16 + (50 + 32) * 2, y: 64, width: 50, height: 50)
-        addLabel(type: 3)
         nextWeekButton.addedTouchArea = 40
+        addLabel(type: 3)
+        
         
         // MoreDateButton
         moreDateButton.setImage(#imageLiteral(resourceName: "moreDate"), for: .normal)
@@ -100,6 +134,7 @@ class DateViewController: UIViewController {
         PopView.addSubview(moreLabel)
         moreDateButton.addedTouchArea = 40
     }
+    
     
     // Add different types of labels depending on buttons' type
     private func addLabel(type: Int) {
@@ -154,21 +189,16 @@ class DateViewController: UIViewController {
         PopView.layer.mask = maskLayer
     }
     
+    // MARK: - Private Methods
+    
     // Animation before view appears
     func segueAnmiation() {
-        UIView.animate(withDuration: 0.1, delay: 0.1, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseInOut, animations: {
             self.PopView.frame = CGRect(x: 0, y: self.view.frame.height - 174, width: self.view.frame.width, height: 174)
             self.PopView.alpha = 1
         }, completion: nil)
-
     }
     
-    
-    @IBAction func dismiss(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-
     // Get uppercased string of weekday
     func WeekdayString(date: Date) -> String {
         let dateFormatter = DateFormatter()
@@ -185,4 +215,49 @@ class DateViewController: UIViewController {
         tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: todayDate)
         nextWeekDate = Calendar.current.date(byAdding: .day, value: 7, to: todayDate)
     }
+    
+    // MARK: - Other Day Setting Methods
+    func newLayout() {
+        
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            self.PopView.frame = CGRect(x: 0, y: self.view.frame.height - 245, width: self.PopView.frame.width, height: 245)
+            self.setupCornerRadius()
+            self.addMaskView()
+        }) { (_: Bool) in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.addDatePicker()
+            })
+        }
+    }
+    
+    func addDatePicker() {
+        
+        // Create a datePicker
+        let datePicker = UIDatePicker(frame: CGRect(x: 0, y: self.PopView.frame.height - 165 - 16, width: self.PopView.frame.width, height: 165))
+        
+        datePicker.backgroundColor = customColor.popViewBackground
+        datePicker.locale = Locale(identifier: "zh_CN")
+        datePicker.datePickerMode = .date
+        
+        datePicker.addTarget(self, action: #selector(DateViewController.getDateOfDatePicker(datePicker:)), for: .valueChanged)
+        
+        self.PopView.addSubview(datePicker)
+        self.PopView.bringSubview(toFront: datePicker)
+    }
+    
+    func addMaskView() {
+        let maskView = UIView(frame: CGRect(x: 0, y: self.PopView.frame.height - 165 - 16, width: self.PopView.frame.width, height: 165))
+        maskView.backgroundColor =  customColor.popViewBackground
+        self.PopView.addSubview(maskView)
+        self.PopView.bringSubview(toFront: maskView)
+    }
+    
+    func addConfirmButton() {
+        
+    }
+    
+    @objc func getDateOfDatePicker(datePicker: UIDatePicker) {
+        
+    }
+    
 }

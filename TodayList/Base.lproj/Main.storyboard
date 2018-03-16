@@ -90,6 +90,9 @@
                                         <state key="normal">
                                             <color key="titleColor" red="0.062745098040000002" green="0.62352941179999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="todayButtonClicked:" destination="ChP-I6-jG0" eventType="touchUpInside" id="iwq-bG-rCZ"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HMJ-cP-5Cu" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                         <rect key="frame" x="56" y="96" width="24" height="24"/>
@@ -166,23 +169,32 @@
                                         <rect key="frame" x="16" y="64" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" red="0.062745098040000002" green="0.62352941179999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="todayButtonClicked:" destination="P77-gn-RLL" eventType="touchUpInside" id="9xi-A9-uQ7"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mv8-AL-hPj" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                         <rect key="frame" x="98" y="64" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" red="0.062745098040000002" green="0.62352941179999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="tomorrowButtonClicked:" destination="P77-gn-RLL" eventType="touchUpInside" id="TnE-Xx-swZ"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3TN-ld-cb3" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                         <rect key="frame" x="180" y="64" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" red="0.062745098040000002" green="0.62352941179999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="nextWeekButtonClicked:" destination="P77-gn-RLL" eventType="touchUpInside" id="tw5-Iv-8ZB"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="au3-Xh-xdm" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3q7-PY-eX5" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                         <rect key="frame" x="300" y="64" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" red="0.29019607843137252" green="0.56470588235294117" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" red="0.2901960784" green="0.56470588239999997" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
-                                            <action selector="dismiss:" destination="P77-gn-RLL" eventType="touchUpInside" id="C6M-FK-ULo"/>
+                                            <action selector="moreDateButtonClicked:" destination="P77-gn-RLL" eventType="touchUpInside" id="eEU-G8-Gou"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -194,14 +206,16 @@
                     </view>
                     <connections>
                         <outlet property="PopView" destination="4E3-l4-tqE" id="K36-8W-niH"/>
-                        <outlet property="moreDateButton" destination="au3-Xh-xdm" id="11k-Gf-vNq"/>
+                        <outlet property="moreDateButton" destination="3q7-PY-eX5" id="hQo-6V-hAa"/>
                         <outlet property="nextWeekButton" destination="3TN-ld-cb3" id="bm1-Cm-NMq"/>
                         <outlet property="selectDate" destination="Tmd-Xx-ZSB" id="cVJ-Ck-Jq4"/>
                         <outlet property="todayButton" destination="Zdh-LV-Qze" id="tGb-O7-tPv"/>
                         <outlet property="tomorrowButton" destination="mv8-AL-hPj" id="M8h-z9-Jt7"/>
+                        <segue destination="2dv-eX-BrO" kind="unwind" identifier="todayButtonUnwind" unwindAction="unwindToAddTaskPopViewWithTodayButtonWithSender:" id="k0b-q8-Pdq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cd7-PW-P5w" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="2dv-eX-BrO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1967" y="15"/>
         </scene>

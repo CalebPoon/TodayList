@@ -24,7 +24,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var AlertButton: AddedTouchAreaButton!
     @IBOutlet weak var TopicButton: AddedTouchAreaButton!
     
-    let settedDate = Date()
+    var setDate = Date()
     
     var PopViewHasUpdatedOnce = false
     
@@ -99,7 +99,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         let title = TaskTitleTextView.text ?? ""
         
         // Set the task to be passed to TodayListViewController after the unwind segue.
-        task = Task(title: title, isChecked: false, date: settedDate)
+        task = Task(title: title, isChecked: false, date: setDate)
     }
     
     
@@ -153,6 +153,51 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     }
     
     
+    // Unwind from DateViewController
+    @IBAction func unwindToAddTaskPopViewWithTodayButton(sender: UIStoryboardSegue) {
+        //Animation
+        let PopViewFrame = PopView.frame
+        self.DateButton.backgroundColor = UIColor.clear
+
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.view.frame.height - PopViewFrame.height, width: PopViewFrame.width, height: PopViewFrame.height)
+            if self.TaskTitleTextView.text.isEmpty {
+                self.TaskTitleTextView.becomeFirstResponder()
+            }
+        }, completion: nil)
+        
+        
+        // Set Model's date and UI
+        if let sourceViewController = sender.source as? DateViewController ,let toSetDate = sourceViewController.toSetDate {
+            setDate = toSetDate
+            
+            // Determine the date
+            let todayDate = Date()
+            let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: todayDate)
+            let nextWeekDate = Calendar.current.date(byAdding: .day, value: 7, to: todayDate)
+            
+            // Today
+            if compareDate(date1: toSetDate, date2: todayDate) {
+                self.DateButton.setTitle(" 今日", for: .normal)
+                
+            // Tomorrow
+            } else if compareDate(date1: toSetDate, date2: tomorrowDate!) {
+                self.DateButton.setTitle(" 明日", for: .normal)
+                
+            // NextWeek
+            } else if compareDate(date1: toSetDate, date2: nextWeekDate!) {
+                self.DateButton.setTitle(" 下周", for: .normal)
+                
+            // Other Day
+            } else {
+                self.DateButton.setTitle("\(getStringOfDate(date: toSetDate))", for: .normal)
+            }
+        }
+
+        print("A task is set on \(setDate)")
+    }
+    
+    
     // MARK: - Private Methods
     private func updateAddButtonState() {
         //Disable the Add button if the textView is empty
@@ -200,7 +245,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         DateButton.setTitleColor(customColor.Green_date, for: .normal)
         DateButton.sizeToFit()
         DateButton.addedTouchArea = 2
-        DateButton.addTarget(self, action: #selector(AddTaskPopViewController.setDate(button:)), for: .touchUpInside)
         DateButton.layer.cornerRadius = 4
         
         // Alert
@@ -342,24 +386,29 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         }
     }
     
-    // MARK: - Set Task Properties
+    // MARK: - Set Task Properties Actions
     
-    // Set Date
-    @objc func setDate(button: UIButton) {
+    @IBAction func todayButtonClicked(_ sender: Any) {
         let PopViewFrame = PopView.frame
         
         self.DateButton.backgroundColor = customColor.globalShadow
         
-        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
-            self.TaskTitleTextView.resignFirstResponder()
-        }) { (_: Bool) in
-            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+        if self.TaskTitleTextView.isFirstResponder {
+            UIView.animate(withDuration: 0.3, delay: 0.1, options: .curveEaseInOut, animations: {
+                self.TaskTitleTextView.resignFirstResponder()
+            }, completion:{ (_: Bool) in
+                UIView.animate(withDuration: 0.1, delay: 0.3, options: .curveEaseInOut, animations: {
+                    self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.view.frame.height, width: PopViewFrame.width, height: PopViewFrame.height)
+                    self.performSegue(withIdentifier: "SetDateSegue", sender: self)
+                }, completion: nil)
+            })
+        } else {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
                 self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.view.frame.height, width: PopViewFrame.width, height: PopViewFrame.height)
                 self.performSegue(withIdentifier: "SetDateSegue", sender: self)
-            }, completion: { (_: Bool) in
-                
-            })
+            }, completion: nil)
         }
+            
     }
 
 }

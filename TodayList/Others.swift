@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-//MARK: Color
+// MARK: - Color
 
 // Change color from hex to UIColor
 func hexStringToUIColor (hex:String) -> UIColor {
@@ -37,6 +37,7 @@ func hexStringToUIColor (hex:String) -> UIColor {
 class customColor {
     static let globalBackground = hexStringToUIColor(hex: "#FCFBF8")
     static let globalShadow = hexStringToUIColor(hex: "F5F4F0")
+    static let popViewBackground = hexStringToUIColor(hex: "FFFEFC")
     
     static let Blue_Background = hexStringToUIColor(hex: "4A90E2")
     static let Orange_alert = hexStringToUIColor(hex: "#FB912F")
@@ -46,5 +47,25 @@ class customColor {
     static let Black1 = hexStringToUIColor(hex: "#333333")
     static let Black2 = hexStringToUIColor(hex: "#666666")
     static let Black3 = hexStringToUIColor(hex: "#C2C2C2")
+}
+
+// MARK: - Date functions
+func compareDate(date1: Date, date2: Date) -> Bool {
+    let calendar = Calendar.current
+    let date1Componet = calendar.component(.day, from: date1)
+    let date2Componet = calendar.component(.day, from: date2)
+    
+    if date1Componet == date2Componet {
+        return true
+    } else {
+        return false
+    }
+}
+
+func getStringOfDate(date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "M月d日"
+    let string = dateFormatter.string(from: date)
+    return string
 }
 
