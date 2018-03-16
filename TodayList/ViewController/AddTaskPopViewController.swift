@@ -37,10 +37,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         SetupButtons()
         setupPopView()
         
-        
-        // Show Keyborad
-        TaskTitleTextView.becomeFirstResponder()
-        
         // Setup View
         setupTextView()
        
@@ -49,6 +45,16 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(AddTaskPopViewController.updateView(notification:)), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(AddTaskPopViewController.updateView(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            self.PopView.frame = CGRect(x: 0, y: self.view.frame.height - 140, width: self.view.frame.width, height: 140)
+            self.TaskTitleTextView.becomeFirstResponder()
+        }) { (_: Bool) in
+            // Show Keyborad
+            
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -159,7 +165,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         let PopViewFrame = PopView.frame
         self.DateButton.backgroundColor = UIColor.clear
 
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.view.frame.height - PopViewFrame.height, width: PopViewFrame.width, height: PopViewFrame.height)
             if self.TaskTitleTextView.text.isEmpty {
                 self.TaskTitleTextView.becomeFirstResponder()
@@ -218,7 +224,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         // Set Frame
         let width = self.view.frame.width
         let height = self.view.frame.height
-        PopView.frame = CGRect(x: 0, y: height - 140, width: width, height: 140)
+        PopView.frame = CGRect(x: 0, y: height, width: width, height: 140)
         PopView.alpha = 1
         UpdatePopViewLayout()
         
@@ -394,13 +400,15 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         self.DateButton.backgroundColor = customColor.globalShadow
         
         if self.TaskTitleTextView.isFirstResponder {
-            UIView.animate(withDuration: 0.3, delay: 0.1, options: .curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
                 self.TaskTitleTextView.resignFirstResponder()
             }, completion:{ (_: Bool) in
-                UIView.animate(withDuration: 0.1, delay: 0.3, options: .curveEaseInOut, animations: {
+                self.performSegue(withIdentifier: "SetDateSegue", sender: self)
+                /*
+                UIView.animate(withDuration: 0.1, delay: 0.2, options: .curveEaseInOut, animations: {
                     self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.view.frame.height, width: PopViewFrame.width, height: PopViewFrame.height)
-                    self.performSegue(withIdentifier: "SetDateSegue", sender: self)
-                }, completion: nil)
+                 
+                }, completion: nil)*/
             })
         } else {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {

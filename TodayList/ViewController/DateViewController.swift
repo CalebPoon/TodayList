@@ -82,20 +82,19 @@ class DateViewController: UIViewController {
     
     
     func unwindAnimation() {
-        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             let frame = self.PopView.frame
             self.PopView.frame = CGRect(x: 0, y: self.view.frame.height, width: frame.width, height: frame.height)
-        }) { (_: Bool) in
             self.performSegue(withIdentifier: "todayButtonUnwind", sender: self)
+        }) { (_: Bool) in
         }
     }
     
     // MARK: - Setup View
     private func setupView() {
         // PopView
-        PopView.frame = CGRect(x: 0, y: self.view.frame.height - 74, width: self.view.frame.width, height: 174)
+        PopView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: 174)
         PopView.backgroundColor = customColor.popViewBackground
-        //PopView.alpha = 0
         setupCornerRadius()
 
         // Title
@@ -193,9 +192,8 @@ class DateViewController: UIViewController {
     
     // Animation before view appears
     func segueAnmiation() {
-        UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             self.PopView.frame = CGRect(x: 0, y: self.view.frame.height - 174, width: self.view.frame.width, height: 174)
-            self.PopView.alpha = 1
         }, completion: nil)
     }
     
