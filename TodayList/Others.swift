@@ -72,3 +72,5 @@ func getStringOfDate(date: Date) -> String {
     return string
 }
 
+//func getStringOfTime(date: Date)
+

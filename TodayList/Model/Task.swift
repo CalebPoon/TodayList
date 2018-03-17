@@ -15,6 +15,7 @@ class Task {
     var title: String
     var isChecked: Bool
     var date: Date
+    var alert: Date?
     
     //var date: Date
     //var alert:

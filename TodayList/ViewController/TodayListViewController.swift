@@ -11,7 +11,9 @@ import AudioToolbox
 
 class TodayListViewController: UITableViewController, TodayListTaskTableViewCellDelegate {
 
-    //MARK: Properties
+    // MARK: - Properties
+    
+    // MARK: Models
     let todayDate = Date()
     
     var AllTasks = [Task]()
@@ -19,13 +21,14 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     var checkedTasks = [Task]()
     
     var checkingRow =  [Int]()
-    //var checkingRowValue = [Int: Int]()
     
+    // MARK: UI
     var addButton = UIButton.init(type: UIButtonType.system)
-    //var addButtonFrame: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
     
     var emptyStateView: UILabel!
     
+    // MARK: Content
+    var editingTaskTitle = String()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -499,7 +502,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         }
     }
     
-    /*
+    
     func printDate() {
         //print(self.WeekdayString(date: todayDate))
         
@@ -512,8 +515,8 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         //print(self.WeekdayString(date: tomorrowDate!))
         //print(self.WeekdayString(date: nextWeekDate!))
         
-        print(self.getStringOfDate(date: Date()))
-    }*/
+        print(getStringOfDate(date: Date()))
+    }
     
     /*
     func WeekdayString(date: Date) -> String {

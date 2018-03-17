@@ -97,6 +97,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HMJ-cP-5Cu" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                         <rect key="frame" x="56" y="96" width="24" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="AlertButtonClicked:" destination="ChP-I6-jG0" eventType="touchUpInside" id="DPM-Rb-EVy"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ITb-k2-Hes" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                         <rect key="frame" x="96" y="96" width="24" height="24"/>
@@ -139,12 +142,88 @@
                         <segue destination="slY-c7-YCp" kind="unwind" identifier="dismissToTodayList" unwindAction="dismissToTodayListWithSender:" id="6W9-nF-mhJ"/>
                         <segue destination="slY-c7-YCp" kind="unwind" identifier="unwindToTodayList" unwindAction="unwindToTodayListWithSender:" id="2s1-Bh-B1h"/>
                         <segue destination="P77-gn-RLL" kind="presentation" identifier="SetDateSegue" id="6hS-sv-w3O"/>
+                        <segue destination="SGN-Ot-AWw" kind="presentation" identifier="setAlertSegue" id="Lvu-F9-Xq7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g1l-3t-L6R" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="slY-c7-YCp" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1165.5999999999999" y="14.842578710644679"/>
+        </scene>
+        <!--Alert View Controller-->
+        <scene sceneID="kec-8T-pw2">
+            <objects>
+                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="SGN-Ot-AWw" customClass="AlertViewController" customModule="TodayList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CKc-4P-0Sf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C6n-F6-XfQ">
+                                <rect key="frame" x="0.0" y="493" width="375" height="174"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="选择提醒时间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DaM-7g-2Cy">
+                                        <rect key="frame" x="16" y="24" width="123" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zy1-iB-Mzh" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="64" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.062745098040000002" green="0.62352941179999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="morningButtonClicked:" destination="SGN-Ot-AWw" eventType="touchUpInside" id="K1d-q6-Ejl"/>
+                                            <action selector="todayButtonClicked:" destination="P77-gn-RLL" eventType="touchUpInside" id="ifa-qB-EWy"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OEe-RX-0Fv" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
+                                        <rect key="frame" x="98" y="64" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.062745098040000002" green="0.62352941179999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="afternoonButtonClicked:" destination="SGN-Ot-AWw" eventType="touchUpInside" id="KA8-rP-W2E"/>
+                                            <action selector="tomorrowButtonClicked:" destination="P77-gn-RLL" eventType="touchUpInside" id="Vfn-mF-9O0"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="efI-px-ZtF" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
+                                        <rect key="frame" x="180" y="64" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.062745098040000002" green="0.62352941179999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="eveningButtonClicked:" destination="SGN-Ot-AWw" eventType="touchUpInside" id="NKp-Cc-6fH"/>
+                                            <action selector="nextWeekButtonClicked:" destination="P77-gn-RLL" eventType="touchUpInside" id="OgR-Jk-ow0"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpT-zA-A7k" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
+                                        <rect key="frame" x="300" y="64" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.2901960784" green="0.56470588239999997" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="moreDateButtonClicked:" destination="P77-gn-RLL" eventType="touchUpInside" id="EHG-8Q-fkH"/>
+                                            <action selector="otherTimeButtonClicked:" destination="SGN-Ot-AWw" eventType="touchUpInside" id="7m4-Bd-TLn"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Fpa-yx-bVB"/>
+                    </view>
+                    <connections>
+                        <outlet property="PopView" destination="C6n-F6-XfQ" id="gMq-Ve-GVx"/>
+                        <outlet property="PopViewTitle" destination="DaM-7g-2Cy" id="tRe-JX-t4p"/>
+                        <outlet property="afternoonButton" destination="OEe-RX-0Fv" id="fsx-sW-cIt"/>
+                        <outlet property="eveningButton" destination="efI-px-ZtF" id="tCe-OD-NQt"/>
+                        <outlet property="morningButton" destination="Zy1-iB-Mzh" id="ZT4-a1-b61"/>
+                        <outlet property="otherTimeButton" destination="hpT-zA-A7k" id="orE-Pd-rN7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1EU-Ou-Nzh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2116" y="348.57571214392806"/>
         </scene>
         <!--Date View Controller-->
         <scene sceneID="L7x-JC-fkF">
@@ -217,7 +296,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cd7-PW-P5w" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="2dv-eX-BrO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1967" y="15"/>
+            <point key="canvasLocation" x="2116" y="-361"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Y3R-x7-5OD">

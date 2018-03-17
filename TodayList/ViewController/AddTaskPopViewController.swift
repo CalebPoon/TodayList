@@ -101,11 +101,29 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
+        switch (segue.identifier ?? "") {
+        case "unwindToTodayList":
+            let title = TaskTitleTextView.text ?? ""
+            
+            // Set the task to be passed to TodayListViewController after the unwind segue.
+            task = Task(title: title, isChecked: false, date: setDate)
         
-        let title = TaskTitleTextView.text ?? ""
+        case "dismissToTodayList":
+            print("dismissToTodayList")
+            
+        case "SetDateSegue":
+            print("SetDateSegue")
+            
+        case "setAlertSegue":
+            print("setAlertSegue")
+            
+        default:
+            fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
+        }
+
         
-        // Set the task to be passed to TodayListViewController after the unwind segue.
-        task = Task(title: title, isChecked: false, date: setDate)
+        // Set the Date to be passed to AlertViewController after the segue.
+        
     }
     
     
@@ -402,29 +420,34 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     
     // MARK: - Set Task Properties Actions
     
+    // Set Date
     @IBAction func todayButtonClicked(_ sender: Any) {
+        setTaskSegueAnimation(identifier: "SetDateSegue")
+    }
+    
+    // Set Alert
+    @IBAction func AlertButtonClicked(_ sender: AddedTouchAreaButton) {
+        setTaskSegueAnimation(identifier: "setAlertSegue")
+    }
+    
+    
+    func setTaskSegueAnimation(identifier: String) {
         let PopViewFrame = PopView.frame
         
         if self.TaskTitleTextView.isFirstResponder {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
                 self.TaskTitleTextView.resignFirstResponder()
             }, completion:{ (_: Bool) in
-                self.performSegue(withIdentifier: "SetDateSegue", sender: self)
-                /*
-                UIView.animate(withDuration: 0.1, delay: 0.2, options: .curveEaseInOut, animations: {
-                    self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.view.frame.height, width: PopViewFrame.width, height: PopViewFrame.height)
-                 
-                }, completion: nil)*/
+                self.performSegue(withIdentifier: identifier, sender: self)
             })
         } else {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
                 self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.view.frame.height, width: PopViewFrame.width, height: PopViewFrame.height)
-                self.performSegue(withIdentifier: "SetDateSegue", sender: self)
+                self.performSegue(withIdentifier: identifier, sender: self)
             }, completion: nil)
         }
-            
     }
-
+    
 }
 /*
 extension UIView {

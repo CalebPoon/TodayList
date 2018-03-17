@@ -18,6 +18,7 @@
 		789EE13E20499409009FD9FD /* TodayListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE13D20499409009FD9FD /* TodayListTests.swift */; };
 		789EE14920499A70009FD9FD /* TodayListTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */; };
 		789FF68F205171DC00ED70F8 /* AddTaskPopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */; };
+		78AD7A1C205D078A009371A8 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD7A1B205D078A009371A8 /* AlertViewController.swift */; };
 		78C367A52058CC60009B759B /* TodayList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 78C367A32058CC60009B759B /* TodayList.xcdatamodeld */; };
 		78C88A202059564A0087FF06 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C88A1F2059564A0087FF06 /* DateViewController.swift */; };
 		78F186FC2057793400486E3B /* AddedTouchAreaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F186FB2057793400486E3B /* AddedTouchAreaButton.swift */; };
@@ -49,6 +50,7 @@
 		789EE13F20499409009FD9FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayListTaskTableViewCell.swift; sourceTree = "<group>"; };
 		789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskPopViewController.swift; sourceTree = "<group>"; };
+		78AD7A1B205D078A009371A8 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		78C367A42058CC60009B759B /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		78C88A1F2059564A0087FF06 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
 		78F186FB2057793400486E3B /* AddedTouchAreaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedTouchAreaButton.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				789EE12A20499408009FD9FD /* TodayListViewController.swift */,
 				789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */,
 				78C88A1F2059564A0087FF06 /* DateViewController.swift */,
+				78AD7A1B205D078A009371A8 /* AlertViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				789FF68F205171DC00ED70F8 /* AddTaskPopViewController.swift in Sources */,
 				78370461204D884C00F673E5 /* Others.swift in Sources */,
 				78C367A52058CC60009B759B /* TodayList.xcdatamodeld in Sources */,
+				78AD7A1C205D078A009371A8 /* AlertViewController.swift in Sources */,
 				7837045B204D65F800F673E5 /* Task.swift in Sources */,
 				789EE14920499A70009FD9FD /* TodayListTaskTableViewCell.swift in Sources */,
 				78F186FC2057793400486E3B /* AddedTouchAreaButton.swift in Sources */,

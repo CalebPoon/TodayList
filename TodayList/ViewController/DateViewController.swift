@@ -11,19 +11,20 @@ import UIKit
 class DateViewController: UIViewController {
 
     // MARK: - Properties
-    @IBOutlet weak var PopView: UIView!
     
+    // MARK: UI
+    @IBOutlet weak var PopView: UIView!
     @IBOutlet weak var selectDate: UILabel!
     
     @IBOutlet weak var todayButton: AddedTouchAreaButton!
     @IBOutlet weak var tomorrowButton: AddedTouchAreaButton!
     @IBOutlet weak var nextWeekButton: AddedTouchAreaButton!
-    
     @IBOutlet weak var moreDateButton: AddedTouchAreaButton!
     
     var dateConfirmButton: AddedTouchAreaButton!
     var datePicker: UIDatePicker!
     
+    // MARK: Date
     var todayDate: Date!
     var tomorrowDate: Date!
     var nextWeekDate: Date!
@@ -56,10 +57,7 @@ class DateViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        /*
-        guard  let date = toSetDate else {
-            return
-        }*/
+        
     }
 
     @IBAction func todayButtonClicked(_ sender: Any) {
@@ -81,10 +79,7 @@ class DateViewController: UIViewController {
         newLayout()
     }
     
-    
-    
-    
-    
+
     func unwindAnimation() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             let frame = self.PopView.frame
@@ -275,13 +270,8 @@ class DateViewController: UIViewController {
         self.PopView.addSubview(dateConfirmButton)
     }
     
-    @objc func getDateOfDatePicker(datePicker: UIDatePicker) {
-        
-    }
-    
     @objc func dateConfirmButtonClicked(_ sender: AddedTouchAreaButton) {
         toSetDate = datePicker.date
-        print("\(toSetDate)")
         unwindAnimation()
     }
 }
