@@ -21,6 +21,8 @@ class DateViewController: UIViewController {
     
     @IBOutlet weak var moreDateButton: AddedTouchAreaButton!
     
+    var dateConfirmButton: AddedTouchAreaButton!
+    var datePicker: UIDatePicker!
     
     var todayDate: Date!
     var tomorrowDate: Date!
@@ -78,6 +80,8 @@ class DateViewController: UIViewController {
     @IBAction func moreDateButtonClicked(_ sender: Any) {
         newLayout()
     }
+    
+    
     
     
     
@@ -214,48 +218,70 @@ class DateViewController: UIViewController {
         nextWeekDate = Calendar.current.date(byAdding: .day, value: 7, to: todayDate)
     }
     
+    
     // MARK: - Other Day Setting Methods
     func newLayout() {
+        self.addDateConfirmButton()
         
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             self.PopView.frame = CGRect(x: 0, y: self.view.frame.height - 245, width: self.PopView.frame.width, height: 245)
             self.setupCornerRadius()
             self.addMaskView()
+            
         }) { (_: Bool) in
             UIView.animate(withDuration: 0.1, animations: {
+                self.dateConfirmButton.alpha = 1
                 self.addDatePicker()
             })
+            
         }
     }
     
     func addDatePicker() {
-        
         // Create a datePicker
-        let datePicker = UIDatePicker(frame: CGRect(x: 0, y: self.PopView.frame.height - 165 - 16, width: self.PopView.frame.width, height: 165))
+        datePicker = UIDatePicker(frame: CGRect(x: 0, y: self.PopView.frame.height - 175 - 16, width: self.PopView.frame.width, height: 175))
         
         datePicker.backgroundColor = customColor.popViewBackground
         datePicker.locale = Locale(identifier: "zh_CN")
         datePicker.datePickerMode = .date
+        datePicker.minimumDate = todayDate
         
-        datePicker.addTarget(self, action: #selector(DateViewController.getDateOfDatePicker(datePicker:)), for: .valueChanged)
+        // datePicker.addTarget(self, action: #selector(DateViewController.getDateOfDatePicker(datePicker:)), for: .valueChanged)
         
         self.PopView.addSubview(datePicker)
         self.PopView.bringSubview(toFront: datePicker)
     }
     
     func addMaskView() {
-        let maskView = UIView(frame: CGRect(x: 0, y: self.PopView.frame.height - 165 - 16, width: self.PopView.frame.width, height: 165))
+        let maskView = UIView(frame: CGRect(x: 0, y: self.PopView.frame.height - 175 - 16, width: self.PopView.frame.width, height: 175))
         maskView.backgroundColor =  customColor.popViewBackground
         self.PopView.addSubview(maskView)
         self.PopView.bringSubview(toFront: maskView)
     }
     
-    func addConfirmButton() {
+    func addDateConfirmButton() {
+        // DateConfirrmButton
+        dateConfirmButton = AddedTouchAreaButton()
+        dateConfirmButton.setImage(#imageLiteral(resourceName: "confirm"), for: .normal)
+        dateConfirmButton.setTitle("", for: .normal)
+        // dateConfirmButton.setTitleColor(UIColor.white, for: .normal)
+        dateConfirmButton.addedTouchArea = 4
+        dateConfirmButton.alpha = 0
         
+        dateConfirmButton.frame = CGRect(x: self.PopView.frame.width - 32 - 16, y: 24, width: 32, height: 32)
+        
+        dateConfirmButton.addTarget(self, action: #selector(DateViewController.dateConfirmButtonClicked(_:)), for: .touchUpInside)
+        
+        self.PopView.addSubview(dateConfirmButton)
     }
     
     @objc func getDateOfDatePicker(datePicker: UIDatePicker) {
         
     }
     
+    @objc func dateConfirmButtonClicked(_ sender: AddedTouchAreaButton) {
+        toSetDate = datePicker.date
+        print("\(toSetDate)")
+        unwindAnimation()
+    }
 }

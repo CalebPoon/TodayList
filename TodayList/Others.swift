@@ -52,11 +52,14 @@ class customColor {
 // MARK: - Date functions
 func compareDate(date1: Date, date2: Date) -> Bool {
     let calendar = Calendar.current
-    let date1Componet = calendar.component(.day, from: date1)
-    let date2Componet = calendar.component(.day, from: date2)
+    //let date1Componet = calendar.component(.day, from: date1)
+    let date1Componets = calendar.dateComponents([.day, .month, .year], from: date1)
+    //let date2Componet = calendar.component(.day, from: date2)
+    let date2Componets = calendar.dateComponents([.day, .month, .year], from: date2)
     
-    if date1Componet == date2Componet {
-        return true
+    
+    if date1Componets.year == date2Componets.year, date1Componets.month == date2Componets.month, date1Componets.day == date2Componets.day {
+         return true
     } else {
         return false
     }

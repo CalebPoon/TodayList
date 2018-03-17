@@ -196,8 +196,10 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
                 
             // Other Day
             } else {
-                self.DateButton.setTitle("\(getStringOfDate(date: toSetDate))", for: .normal)
+                self.DateButton.setTitle(" \(getStringOfDate(date: toSetDate))", for: .normal)
             }
+            
+            self.updateButtonsLayout()
         }
 
         print("A task is set on \(setDate)")
@@ -251,18 +253,15 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         DateButton.setTitleColor(customColor.Green_date, for: .normal)
         DateButton.sizeToFit()
         DateButton.addedTouchArea = 2
-        DateButton.layer.cornerRadius = 4
         
         // Alert
         AlertButton.setImage(#imageLiteral(resourceName: "Alert"), for: .normal)
         AlertButton.addedTouchArea = 2
-        AlertButton.layer.cornerRadius = 4
         
         // Topic
         //TopicButton.buttonType = .custom
         TopicButton.setImage(#imageLiteral(resourceName: "Topic"), for: .normal)
         TopicButton.addedTouchArea = 2
-        TopicButton.layer.cornerRadius = 4
 
     }
     
@@ -303,13 +302,22 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         // Buttons
         AddConFirm.frame = CGRect(x: PopView.frame.width - 54 - 16, y: PopView.frame.height - 32 - 16, width: 54, height: 32)
         
+        updateButtonsLayout()
+
+    }
+    
+    // Update Buttons position
+    func updateButtonsLayout() {
+        DateButton.sizeToFit()
+        AlertButton.sizeToFit()
+        TopicButton.sizeToFit()
+        
         let dateWidth = DateButton.frame.width
         let alertWidth = AlertButton.frame.width
         let topicWidth = TopicButton.frame.width
         DateButton.frame = CGRect(x: 16, y: PopView.frame.height - 24 - 20, width: dateWidth, height: 24)
         AlertButton.frame = CGRect(x: 16 + DateButton.frame.width + 16, y: PopView.frame.height - 24 - 20, width: alertWidth, height: 24)
         TopicButton.frame = CGRect(x: 16 + DateButton.frame.width + 16 + AlertButton.frame.width + 16, y: PopView.frame.height - 24 - 20, width: topicWidth, height: 24)
-
     }
     
    // MARK: Update Methods
@@ -396,8 +404,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func todayButtonClicked(_ sender: Any) {
         let PopViewFrame = PopView.frame
-        
-        self.DateButton.backgroundColor = customColor.globalShadow
         
         if self.TaskTitleTextView.isFirstResponder {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
