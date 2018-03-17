@@ -11,6 +11,8 @@ import os.log
 
 class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     // MARK: - Properties
+    
+    // MARK: UI
     @IBOutlet weak var PopView: UIView!
     
     @IBOutlet weak var dismissArea: UIButton!
@@ -24,11 +26,14 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var AlertButton: AddedTouchAreaButton!
     @IBOutlet weak var TopicButton: AddedTouchAreaButton!
     
-    var setDate = Date()
-    
     var PopViewHasUpdatedOnce = false
     
+    // MARK: Model
+    var setDate = Date()
+    var setAlert: Date?
+    
     var task: Task?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,6 +122,13 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         case "setAlertSegue":
             print("setAlertSegue")
             
+            // Set the date to be passed to AlertViewController after the segue.
+            guard let alertViewController = segue.destination as? AlertViewController else {
+                fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
+            }
+            
+            alertViewController.toSetDate = self.setDate
+            
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
         }
@@ -180,19 +192,11 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     // Unwind from DateViewController
     @IBAction func unwindToAddTaskPopViewWithTodayButton(sender: UIStoryboardSegue) {
         //Animation
-        let PopViewFrame = PopView.frame
-        self.DateButton.backgroundColor = UIColor.clear
-
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.view.frame.height - PopViewFrame.height, width: PopViewFrame.width, height: PopViewFrame.height)
-            if self.TaskTitleTextView.text.isEmpty {
-                self.TaskTitleTextView.becomeFirstResponder()
-            }
-        }, completion: nil)
-        
+        animationOfUnwindFromSettingTaskViews()
         
         // Set Model's date and UI
         if let sourceViewController = sender.source as? DateViewController ,let toSetDate = sourceViewController.toSetDate {
+            
             setDate = toSetDate
             
             // Determine the date
@@ -214,13 +218,60 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
                 
             // Other Day
             } else {
-                self.DateButton.setTitle(" \(getStringOfDate(date: toSetDate))", for: .normal)
+                self.DateButton.setTitle(" \(getStringOfDate(date: toSetDate, type: 1))", for: .normal)
             }
             
             self.updateButtonsLayout()
         }
 
-        print("A task is set on \(setDate)")
+        print("[Date] A task is set on \(setDate)")
+    }
+    
+    @IBAction func unwindToAddTaskPopViewWithAlert(sender: UIStoryboardSegue) {
+        animationOfUnwindFromSettingTaskViews()
+        AlertButton.setImage(#imageLiteral(resourceName: "Alert_active"), for: .normal)
+        
+        // Set Model's alert and UI
+        if let sourceViewController = sender.source as? AlertViewController, let toSetAlert = sourceViewController.toSetAlert, let alertType = sourceViewController.AlertType {
+            
+            setAlert = toSetAlert
+            // Determine the time
+            
+            // morning
+            if alertType == 1 {
+                self.AlertButton.setTitle(" 09:00", for: .normal)
+            
+            // afternoon
+            } else if alertType == 2 {
+                self.AlertButton.setTitle(" 14:00", for: .normal)
+                
+            // evening
+            } else if alertType == 3 {
+                self.AlertButton.setTitle(" 20:00", for: .normal)
+                
+            // other Time
+            } else {
+                self.AlertButton.setTitle(" \(getStringOfDate(date: toSetAlert, type: 2))", for: .normal)
+            }
+            
+            
+            self.updateButtonsLayout()
+        }
+        
+        if let printAlert = setAlert {
+            print("[Alert] A task is set an alert ot \(printAlert)")
+        }
+    }
+    
+    func animationOfUnwindFromSettingTaskViews() {
+        let PopViewFrame = PopView.frame
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.view.frame.height - PopViewFrame.height, width: PopViewFrame.width, height: PopViewFrame.height)
+            if self.TaskTitleTextView.text.isEmpty {
+                self.TaskTitleTextView.becomeFirstResponder()
+            }
+        }, completion: nil)
     }
     
     
@@ -274,6 +325,8 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         
         // Alert
         AlertButton.setImage(#imageLiteral(resourceName: "Alert"), for: .normal)
+        AlertButton.setTitleColor(customColor.Orange_alert, for: .normal)
+        //AlertButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Roman", size: 16)
         AlertButton.addedTouchArea = 2
         
         // Topic

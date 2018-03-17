@@ -65,12 +65,16 @@ func compareDate(date1: Date, date2: Date) -> Bool {
     }
 }
 
-func getStringOfDate(date: Date) -> String {
+func getStringOfDate(date: Date, type: Int) -> String {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "M月d日"
+    dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+    if type == 1 {
+        dateFormatter.dateFormat = "M月d日"
+    } else {
+        dateFormatter.dateFormat = "HH:mm"
+    }
     let string = dateFormatter.string(from: date)
     return string
 }
 
-//func getStringOfTime(date: Date)
 

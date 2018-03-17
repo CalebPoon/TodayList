@@ -62,7 +62,7 @@ class DateViewController: UIViewController {
 
     @IBAction func todayButtonClicked(_ sender: Any) {
         toSetDate = todayDate
-       unwindAnimation()
+        unwindAnimation()
     }
     
     @IBAction func tomorrowButtonClicked(_ sender: Any) {
@@ -85,8 +85,7 @@ class DateViewController: UIViewController {
             let frame = self.PopView.frame
             self.PopView.frame = CGRect(x: 0, y: self.view.frame.height, width: frame.width, height: frame.height)
             self.performSegue(withIdentifier: "todayButtonUnwind", sender: self)
-        }) { (_: Bool) in
-        }
+        }, completion: nil)
     }
     
     // MARK: - Setup View
@@ -240,8 +239,6 @@ class DateViewController: UIViewController {
         datePicker.locale = Locale(identifier: "zh_CN")
         datePicker.datePickerMode = .date
         datePicker.minimumDate = todayDate
-        
-        // datePicker.addTarget(self, action: #selector(DateViewController.getDateOfDatePicker(datePicker:)), for: .valueChanged)
         
         self.PopView.addSubview(datePicker)
         self.PopView.bringSubview(toFront: datePicker)

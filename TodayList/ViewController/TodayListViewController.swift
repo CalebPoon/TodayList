@@ -515,7 +515,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         //print(self.WeekdayString(date: tomorrowDate!))
         //print(self.WeekdayString(date: nextWeekDate!))
         
-        print(getStringOfDate(date: Date()))
+        //print(getStringOfDate(date: Date()))
     }
     
     /*

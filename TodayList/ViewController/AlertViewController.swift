@@ -13,7 +13,6 @@ class AlertViewController: UIViewController {
     // MARK: - Properties
     
     // MARK: UI
-    
     @IBOutlet weak var PopView: UIView!
     @IBOutlet weak var PopViewTitle: UILabel!
     
@@ -27,6 +26,8 @@ class AlertViewController: UIViewController {
     
     // MARK: Time
     var toSetDate: Date!
+    var toSetAlert: Date?
+    var AlertType: Int?
     
     var morning: Date!
     var afternoon: Date!
@@ -34,7 +35,9 @@ class AlertViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        // Set Time
+        setTime()
+        
         // Setup View
         setupView()
     }
@@ -56,20 +59,35 @@ class AlertViewController: UIViewController {
     
     
     @IBAction func morningButtonClicked(_ sender: Any) {
+        toSetAlert = morning
+        AlertType = 1
+        unwindAnimation()
     }
     
     
     @IBAction func afternoonButtonClicked(_ sender: Any) {
+        toSetAlert = afternoon
+        AlertType = 2
+        unwindAnimation()
     }
     
     @IBAction func eveningButtonClicked(_ sender: Any) {
+        toSetAlert = evening
+        AlertType = 3
+        unwindAnimation()
     }
     
     @IBAction func otherTimeButtonClicked(_ sender: Any) {
+        newLayout()
     }
     
+    
     func unwindAnimation() {
-        
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            let frame = self.PopView.frame
+            self.PopView.frame = CGRect(x: 0, y: self.view.frame.height, width: frame.width, height: frame.height)
+            self.performSegue(withIdentifier: "alertButtonUnwind", sender: self)
+        }, completion: nil)
     }
     
     // MARK: - Setup View
@@ -185,5 +203,104 @@ class AlertViewController: UIViewController {
         }, completion: nil)
     }
     
+    // Set three different Alert on the 'toSetDate'
+    func setTime() {
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([.day, .month, .year], from: toSetDate)
+        
+        var alertTimeComponents = DateComponents()
+        alertTimeComponents.year = dateComponents.year
+        alertTimeComponents.month = dateComponents.month
+        alertTimeComponents.day = dateComponents.day
+        alertTimeComponents.timeZone = TimeZone(abbreviation: "GMT")
+        
+        // morning
+        alertTimeComponents.hour = 9
+        alertTimeComponents.minute = 0
+        alertTimeComponents.second = 0
+        morning = calendar.date(from: alertTimeComponents)
+        
+        // afternoon
+        alertTimeComponents.hour = 14
+        afternoon = calendar.date(from: alertTimeComponents)
+        
+        // evening
+        alertTimeComponents.hour = 20
+        evening = calendar.date(from: alertTimeComponents)
+    }
     
+    // Mark: - Other Time Setting Methods
+    func newLayout() {
+        self.addAlertConfirmButton()
+        
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            self.PopView.frame = CGRect(x: 0, y: self.view.frame.height - 245, width: self.PopView.frame.width, height: 245)
+            self.setupCornerRadius()
+            self.addMaskView()
+            
+        }) { (_: Bool) in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.alertConfirmButton.alpha = 1
+                self.addDatePicker()
+            })
+            
+        }
+    }
+    
+    func addDatePicker() {
+        // Create a datePicker
+        datePicker = UIDatePicker(frame: CGRect(x: 0, y: self.PopView.frame.height - 175 - 16, width: self.PopView.frame.width, height: 175))
+        
+        datePicker.backgroundColor = customColor.popViewBackground
+        datePicker.locale = Locale(identifier: "en_GB")
+        //datePicker.locale = NSLocale(localeIdentifier: "en_GB") as Locale
+        datePicker.datePickerMode = .time
+        datePicker.date = Date()
+        self.PopView.addSubview(datePicker)
+        self.PopView.bringSubview(toFront: datePicker)
+    }
+    
+    func addMaskView() {
+        let maskView = UIView(frame: CGRect(x: 0, y: self.PopView.frame.height - 175 - 16, width: self.PopView.frame.width, height: 175))
+        maskView.backgroundColor =  customColor.popViewBackground
+        self.PopView.addSubview(maskView)
+        self.PopView.bringSubview(toFront: maskView)
+    }
+    
+    func addAlertConfirmButton() {
+        // DateConfirrmButton
+        alertConfirmButton = AddedTouchAreaButton()
+        alertConfirmButton.setImage(#imageLiteral(resourceName: "confirm"), for: .normal)
+        alertConfirmButton.setTitle("", for: .normal)
+        // dateConfirmButton.setTitleColor(UIColor.white, for: .normal)
+        alertConfirmButton.addedTouchArea = 4
+        alertConfirmButton.alpha = 0
+        
+        alertConfirmButton.frame = CGRect(x: self.PopView.frame.width - 32 - 16, y: 24, width: 32, height: 32)
+        
+        alertConfirmButton.addTarget(self, action: #selector(AlertViewController.alertConfirmButtonClicked(_:)) , for: .touchUpInside)
+        
+        self.PopView.addSubview(alertConfirmButton)
+    }
+    
+    @objc func alertConfirmButtonClicked(_ sender: AddedTouchAreaButton) {
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([.day, .month, .year], from: toSetDate)
+        let datePickerComponents = calendar.dateComponents([.hour, .minute], from: datePicker.date)
+        
+        var alertTimeComponents = DateComponents()
+        alertTimeComponents.year = dateComponents.year
+        alertTimeComponents.month = dateComponents.month
+        alertTimeComponents.day = dateComponents.day
+        alertTimeComponents.timeZone = TimeZone(abbreviation: "GMT")
+        
+        // get components form datePicker
+        alertTimeComponents.hour = datePickerComponents.hour
+        alertTimeComponents.minute = datePickerComponents.minute
+        
+        toSetAlert = calendar.date(from: alertTimeComponents)
+        print("otherTimeAlert: \(toSetAlert)")
+        AlertType = 4
+        unwindAnimation()
+    }
 }
