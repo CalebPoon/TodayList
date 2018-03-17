@@ -95,10 +95,9 @@
                                             <action selector="todayButtonClicked:" destination="ChP-I6-jG0" eventType="touchUpInside" id="iwq-bG-rCZ"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HMJ-cP-5Cu" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HMJ-cP-5Cu" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                         <rect key="frame" x="56" y="96" width="24" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <connections>
                                             <action selector="AlertButtonClicked:" destination="ChP-I6-jG0" eventType="touchUpInside" id="DPM-Rb-EVy"/>
                                         </connections>
@@ -199,7 +198,7 @@
                                             <action selector="nextWeekButtonClicked:" destination="P77-gn-RLL" eventType="touchUpInside" id="OgR-Jk-ow0"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpT-zA-A7k" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpT-zA-A7k" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                         <rect key="frame" x="300" y="64" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" red="0.2901960784" green="0.56470588239999997" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -273,7 +272,7 @@
                                             <action selector="nextWeekButtonClicked:" destination="P77-gn-RLL" eventType="touchUpInside" id="tw5-Iv-8ZB"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3q7-PY-eX5" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3q7-PY-eX5" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                         <rect key="frame" x="300" y="64" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" red="0.2901960784" green="0.56470588239999997" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
