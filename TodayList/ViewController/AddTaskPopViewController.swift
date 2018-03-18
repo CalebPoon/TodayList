@@ -129,6 +129,10 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             
             alertViewController.toSetDate = self.setDate
             
+            if let AlertHasSet = setAlert {
+                alertViewController.toSetAlert = AlertHasSet
+            }
+            
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
         }

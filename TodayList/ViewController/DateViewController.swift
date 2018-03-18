@@ -253,7 +253,8 @@ class DateViewController: UIViewController {
     
     func addDateConfirmButton() {
         // DateConfirrmButton
-        dateConfirmButton = AddedTouchAreaButton()
+        dateConfirmButton = AddedTouchAreaButton(type: .system)
+        dateConfirmButton.tintColor = customColor.Blue_Background
         dateConfirmButton.setImage(#imageLiteral(resourceName: "confirm"), for: .normal)
         dateConfirmButton.setTitle("", for: .normal)
         // dateConfirmButton.setTitleColor(UIColor.white, for: .normal)
@@ -268,6 +269,7 @@ class DateViewController: UIViewController {
     }
     
     @objc func dateConfirmButtonClicked(_ sender: AddedTouchAreaButton) {
+        datePicker.timeZone = TimeZone(abbreviation: "GMT+8")
         toSetDate = datePicker.date
         unwindAnimation()
     }

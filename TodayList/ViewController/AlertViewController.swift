@@ -253,9 +253,16 @@ class AlertViewController: UIViewController {
         
         datePicker.backgroundColor = customColor.popViewBackground
         datePicker.locale = Locale(identifier: "en_GB")
-        //datePicker.locale = NSLocale(localeIdentifier: "en_GB") as Locale
+        datePicker.timeZone = TimeZone(abbreviation: "GMT")
         datePicker.datePickerMode = .time
-        datePicker.date = Date()
+        
+        if let setAlert = toSetAlert {
+            print(setAlert)
+            datePicker.date = setAlert
+        } else {
+            datePicker.date = Date()
+        }
+        
         self.PopView.addSubview(datePicker)
         self.PopView.bringSubview(toFront: datePicker)
     }
@@ -269,9 +276,11 @@ class AlertViewController: UIViewController {
     
     func addAlertConfirmButton() {
         // DateConfirrmButton
-        alertConfirmButton = AddedTouchAreaButton()
+        alertConfirmButton = AddedTouchAreaButton(type: .system)
+        alertConfirmButton.tintColor = customColor.Blue_Background
         alertConfirmButton.setImage(#imageLiteral(resourceName: "confirm"), for: .normal)
         alertConfirmButton.setTitle("", for: .normal)
+        
         // dateConfirmButton.setTitleColor(UIColor.white, for: .normal)
         alertConfirmButton.addedTouchArea = 4
         alertConfirmButton.alpha = 0
@@ -292,7 +301,7 @@ class AlertViewController: UIViewController {
         alertTimeComponents.year = dateComponents.year
         alertTimeComponents.month = dateComponents.month
         alertTimeComponents.day = dateComponents.day
-        alertTimeComponents.timeZone = TimeZone(abbreviation: "GMT")
+        //alertTimeComponents.timeZone = TimeZone(abbreviation: "GMT")
         
         // get components form datePicker
         alertTimeComponents.hour = datePickerComponents.hour
