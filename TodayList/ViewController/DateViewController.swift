@@ -127,7 +127,7 @@ class DateViewController: UIViewController {
         moreLabel.textColor = customColor.Blue_Background
         moreLabel.font = UIFont.systemFont(ofSize: 16)
         moreLabel.sizeToFit()
-        moreLabel.center = CGPoint(x: moreDateButton.center.x, y: moreDateButton.center.y + moreDateButton.frame.height/2 + 4 + moreLabel.frame.height/2)
+        moreLabel.center = CGPoint(x: moreDateButton.center.x, y: moreDateButton.center.y + moreDateButton.frame.height/2 + 10 + moreLabel.frame.height/2)
         PopView.addSubview(moreLabel)
         moreDateButton.addedTouchArea = 40
     }
@@ -269,8 +269,9 @@ class DateViewController: UIViewController {
     }
     
     @objc func dateConfirmButtonClicked(_ sender: AddedTouchAreaButton) {
-        datePicker.timeZone = TimeZone(abbreviation: "GMT+8")
+        //datePicker.timeZone = TimeZone(abbreviation: "GMT+8")
         toSetDate = datePicker.date
+        print(toSetDate)
         unwindAnimation()
     }
 }

@@ -111,6 +111,13 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         
         cell.TaskTitle.text = task.title
         cell.Checkbox.isChecked = task.isChecked
+        
+        /*
+        if task.alert != nil {
+            cell.hasAlert = true
+        } else {
+            cell.hasAlert = false
+        }*/
 
         return cell
      }
@@ -201,6 +208,17 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                 let newIndexPath = IndexPath(row: uncheckedTasks.count, section: 0)
                 uncheckedTasks.append(task)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
+
+                /*
+                // if the task has an alert, show the Alert Icon in the cell
+                if let cell = tableView.cellForRow(at: newIndexPath) as? TodayListTaskTableViewCell {
+                    if task.alert != nil {
+                        cell.hasAlert = true
+                    } else {
+                        cell.hasAlert = false
+                    }
+                }*/
+                
             }
         }
         

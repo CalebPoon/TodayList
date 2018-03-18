@@ -22,6 +22,7 @@ class AlertViewController: UIViewController {
     @IBOutlet weak var otherTimeButton: AddedTouchAreaButton!
     
     var alertConfirmButton: AddedTouchAreaButton!
+    var deleteAlertButton: AddedTouchAreaButton!
     var datePicker: UIDatePicker!
     
     // MARK: Time
@@ -93,7 +94,7 @@ class AlertViewController: UIViewController {
     // MARK: - Setup View
     private func setupView() {
         // PopView
-        PopView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: 174)
+        PopView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: 174 + 4)
         PopView.backgroundColor = customColor.popViewBackground
         setupCornerRadius()
         
@@ -105,37 +106,42 @@ class AlertViewController: UIViewController {
         // morningButton
         morningButton.setImage(#imageLiteral(resourceName: "morning"), for: .normal)
         morningButton.tintColor = customColor.Orange_alert
-        morningButton.frame =  CGRect(x: 16, y: 64, width: 50, height: 50)
+        morningButton.frame =  CGRect(x: 16, y: 64 + 4, width: 50, height: 50)
         morningButton.addedTouchArea = 40
         addLabel(type: 1)
         
         // afternoonButton
         afternoonButton.setImage(#imageLiteral(resourceName: "afternoon"), for: .normal)
         afternoonButton.tintColor = customColor.Orange_alert
-        afternoonButton.frame =  CGRect(x: 16 + 50 + 32, y: 64, width: 50, height: 50)
+        afternoonButton.frame =  CGRect(x: 16 + 50 + 32, y: 64 + 4, width: 50, height: 50)
         afternoonButton.addedTouchArea = 40
         addLabel(type: 2)
         
         // eveningButton
         eveningButton.setImage(#imageLiteral(resourceName: "Evening"), for: .normal)
         eveningButton.tintColor = customColor.Orange_alert
-        eveningButton.frame =  CGRect(x: 16 + (50 + 32) * 2, y: 64, width: 50, height: 50)
+        eveningButton.frame =  CGRect(x: 16 + (50 + 32) * 2, y: 64 + 4, width: 50, height: 50)
         eveningButton.addedTouchArea = 40
         addLabel(type: 3)
         
         
         // otherTimeButton
         otherTimeButton.setImage(#imageLiteral(resourceName: "moreTime"), for: .normal)
-        otherTimeButton.frame = CGRect(x: self.view.frame.width - 25 - 50, y: 64, width: 50, height: 50)
+        otherTimeButton.frame = CGRect(x: self.view.frame.width - 25 - 50, y: 64 + 4, width: 50, height: 50)
         otherTimeButton.tintColor = customColor.Blue_Background
         let moreLabel = UILabel()
         moreLabel.text = "其他时间"
         moreLabel.textColor = customColor.Blue_Background
         moreLabel.font = UIFont.systemFont(ofSize: 16)
         moreLabel.sizeToFit()
-        moreLabel.center = CGPoint(x: otherTimeButton.center.x, y: otherTimeButton.center.y + otherTimeButton.frame.height/2 + 4 + moreLabel.frame.height/2)
+        moreLabel.center = CGPoint(x: otherTimeButton.center.x, y: otherTimeButton.center.y + otherTimeButton.frame.height/2 + 10 + moreLabel.frame.height/2)
         PopView.addSubview(moreLabel)
         otherTimeButton.addedTouchArea = 40
+        
+        addDeleteAlertButton()
+        if toSetAlert != nil {
+            deleteAlertButton.isHidden = false
+        }
     }
     
     // Add different types of labels depending on buttons' type
@@ -199,7 +205,7 @@ class AlertViewController: UIViewController {
     // Animation before view appears
     func segueAnmiation() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-            self.PopView.frame = CGRect(x: 0, y: self.view.frame.height - 174, width: self.view.frame.width, height: 174)
+            self.PopView.frame = CGRect(x: 0, y: self.view.frame.height - 174 - 4, width: self.view.frame.width, height: 174 + 4)
         }, completion: nil)
     }
     
@@ -231,6 +237,7 @@ class AlertViewController: UIViewController {
     
     // Mark: - Other Time Setting Methods
     func newLayout() {
+        self.deleteAlertButton.isHidden = true
         self.addAlertConfirmButton()
         
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
@@ -275,21 +282,44 @@ class AlertViewController: UIViewController {
     }
     
     func addAlertConfirmButton() {
-        // DateConfirrmButton
+        // AlertConfirrmButton
         alertConfirmButton = AddedTouchAreaButton(type: .system)
-        alertConfirmButton.tintColor = customColor.Blue_Background
+        
         alertConfirmButton.setImage(#imageLiteral(resourceName: "confirm"), for: .normal)
-        alertConfirmButton.setTitle("", for: .normal)
-        
-        // dateConfirmButton.setTitleColor(UIColor.white, for: .normal)
+        alertConfirmButton.tintColor = customColor.Blue_Background
+        //alertConfirmButton.setTitle("", for: .normal)
+        //alertConfirmButton.setTitleColor(customColor.Blue_Background, for: .normal)
+        alertConfirmButton.sizeToFit()
+
         alertConfirmButton.addedTouchArea = 4
-        alertConfirmButton.alpha = 0
+        //alertConfirmButton.alpha = 0
         
-        alertConfirmButton.frame = CGRect(x: self.PopView.frame.width - 32 - 16, y: 24, width: 32, height: 32)
+        alertConfirmButton.frame = CGRect(x: self.PopView.frame.width - alertConfirmButton.frame.width - 16, y: 24, width: alertConfirmButton.frame.width, height: 32)
         
         alertConfirmButton.addTarget(self, action: #selector(AlertViewController.alertConfirmButtonClicked(_:)) , for: .touchUpInside)
         
         self.PopView.addSubview(alertConfirmButton)
+    }
+    
+    func addDeleteAlertButton() {
+        // DeleteAlertButton
+        deleteAlertButton = AddedTouchAreaButton(type: .system)
+        
+        deleteAlertButton.setImage(#imageLiteral(resourceName: "deleteAlert"), for: .normal)
+        deleteAlertButton.tintColor = customColor.Red_delete
+        deleteAlertButton.setTitle("删除", for: .normal)
+        deleteAlertButton.setTitleColor(customColor.Red_delete, for: .normal)
+        deleteAlertButton.sizeToFit()
+        
+        deleteAlertButton.addedTouchArea = 4
+        deleteAlertButton.isHidden = true
+        
+        deleteAlertButton.frame = CGRect(x: otherTimeButton.center.x - deleteAlertButton.frame.width/2, y: PopViewTitle.center.y - deleteAlertButton.frame.height/2, width: deleteAlertButton.frame.width, height: 32)
+        
+        deleteAlertButton.addTarget(self, action: #selector(AlertViewController.deleteAlertButtonClicked(_:)), for: .touchUpInside)
+        
+        self.PopView.addSubview(deleteAlertButton)
+
     }
     
     @objc func alertConfirmButtonClicked(_ sender: AddedTouchAreaButton) {
@@ -301,8 +331,7 @@ class AlertViewController: UIViewController {
         alertTimeComponents.year = dateComponents.year
         alertTimeComponents.month = dateComponents.month
         alertTimeComponents.day = dateComponents.day
-        //alertTimeComponents.timeZone = TimeZone(abbreviation: "GMT")
-        
+
         // get components form datePicker
         alertTimeComponents.hour = datePickerComponents.hour
         alertTimeComponents.minute = datePickerComponents.minute
@@ -310,6 +339,11 @@ class AlertViewController: UIViewController {
         toSetAlert = calendar.date(from: alertTimeComponents)
         print("otherTimeAlert: \(toSetAlert)")
         AlertType = 4
+        unwindAnimation()
+    }
+    
+    @objc func deleteAlertButtonClicked(_ sender: AddedTouchAreaButton) {
+        toSetAlert = nil
         unwindAnimation()
     }
 }

@@ -112,6 +112,11 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             
             // Set the task to be passed to TodayListViewController after the unwind segue.
             task = Task(title: title, isChecked: false, date: setDate)
+            
+            // Set alert
+            if let alert = setAlert {
+                task?.alert = alert
+            }
         
         case "dismissToTodayList":
             print("dismissToTodayList")
@@ -244,21 +249,30 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             
             // morning
             if alertType == 1 {
-                self.AlertButton.setTitle(" 09:00", for: .normal)
+            
+                AlertButton.setTitle(" 09:00", for: .normal)
             
             // afternoon
             } else if alertType == 2 {
-                self.AlertButton.setTitle(" 14:00", for: .normal)
+                AlertButton.setTitle(" 14:00", for: .normal)
                 
             // evening
             } else if alertType == 3 {
-                self.AlertButton.setTitle(" 20:00", for: .normal)
+                AlertButton.setTitle(" 20:00", for: .normal)
                 
             // other Time
             } else {
-                self.AlertButton.setTitle(" \(getStringOfDate(date: toSetAlert, type: 2))", for: .normal)
+                AlertButton.setTitle(" \(getStringOfDate(date: toSetAlert, type: 2))", for: .normal)
             }
             
+            self.updateButtonsLayout()
+            
+        } else {
+            // nil
+            setAlert = nil
+            AlertButton.setImage(#imageLiteral(resourceName: "Alert"), for: .normal)
+            AlertButton.tintColor = customColor.Black3
+            AlertButton.setTitle("", for: .normal)
             
             self.updateButtonsLayout()
         }
