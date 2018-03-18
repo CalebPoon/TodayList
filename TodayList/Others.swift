@@ -72,7 +72,7 @@ func getStringOfDate(date: Date, type: Int) -> String {
         //dateFormatter.timeZone = TimeZone(abbreviation: "GMT+8")
         dateFormatter.dateFormat = "M月d日"
     } else {
-        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        //dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         dateFormatter.dateFormat = "HH:mm"
     }
     let string = dateFormatter.string(from: date)

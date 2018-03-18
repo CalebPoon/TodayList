@@ -109,6 +109,9 @@ class AlertViewController: UIViewController {
         morningButton.frame =  CGRect(x: 16, y: 64 + 4, width: 50, height: 50)
         morningButton.addedTouchArea = 40
         addLabel(type: 1)
+        if Date() > morning {
+            morningButton.isEnabled = false
+        }
         
         // afternoonButton
         afternoonButton.setImage(#imageLiteral(resourceName: "afternoon"), for: .normal)
@@ -116,6 +119,9 @@ class AlertViewController: UIViewController {
         afternoonButton.frame =  CGRect(x: 16 + 50 + 32, y: 64 + 4, width: 50, height: 50)
         afternoonButton.addedTouchArea = 40
         addLabel(type: 2)
+        if Date() > afternoon {
+            afternoonButton.isEnabled = false
+        }
         
         // eveningButton
         eveningButton.setImage(#imageLiteral(resourceName: "Evening"), for: .normal)
@@ -123,6 +129,9 @@ class AlertViewController: UIViewController {
         eveningButton.frame =  CGRect(x: 16 + (50 + 32) * 2, y: 64 + 4, width: 50, height: 50)
         eveningButton.addedTouchArea = 40
         addLabel(type: 3)
+        if Date() > evening {
+            eveningButton.isEnabled = false
+        }
         
         
         // otherTimeButton
@@ -149,34 +158,43 @@ class AlertViewController: UIViewController {
         var dayText: String
         var timeText: String
         var button: AddedTouchAreaButton
+        var color = customColor.Orange_alert
+        let unableColor = hexStringToUIColor(hex: "#F0EFEE")
         //var date: Date
         if type == 1 {
             dayText = "上午"
             timeText = "09:00"
             button = self.morningButton
-            //date = todayDate
+            if Date() > morning {
+                color = unableColor
+            }
         } else if type == 2 {
             dayText = "下午"
             timeText = "14:00"
             button = self.afternoonButton
-            //date = tomorrowDate
+            if Date() > afternoon {
+                color = unableColor
+            }
         } else {
             dayText = "晚上"
             timeText = "20:00"
             button = self.eveningButton
-            //date = nextWeekDate
+            if Date() > evening {
+                color = unableColor
+            }
         }
         
         let DayLabel = UILabel()
         let TimeLabel = UILabel()
         
         DayLabel.text = dayText
-        DayLabel.textColor = customColor.Orange_alert
+        DayLabel.textColor = color
         DayLabel.font = UIFont.systemFont(ofSize: 16)
         
         TimeLabel.text = timeText
-        TimeLabel.textColor = customColor.Orange_alert
+        TimeLabel.textColor = color
         TimeLabel.font = UIFont.systemFont(ofSize: 10)
+        
         
         DayLabel.sizeToFit()
         TimeLabel.sizeToFit()
@@ -218,7 +236,7 @@ class AlertViewController: UIViewController {
         alertTimeComponents.year = dateComponents.year
         alertTimeComponents.month = dateComponents.month
         alertTimeComponents.day = dateComponents.day
-        alertTimeComponents.timeZone = TimeZone(abbreviation: "GMT")
+        alertTimeComponents.timeZone = TimeZone(abbreviation: "GMT+8")
         
         // morning
         alertTimeComponents.hour = 9
@@ -260,8 +278,9 @@ class AlertViewController: UIViewController {
         
         datePicker.backgroundColor = customColor.popViewBackground
         datePicker.locale = Locale(identifier: "en_GB")
-        datePicker.timeZone = TimeZone(abbreviation: "GMT")
+        datePicker.timeZone = TimeZone(abbreviation: "GMT+8")
         datePicker.datePickerMode = .time
+        datePicker.minimumDate = Date()
         
         if let setAlert = toSetAlert {
             print(setAlert)
@@ -335,6 +354,7 @@ class AlertViewController: UIViewController {
         // get components form datePicker
         alertTimeComponents.hour = datePickerComponents.hour
         alertTimeComponents.minute = datePickerComponents.minute
+        alertTimeComponents.timeZone = TimeZone(abbreviation: "GMT+8")
         
         toSetAlert = calendar.date(from: alertTimeComponents)
         print("otherTimeAlert: \(toSetAlert)")
