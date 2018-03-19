@@ -22,6 +22,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     
     var checkingRow =  [Int]()
     
+    
     // MARK: UI
     var addButton = UIButton.init(type: UIButtonType.system)
     
@@ -173,26 +174,28 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        /*
+        
         switch (segue.identifier ?? "") {
         case "AddTask":
-            /*
-            guard let AddTaskPop = segue.destination as? AddTaskPopViewController
+
+            guard let AddTaskPopView = segue.destination as? AddTaskPopViewController
                 else {
                     fatalError("Unexpected destination: \(segue.destination)")
             }
-            guard let AddTaskButton = sender as? UIButton else {
-                fatalError("Unexpected sender: \(sender)")
-            }*/
+            AddTaskPopView.editingTaskTitle = editingTaskTitle
             
         default:
             fatalError("Unexpected Segue Identifier: \(segue.identifier)")
-        }*/
+        }
         
     }
     
     @IBAction func dismissToTodayList(sender: UIStoryboardSegue) {
         loadAddButtonAnimation()
+        
+        if let sourceViewController = sender.source as? AddTaskPopViewController, let text = sourceViewController.editingTaskTitle {
+            editingTaskTitle = text
+        }
     }
     
         
@@ -218,8 +221,10 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                         cell.hasAlert = false
                     }
                 }*/
-                
             }
+            
+            editingTaskTitle = ""
+            
         }
         
         print("AllTasks: \(AllTasks.count), CheckedTasks: \(checkedTasks.count), UncheckedTasks: \(uncheckedTasks.count)")

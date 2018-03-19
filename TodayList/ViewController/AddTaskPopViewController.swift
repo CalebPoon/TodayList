@@ -33,10 +33,19 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     var setAlert: Date?
     
     var task: Task?
+    var topics: [String]?
+    
+    // MARK: Content
+    var editingTaskTitle: String?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Keep draft
+        if let text = editingTaskTitle {
+            TaskTitleTextView.text = text
+        }
         
         // Setup View
         SetupButtons()
@@ -50,6 +59,9 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(AddTaskPopViewController.updateView(notification:)), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(AddTaskPopViewController.updateView(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
 
+        // Update AddButton
+        updateAddButtonState()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,8 +129,15 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             if let alert = setAlert {
                 task?.alert = alert
             }
+            
+            // Delete Draft
+            editingTaskTitle = ""
         
         case "dismissToTodayList":
+            if let text = TaskTitleTextView.text {
+                editingTaskTitle = text
+            }
+            
             print("dismissToTodayList")
             
         case "SetDateSegue":
@@ -206,31 +225,41 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         // Set Model's date and UI
         if let sourceViewController = sender.source as? DateViewController ,let toSetDate = sourceViewController.toSetDate {
             
-            setDate = toSetDate
-            
-            // Determine the date
-            let todayDate = Date()
-            let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: todayDate)
-            let nextWeekDate = Calendar.current.date(byAdding: .day, value: 7, to: todayDate)
-            
-            // Today
-            if compareDate(date1: toSetDate, date2: todayDate) {
-                self.DateButton.setTitle(" 今日", for: .normal)
+            if !compareDate(date1: setDate, date2: toSetDate) {
+                setDate = toSetDate
                 
-            // Tomorrow
-            } else if compareDate(date1: toSetDate, date2: tomorrowDate!) {
-                self.DateButton.setTitle(" 明日", for: .normal)
+                // Determine the date
+                let todayDate = Date()
+                let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: todayDate)
+                let nextWeekDate = Calendar.current.date(byAdding: .day, value: 7, to: todayDate)
                 
-            // NextWeek
-            } else if compareDate(date1: toSetDate, date2: nextWeekDate!) {
-                self.DateButton.setTitle(" 下周", for: .normal)
+                // Today
+                if compareDate(date1: toSetDate, date2: todayDate) {
+                    DateButton.setTitle(" 今日", for: .normal)
+                    
+                    // Tomorrow
+                } else if compareDate(date1: toSetDate, date2: tomorrowDate!) {
+                    DateButton.setTitle(" 明日", for: .normal)
+                    
+                    // NextWeek
+                } else if compareDate(date1: toSetDate, date2: nextWeekDate!) {
+                    DateButton.setTitle(" 下周", for: .normal)
+                    
+                    // Other Day
+                } else {
+                    DateButton.setTitle(" \(getStringOfDate(date: toSetDate, type: 1))", for: .normal)
+                }
                 
-            // Other Day
-            } else {
-                self.DateButton.setTitle(" \(getStringOfDate(date: toSetDate, type: 1))", for: .normal)
+                // Reset Alert
+                setAlert = nil
+                AlertButton.setImage(#imageLiteral(resourceName: "Alert"), for: .normal)
+                AlertButton.tintColor = customColor.Black3
+                AlertButton.setTitle("", for: .normal)
+                
+                self.updateButtonsLayout()
             }
             
-            self.updateButtonsLayout()
+           
         }
 
         print("[Date] A task is set on \(setDate)")
