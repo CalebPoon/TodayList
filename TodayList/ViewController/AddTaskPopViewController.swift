@@ -278,7 +278,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             
             // morning
             if alertType == 1 {
-            
                 AlertButton.setTitle(" 09:00", for: .normal)
             
             // afternoon

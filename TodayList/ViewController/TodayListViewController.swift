@@ -184,6 +184,12 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             }
             AddTaskPopView.editingTaskTitle = editingTaskTitle
             
+        case "ShowDetail":
+            
+            guard let TaskDetailView = segue.destination as? UIViewController
+                else {
+                    fatalError("Unexpected destination: \(segue.destination)")
+            }
         default:
             fatalError("Unexpected Segue Identifier: \(segue.identifier)")
         }

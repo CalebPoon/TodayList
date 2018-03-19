@@ -10,18 +10,21 @@ import UIKit
 
 class Task {
     
-    //MARK Properties
+    //MARK - Properties
     
     var title: String
     var isChecked: Bool
     var date: Date
+    
+    // Optional
     var alert: Date?
+    var topic: String?
     
     //var date: Date
     //var alert:
     
     
-    //MARK: Initialization
+    //MARK: - Initialization
     
     init?(title: String, isChecked: Bool, date: Date) {
         // The title must not be empty
