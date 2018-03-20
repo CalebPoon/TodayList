@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7837045B204D65F800F673E5 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7837045A204D65F800F673E5 /* Task.swift */; };
 		78370461204D884C00F673E5 /* Others.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78370460204D884C00F673E5 /* Others.swift */; };
+		785EABF52060F4C100A40B9D /* ShowDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785EABF42060F4C100A40B9D /* ShowDetailViewController.swift */; };
 		789E583E204C25CE00068695 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789E583D204C25CE00068695 /* Checkbox.swift */; };
 		789EE12920499408009FD9FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE12820499408009FD9FD /* AppDelegate.swift */; };
 		789EE12B20499408009FD9FD /* TodayListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EE12A20499408009FD9FD /* TodayListViewController.swift */; };
@@ -38,6 +39,7 @@
 /* Begin PBXFileReference section */
 		7837045A204D65F800F673E5 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		78370460204D884C00F673E5 /* Others.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Others.swift; sourceTree = "<group>"; };
+		785EABF42060F4C100A40B9D /* ShowDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailViewController.swift; sourceTree = "<group>"; };
 		789E583D204C25CE00068695 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		789EE12520499408009FD9FD /* TodayList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodayList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		789EE12820499408009FD9FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 		789EE11C20499408009FD9FD = {
 			isa = PBXGroup;
 			children = (
+				78AD7A1F205FF804009371A8 /* EditViewController.swift */,
 				789EE12720499408009FD9FD /* TodayList */,
 				789EE13C20499409009FD9FD /* TodayListTests */,
 				789EE12620499408009FD9FD /* Products */,
@@ -137,7 +140,7 @@
 				789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */,
 				78C88A1F2059564A0087FF06 /* DateViewController.swift */,
 				78AD7A1B205D078A009371A8 /* AlertViewController.swift */,
-				78AD7A1F205FF804009371A8 /* EditViewController.swift */,
+				785EABF42060F4C100A40B9D /* ShowDetailViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 				78C88A202059564A0087FF06 /* DateViewController.swift in Sources */,
 				789EE12B20499408009FD9FD /* TodayListViewController.swift in Sources */,
 				789E583E204C25CE00068695 /* Checkbox.swift in Sources */,
+				785EABF52060F4C100A40B9D /* ShowDetailViewController.swift in Sources */,
 				789EE12920499408009FD9FD /* AppDelegate.swift in Sources */,
 				789FF68F205171DC00ED70F8 /* AddTaskPopViewController.swift in Sources */,
 				78370461204D884C00F673E5 /* Others.swift in Sources */,

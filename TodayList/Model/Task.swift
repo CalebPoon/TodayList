@@ -19,6 +19,7 @@ class Task {
     // Optional
     var alert: Date?
     var topic: String?
+    var remark: String?
     
     //var date: Date
     //var alert:
