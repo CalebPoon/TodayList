@@ -352,13 +352,12 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lki-Ln-LiY" userLabel="Content View">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="491.5"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pib-cS-bKa">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pib-cS-bKa" customClass="CheckBox" customModule="TodayList" customModuleProvider="target">
                                                 <rect key="frame" x="16" y="16" width="24" height="24"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="24" id="7Zy-AW-XEu"/>
                                                     <constraint firstAttribute="width" constant="24" id="z3S-CS-Goi"/>
                                                 </constraints>
-                                                <state key="normal" title="Button"/>
                                             </button>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="任务的标题" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="h1y-lZ-eDt">
                                                 <rect key="frame" x="44" y="8" width="315" height="40"/>
@@ -375,28 +374,28 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UyP-wx-obT">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UyP-wx-obT" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                                 <rect key="frame" x="44" y="371.5" width="46" height="24"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="24" id="7jt-2m-oWa"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SDg-h7-WKE">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SDg-h7-WKE" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                                 <rect key="frame" x="106" y="371.5" width="46" height="24"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="24" id="CXs-fy-gAp"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CWd-76-ZIH">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CWd-76-ZIH" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                                 <rect key="frame" x="44" y="419.5" width="46" height="24"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="24" id="thX-Ef-VaS"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6M-NG-0JK">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6M-NG-0JK" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                                 <rect key="frame" x="335" y="459.5" width="24" height="24"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="24" id="53G-oR-gr4"/>
@@ -463,6 +462,7 @@
                         <outlet property="moreButton" destination="V6M-NG-0JK" id="sT0-qA-7Le"/>
                         <outlet property="remarkTextView" destination="RWw-Vd-pjL" id="BIT-bD-cLz"/>
                         <outlet property="returnButton" destination="Thb-kz-pRZ" id="3el-CA-0Tk"/>
+                        <outlet property="scrollView" destination="pcj-qk-hJ0" id="bzd-jr-eOa"/>
                         <outlet property="titleTextView" destination="h1y-lZ-eDt" id="nbS-yE-MTl"/>
                         <outlet property="topicButton" destination="CWd-76-ZIH" id="Khf-fp-u2q"/>
                     </connections>

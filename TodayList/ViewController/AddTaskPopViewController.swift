@@ -271,27 +271,11 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         AlertButton.tintColor = customColor.Orange_alert
         
         // Set Model's alert and UI
-        if let sourceViewController = sender.source as? AlertViewController, let toSetAlert = sourceViewController.toSetAlert, let alertType = sourceViewController.AlertType {
+        if let sourceViewController = sender.source as? AlertViewController, let toSetAlert = sourceViewController.toSetAlert {
             
             setAlert = toSetAlert
-            // Determine the time
             
-            // morning
-            if alertType == 1 {
-                AlertButton.setTitle(" 09:00", for: .normal)
-            
-            // afternoon
-            } else if alertType == 2 {
-                AlertButton.setTitle(" 14:00", for: .normal)
-                
-            // evening
-            } else if alertType == 3 {
-                AlertButton.setTitle(" 20:00", for: .normal)
-                
-            // other Time
-            } else {
-                AlertButton.setTitle(" \(getStringOfDate(date: toSetAlert, type: 2))", for: .normal)
-            }
+            AlertButton.setTitle(" \(getStringOfDate(date: toSetAlert, type: 2))", for: .normal)
             
             self.updateButtonsLayout()
             

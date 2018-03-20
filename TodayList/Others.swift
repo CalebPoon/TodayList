@@ -43,7 +43,7 @@ class customColor {
     static let Orange_alert = hexStringToUIColor(hex: "#FB912F")
     static let Green_date = hexStringToUIColor(hex: "#109F7C")
     static let Gray_topic = hexStringToUIColor(hex: "#666666")
-    static let Red_delete = hexStringToUIColor(hex: "#E4384D")
+    static let Red_delete = hexStringToUIColor(hex: "#EB3E54")
     
     static let Black1 = hexStringToUIColor(hex: "#333333")
     static let Black2 = hexStringToUIColor(hex: "#666666")

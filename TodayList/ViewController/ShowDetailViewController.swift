@@ -15,19 +15,20 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var returnButton: UIBarButtonItem!
     @IBOutlet weak var hideKeyboardButton: UIBarButtonItem!
     
-    @IBOutlet weak var checkbox: UIButton!
+    @IBOutlet weak var checkbox: CheckBox!
     @IBOutlet weak var titleTextView: UITextView!
     var titlePlaceholder = UILabel()
     
     @IBOutlet weak var remarkTextView: UITextView!
     var remarkPlaceholder =  UILabel()
     
-    @IBOutlet weak var dateButton: UIButton!
-    @IBOutlet weak var alertButton: UIButton!
-    @IBOutlet weak var topicButton: UIButton!
+    @IBOutlet weak var dateButton: AddedTouchAreaButton!
+    @IBOutlet weak var alertButton: AddedTouchAreaButton!
+    @IBOutlet weak var topicButton: AddedTouchAreaButton!
     
-    @IBOutlet weak var moreButton: UIButton!
+    @IBOutlet weak var moreButton: AddedTouchAreaButton!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     // MARK: Model
     var task: Task!
     
@@ -37,6 +38,11 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         task = Task(title: "try", isChecked: false, date: Date())
         
         setupView()
+        
+        // Update View
+        NotificationCenter.default.addObserver(self, selector: #selector(ShowDetailViewController.updateScrollView(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ShowDetailViewController.updateScrollView(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ShowDetailViewController.updateScrollView(notification:)), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -95,11 +101,20 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         view.backgroundColor = customColor.globalBackground
         
         // ---------------
-        // returnButton
+        //Navigation Bar
         
+        // returnButton
         returnButton.image = #imageLiteral(resourceName: "return")
         returnButton.tintColor = customColor.Black3
         returnButton.title = ""
+        
+        
+        // hideKeyboard Button
+        //hideKeyboardButton.image = #imageLiteral(resourceName: "hideKeyboard")
+        hideKeyboardButton.title = ""
+        hideKeyboardButton.isEnabled = false
+        
+        
         
         // LargeTitle
         if #available(iOS 11, *) {
@@ -115,8 +130,8 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         // Content
         
         // checkbox
-        checkbox.setImage(#imageLiteral(resourceName: "Checkmark_L"), for: .normal)
-        checkbox.tintColor = customColor.Black3
+        checkbox.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_L"), for: .normal)
+        //checkbox.tintColor = customColor.Black3
         
         // Title
         titleTextView.delegate = self
@@ -158,9 +173,113 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         titleTextView.enablesReturnKeyAutomatically = true
         remarkTextView.enablesReturnKeyAutomatically = true
         
+        //
+        
         
         // ---------------
         // Buttons
         
+        // Date
+        dateButton.setImage(#imageLiteral(resourceName: "Date"), for: .normal)
+        dateButton.tintColor = customColor.Green_date
+        
+        dateButton.setTitleColor(customColor.Green_date, for: .normal)
+        dateButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        
+        dateButton.addedTouchArea = 2
+        
+        // Alert
+        alertButton.setImage(#imageLiteral(resourceName: "Alert"), for: .normal)
+        alertButton.tintColor = customColor.Black3
+        
+        alertButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        
+        alertButton.addedTouchArea = 2
+        
+        // Topic
+        topicButton.setImage(#imageLiteral(resourceName: "Topic"), for: .normal)
+        topicButton.tintColor = customColor.Black3
+        
+        topicButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        topicButton.addedTouchArea = 2
+        
+        // moreButton
+        moreButton.setImage(#imageLiteral(resourceName: "more"), for: .normal)
+        moreButton.tintColor = customColor.Black3
+        
+        moreButton.setTitle("", for: .normal)
+        moreButton.addedTouchArea = 4
+        
+        updateButtonsInfo()
     }
+    
+    func updateButtonsInfo() {
+        // Ddetermin the date
+        let todayDate = Date()
+        let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: todayDate)
+        let nextWeekDate = Calendar.current.date(byAdding: .day, value: 7, to: todayDate)
+        
+        // Today
+        if compareDate(date1: task.date, date2: todayDate) {
+            dateButton.setTitle(" 今日", for: .normal)
+            
+        // Tomorrow
+        } else if compareDate(date1: task.date, date2: tomorrowDate!) {
+            dateButton.setTitle(" 明日", for: .normal)
+            
+        // NextWeek
+        } else if compareDate(date1: task.date, date2: nextWeekDate!) {
+            dateButton.setTitle(" 下周", for: .normal)
+            
+        // Other Day
+        } else {
+            dateButton.setTitle(" \(getStringOfDate(date: task.date, type: 1))", for: .normal)
+        }
+        
+        
+        // Determin the alert
+        if let alert = task.alert {
+            alertButton.setTitle(" \(getStringOfDate(date: alert, type: 2))", for: .normal)
+            alertButton.setTitleColor(customColor.Orange_alert, for: .normal)
+            
+            alertButton.setImage(#imageLiteral(resourceName: "Alert_active"), for: .normal)
+        } else {
+            alertButton.setTitle("无提醒", for: .normal)
+            alertButton.setTitleColor(customColor.Black3, for: .normal)
+        }
+        
+        
+        // Determin the topic
+        if let topic = task.topic {
+            
+        } else {
+            topicButton.setTitle("无主题", for: .normal)
+            topicButton.setTitleColor(customColor.Black3, for: .normal)
+        }
+        
+        // UpdateLayout
+        dateButton.sizeToFit()
+        alertButton.sizeToFit()
+        topicButton.sizeToFit()
+    }
+    
+    // MARKS: - Text View Methods
+    @objc func updateScrollView(notification: Notification) {
+        // get keyboard's frame
+        let userInfo = notification.userInfo!
+        let keyboardEndFrameScreenCoordinates = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardEndFrame = self.view.convert(keyboardEndFrameScreenCoordinates, to: view.window)
+        
+        if notification.name == Notification.Name.UIKeyboardWillHide {
+            scrollView.contentInset = UIEdgeInsets.zero
+            scrollView.scrollRectToVisible(checkbox.frame, animated: true)
+        } else {
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardEndFrame.height + 8, right: 0)
+            scrollView.scrollIndicatorInsets = scrollView.contentInset
+        }
+        scrollView.scrollRectToVisible(dateButton.frame, animated: true)
+    }
+    
+
+    
 }

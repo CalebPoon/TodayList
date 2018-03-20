@@ -28,7 +28,6 @@ class AlertViewController: UIViewController {
     // MARK: Time
     var toSetDate: Date!
     var toSetAlert: Date?
-    var AlertType: Int?
     
     var morning: Date!
     var afternoon: Date!
@@ -61,20 +60,17 @@ class AlertViewController: UIViewController {
     
     @IBAction func morningButtonClicked(_ sender: Any) {
         toSetAlert = morning
-        AlertType = 1
         unwindAnimation()
     }
     
     
     @IBAction func afternoonButtonClicked(_ sender: Any) {
         toSetAlert = afternoon
-        AlertType = 2
         unwindAnimation()
     }
     
     @IBAction func eveningButtonClicked(_ sender: Any) {
         toSetAlert = evening
-        AlertType = 3
         unwindAnimation()
     }
     
@@ -358,7 +354,6 @@ class AlertViewController: UIViewController {
         
         toSetAlert = calendar.date(from: alertTimeComponents)
         print("otherTimeAlert: \(toSetAlert)")
-        AlertType = 4
         unwindAnimation()
     }
     
