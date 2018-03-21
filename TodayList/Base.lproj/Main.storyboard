@@ -358,6 +358,9 @@
                                                     <constraint firstAttribute="height" constant="24" id="7Zy-AW-XEu"/>
                                                     <constraint firstAttribute="width" constant="24" id="z3S-CS-Goi"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="checkboxClicked:" destination="Phc-26-BZ0" eventType="touchUpInside" id="k6t-Rh-Hak"/>
+                                                </connections>
                                             </button>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="任务的标题" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="h1y-lZ-eDt">
                                                 <rect key="frame" x="44" y="8" width="315" height="40"/>
@@ -380,6 +383,9 @@
                                                     <constraint firstAttribute="height" constant="24" id="7jt-2m-oWa"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
+                                                <connections>
+                                                    <action selector="dateButtonClicked:" destination="Phc-26-BZ0" eventType="touchUpInside" id="6y5-fb-g4f"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SDg-h7-WKE" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                                 <rect key="frame" x="106" y="371.5" width="46" height="24"/>
@@ -387,6 +393,9 @@
                                                     <constraint firstAttribute="height" constant="24" id="CXs-fy-gAp"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
+                                                <connections>
+                                                    <action selector="alertButtonClicked:" destination="Phc-26-BZ0" eventType="touchUpInside" id="H5x-gZ-aQ4"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CWd-76-ZIH" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
                                                 <rect key="frame" x="44" y="419.5" width="46" height="24"/>
@@ -402,6 +411,9 @@
                                                     <constraint firstAttribute="height" constant="24" id="R19-mB-Gfg"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
+                                                <connections>
+                                                    <action selector="moreButtonClicked:" destination="Phc-26-BZ0" eventType="touchUpInside" id="ZMg-DA-Rgw"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -451,7 +463,11 @@
                         <viewLayoutGuide key="safeArea" id="PaJ-bN-X8B"/>
                     </view>
                     <navigationItem key="navigationItem" title="今日" largeTitleDisplayMode="always" id="x8x-vy-Nih">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="Thb-kz-pRZ"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="Thb-kz-pRZ">
+                            <connections>
+                                <action selector="returnButtonClicked:" destination="Phc-26-BZ0" id="ZBB-Y2-6x2"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" id="Kcd-t2-YXk"/>
                     </navigationItem>
                     <connections>

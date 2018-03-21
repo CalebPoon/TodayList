@@ -280,6 +280,24 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         scrollView.scrollRectToVisible(dateButton.frame, animated: true)
     }
     
-
+    // MARK: - Navigation Mehtods
+    
+    @IBAction func returnButtonClicked(_ sender: UIBarButtonItem) {
+    }
+    
+    @IBAction func checkboxClicked(_ sender: CheckBox) {
+    }
+    
+    @IBAction func dateButtonClicked(_ sender: AddedTouchAreaButton) {
+    }
+    
+    @IBAction func alertButtonClicked(_ sender: AddedTouchAreaButton) {
+    }
+    
+    
+    @IBAction func moreButtonClicked(_ sender: AddedTouchAreaButton) {
+    }
+    
+    
     
 }
