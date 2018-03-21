@@ -35,7 +35,7 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        task = Task(title: "try", isChecked: false, date: Date())
+        //task = Task(title: "try", isChecked: false, date: Date())
         
         setupView()
         
@@ -84,15 +84,58 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     }
 
     
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        
+        
+        switch (segue.identifier ?? "") {
+            
+        case "unwindToTodayListFromEdit":
+            print("unwindToTodayListFormEdit")
+            
+            
+        case "setDateFromEdit":
+            print("SetDateSegue")
+            
+            // Set maskBackground
+            guard let dateViewController = segue.destination as? DateViewController else {
+                fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
+            }
+            dateViewController.view.backgroundColor = customColor.PopviewMaskBackground
+            
+        default:
+            fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
+            
+        }
+        // date
+        
+        
+        //alert
+        
+        // todaylist
     }
-    */
+
+    @IBAction func unwindToShowDetailView(sender: UIStoryboardSegue) {
+        // Set Alert
+        if let sourceViewController = sender.source as? AlertViewController, let toSetAlert = sourceViewController.toSetAlert {
+            task.alert = toSetAlert
+            
+        // Set Date
+        } else if let sourceViewController = sender.source as? DateViewController, let toSetDate = sourceViewController.todayDate {
+            if !compareDate(date1: task.date, date2: toSetDate) {
+                task.date = toSetDate
+                task.alert = nil
+            }
+        }
+        
+        updateButtonsInfo()
+    }
+    
+    
+    
 
     // MARK: - Setup View
     
@@ -118,8 +161,8 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         
         // LargeTitle
         if #available(iOS 11, *) {
-            self.navigationController?.navigationBar.prefersLargeTitles = false
-            self.navigationController?.navigationItem.largeTitleDisplayMode = .never
+            self.navigationController?.navigationBar.prefersLargeTitles = true
+            self.navigationController?.navigationItem.largeTitleDisplayMode = .automatic
         }
         
         // Navigation Bar
@@ -130,11 +173,13 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         // Content
         
         // checkbox
-        checkbox.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_L"), for: .normal)
+        //checkbox.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_L"), for: .normal)
+        checkbox.checboxType = 1
         //checkbox.tintColor = customColor.Black3
         
         // Title
         titleTextView.delegate = self
+        titleTextView.text = task.title
         
         // TitlePlaceholder
         titlePlaceholder.text = "得给任务定个标题"
@@ -283,12 +328,24 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     // MARK: - Navigation Mehtods
     
     @IBAction func returnButtonClicked(_ sender: UIBarButtonItem) {
+        self.performSegue(withIdentifier: "unwindToTodayListFromEdit", sender: self)
     }
+    
     
     @IBAction func checkboxClicked(_ sender: CheckBox) {
+        if checkbox.isChecked {
+            checkbox.isChecked = false
+            task.isChecked = false
+            
+        } else {
+            checkbox.isChecked = true
+            task.isChecked = true
+        }
     }
     
+    
     @IBAction func dateButtonClicked(_ sender: AddedTouchAreaButton) {
+        self.performSegue(withIdentifier: "setDateFromEdit", sender: self)
     }
     
     @IBAction func alertButtonClicked(_ sender: AddedTouchAreaButton) {
@@ -298,6 +355,8 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     @IBAction func moreButtonClicked(_ sender: AddedTouchAreaButton) {
     }
     
+    @IBAction func hidekeyboardButtonClicked(_ sender: UIBarButtonItem) {
+    }
     
     
 }

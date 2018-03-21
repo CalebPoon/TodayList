@@ -84,7 +84,25 @@ class DateViewController: UIViewController {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             let frame = self.PopView.frame
             self.PopView.frame = CGRect(x: 0, y: self.view.frame.height, width: frame.width, height: frame.height)
-            self.performSegue(withIdentifier: "todayButtonUnwind", sender: self)
+            
+            // Determine which viewController to unwind
+            let isPresentingInAddTaskPopView = self.presentingViewController is AddTaskPopViewController
+            // let isPresentingInShowDetailView = self.presentingViewController is ShowDetailViewController
+            
+            if isPresentingInAddTaskPopView {
+                self.performSegue(withIdentifier: "todayButtonUnwind", sender: self)
+            
+            } else  {
+                self.view.backgroundColor = UIColor.clear
+                self.performSegue(withIdentifier: "unwindToShowDetalView", sender: self)
+            
+            }
+            
+            /*
+            else {
+                fatalError("The DateViewController is not inside a navigation controller.")
+            }*/
+            
         }, completion: nil)
     }
     

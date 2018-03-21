@@ -10,6 +10,7 @@ import UIKit
 
 class CheckBox: UIButton {
     var addedTouchArea = CGFloat(0)
+    var checboxType = Int(0)
     
     var isChecked:Bool = false{
         didSet {
@@ -19,7 +20,13 @@ class CheckBox: UIButton {
                     self.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
                 }, completion: { (_: Bool) in
                     UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                        self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_S_OK"), for: .normal)
+                        
+                        if self.checboxType == 0 {
+                            self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_S_OK"), for: .normal)
+                        } else {
+                            self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_L_OK"), for: .normal)
+                        }
+                        
                         self.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
                     }, completion: { (_: Bool) in
                         UIView.animate(withDuration: 0.1, animations: {
@@ -35,7 +42,11 @@ class CheckBox: UIButton {
                     UIView.animate(withDuration: 0.1, animations: {
                         self.alpha = 1
                         self.transform = CGAffineTransform(scaleX: 1, y: 1)
-                        self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_S"), for: .normal)
+                        if self.checboxType == 0 {
+                            self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_S"), for: .normal)
+                        } else {
+                            self.setBackgroundImage(#imageLiteral(resourceName: "Checkmark_L"), for: .normal)
+                        }
                     })
                 })
             }

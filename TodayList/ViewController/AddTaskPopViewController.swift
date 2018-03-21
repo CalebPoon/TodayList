@@ -267,14 +267,14 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func unwindToAddTaskPopViewWithAlert(sender: UIStoryboardSegue) {
         animationOfUnwindFromSettingTaskViews()
-        AlertButton.setImage(#imageLiteral(resourceName: "Alert_active"), for: .normal)
-        AlertButton.tintColor = customColor.Orange_alert
         
         // Set Model's alert and UI
         if let sourceViewController = sender.source as? AlertViewController, let toSetAlert = sourceViewController.toSetAlert {
             
             setAlert = toSetAlert
             
+            AlertButton.setImage(#imageLiteral(resourceName: "Alert_active"), for: .normal)
+            AlertButton.tintColor = customColor.Orange_alert
             AlertButton.setTitle(" \(getStringOfDate(date: toSetAlert, type: 2))", for: .normal)
             
             self.updateButtonsLayout()

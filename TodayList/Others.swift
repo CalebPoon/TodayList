@@ -35,16 +35,20 @@ func hexStringToUIColor (hex:String) -> UIColor {
 }
 
 class customColor {
+    // Background
     static let globalBackground = hexStringToUIColor(hex: "#FCFBF8")
     static let globalShadow = hexStringToUIColor(hex: "F5F4F0")
     static let popViewBackground = hexStringToUIColor(hex: "FFFEFC")
+    static let PopviewMaskBackground = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
     
+    // Theme Color
     static let Blue_Background = hexStringToUIColor(hex: "4A90E2")
     static let Orange_alert = hexStringToUIColor(hex: "#FB912F")
     static let Green_date = hexStringToUIColor(hex: "#109F7C")
     static let Gray_topic = hexStringToUIColor(hex: "#666666")
     static let Red_delete = hexStringToUIColor(hex: "#EB3E54")
     
+    // Font Color
     static let Black1 = hexStringToUIColor(hex: "#333333")
     static let Black2 = hexStringToUIColor(hex: "#666666")
     static let Black3 = hexStringToUIColor(hex: "#C2C2C2")

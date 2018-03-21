@@ -39,7 +39,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         self.title = "今日"
         if #available(iOS 11, *) {
             self.navigationController?.navigationBar.prefersLargeTitles = true
-            self.navigationController?.navigationItem.largeTitleDisplayMode = .always
+            self.navigationController?.navigationItem.largeTitleDisplayMode = .automatic
         }
         
         // Custom Navigation Bar: appearance
@@ -186,10 +186,22 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             
         case "ShowDetail":
             
-            guard let TaskDetailView = segue.destination as? UIViewController
+            guard let TaskDetailView = segue.destination as? ShowDetailViewController
                 else {
                     fatalError("Unexpected destination: \(segue.destination)")
             }
+            
+            guard let selectedTaskCell = sender as? TodayListTaskTableViewCell else {
+                fatalError("Unexpected sender: \(sender)")
+            }
+            
+            guard let indexPath = tableView.indexPath(for: selectedTaskCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            let selectedTask = uncheckedTasks[indexPath.row]
+            TaskDetailView.task = selectedTask
+            
         default:
             fatalError("Unexpected Segue Identifier: \(segue.identifier)")
         }
@@ -208,6 +220,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     @IBAction func unwindToTodayList(sender: UIStoryboardSegue) {
         loadAddButtonAnimation()
         
+        // Unwind From AddTaskPopView
         if let sourceViewController = sender.source as? AddTaskPopViewController, let task = sourceViewController.task {
             // Add a new task
             AllTasks.append(task)
@@ -230,7 +243,17 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             }
             
             editingTaskTitle = ""
+        
+        // Unwind From ShowDetailView
+        } else if let sourceViewController = sender.source as? ShowDetailViewController, let task = sourceViewController.task {
             
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                // Update an existing meal
+                uncheckedTasks[selectedIndexPath.row] = task
+                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                
+                // Check
+            }
         }
         
         print("AllTasks: \(AllTasks.count), CheckedTasks: \(checkedTasks.count), UncheckedTasks: \(uncheckedTasks.count)")
@@ -238,6 +261,8 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         if !emptyStateView.isHidden {
             self.TodayListIsEmpty(isEmpty: false)
         }
+        
+        
     }
 
     
