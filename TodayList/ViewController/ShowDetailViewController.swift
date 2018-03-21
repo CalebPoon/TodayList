@@ -118,8 +118,8 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         
         // LargeTitle
         if #available(iOS 11, *) {
-            self.navigationController?.navigationBar.prefersLargeTitles = true
-            self.navigationController?.navigationItem.largeTitleDisplayMode = .always
+            self.navigationController?.navigationBar.prefersLargeTitles = false
+            self.navigationController?.navigationItem.largeTitleDisplayMode = .never
         }
         
         // Navigation Bar
@@ -263,7 +263,7 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         topicButton.sizeToFit()
     }
     
-    // MARKS: - Text View Methods
+    // MARK: - Text View Methods
     @objc func updateScrollView(notification: Notification) {
         // get keyboard's frame
         let userInfo = notification.userInfo!
