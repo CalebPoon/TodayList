@@ -19,6 +19,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     var AllTasks = [Task]()
     var uncheckedTasks = [Task]()
     var checkedTasks = [Task]()
+    var otherDayTasks = [Task]()
     
     var checkingRow =  [Int]()
     
@@ -39,7 +40,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         self.title = "今日"
         if #available(iOS 11, *) {
             self.navigationController?.navigationBar.prefersLargeTitles = true
-            self.navigationController?.navigationItem.largeTitleDisplayMode = .automatic
+            self.navigationController?.navigationItem.largeTitleDisplayMode = .always
         }
         
         // Custom Navigation Bar: appearance
@@ -199,6 +200,8 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                 fatalError("The selected cell is not being displayed by the table")
             }
             
+            self.addButton.alpha = 0
+            
             let selectedTask = uncheckedTasks[indexPath.row]
             TaskDetailView.task = selectedTask
             
@@ -218,7 +221,12 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     
         
     @IBAction func unwindToTodayList(sender: UIStoryboardSegue) {
+        
         loadAddButtonAnimation()
+        UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseInOut, animations: {
+            self.navigationController?.navigationBar.alpha = 1
+        }) { (_: Bool) in
+        }
         
         // Unwind From AddTaskPopView
         if let sourceViewController = sender.source as? AddTaskPopViewController, let task = sourceViewController.task {
@@ -230,38 +238,58 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                 let newIndexPath = IndexPath(row: uncheckedTasks.count, section: 0)
                 uncheckedTasks.append(task)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
-
-                /*
-                // if the task has an alert, show the Alert Icon in the cell
-                if let cell = tableView.cellForRow(at: newIndexPath) as? TodayListTaskTableViewCell {
-                    if task.alert != nil {
-                        cell.hasAlert = true
-                    } else {
-                        cell.hasAlert = false
-                    }
-                }*/
             }
             
             editingTaskTitle = ""
-        
+            
+            if !emptyStateView.isHidden {
+                self.TodayListIsEmpty(isEmpty: false)
+            }
+            
         // Unwind From ShowDetailView
         } else if let sourceViewController = sender.source as? ShowDetailViewController, let task = sourceViewController.task {
             
+            self.navigationController?.navigationBar.prefersLargeTitles = true
+            
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
-                // Update an existing meal
-                uncheckedTasks[selectedIndexPath.row] = task
-                tableView.reloadRows(at: [selectedIndexPath], with: .none)
-                
-                // Check
+                if compareDate(date1: task.date, date2: todayDate) {
+                    // Task'date is still on today.
+                    // Update an existing meal
+                    uncheckedTasks[selectedIndexPath.row] = task
+                    tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                    
+                    // Check
+                    if task.isChecked {
+                        let cell = tableView.cellForRow(at: selectedIndexPath)
+                        cell?.backgroundView = UIImageView(image: #imageLiteral(resourceName: "CheckedCell"))
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                            self.uncheckedTasks.remove(at: selectedIndexPath.row)
+                            self.checkedTasks += [task]
+                            self.tableView.deleteRows(at: [selectedIndexPath], with: .fade)
+                            
+                            if self.uncheckedTasks.count == 0 {
+                                self.TodayListIsEmpty(isEmpty: true)
+                            }
+                        })
+                    }
+                } else {
+                    // Task'date is on another day.
+                    uncheckedTasks.remove(at: selectedIndexPath.row)
+                    otherDayTasks += [task]
+                    self.tableView.deleteRows(at: [selectedIndexPath], with: .fade)
+                    
+                    if self.uncheckedTasks.count == 0 {
+                        self.TodayListIsEmpty(isEmpty: true)
+                    }
+                }
             }
         }
         
         print("AllTasks: \(AllTasks.count), CheckedTasks: \(checkedTasks.count), UncheckedTasks: \(uncheckedTasks.count)")
         
-        if !emptyStateView.isHidden {
-            self.TodayListIsEmpty(isEmpty: false)
+        if self.uncheckedTasks.count == 0 {
+            self.TodayListIsEmpty(isEmpty: true)
         }
-        
         
     }
 
@@ -409,12 +437,15 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     
     private func loadUncheckedTasks() {
         loadSampleTask()
-        
         for element in AllTasks {
             if compareDate(date1: element.date, date2: todayDate) {
                 uncheckedTasks += [element]
+            } else {
+                otherDayTasks += [element]
             }
         }
+        
+        AllTasks.removeAll()
         
         print("AllTasks: \(AllTasks.count), CheckedTasks: \(checkedTasks.count), UncheckedTasks: \(uncheckedTasks.count)")
     }
@@ -460,20 +491,20 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     }
     
     private func loadAddButtonAnimation() {
+        self.addButton.alpha = 0
         // AddButton animate
-        UIView.animate(withDuration: 0.2, delay: 0.5, options: .curveEaseInOut, animations: {
-            self.addButton.setBackgroundImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
-            self.addButton.alpha = 1
-            self.addButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            
-        }, completion: {(finished: Bool) in
-            
-            UIView.animate(withDuration: 0.2, animations: {
-                self.addButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            UIView.animate(withDuration: 0.2, delay: 0.5, options: .curveEaseInOut, animations: {
+                self.addButton.setBackgroundImage(#imageLiteral(resourceName: "AddTask"), for: .normal)
+                self.addButton.alpha = 1
+                self.addButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            }, completion: {(finished: Bool) in
                 
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.addButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                })
             })
-        })
     }
+    
     
 
     // MARK: - AddButon functions

@@ -12,8 +12,9 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     
     // MARK: - Properties
     // MARK: UI
-    @IBOutlet weak var returnButton: UIBarButtonItem!
-    @IBOutlet weak var hideKeyboardButton: UIBarButtonItem!
+    // @IBOutlet weak var returnButton: UIBarButtonItem!
+
+    //@IBOutlet weak var hideKeybo ardButton: UIBarButtonItem!
     
     @IBOutlet weak var checkbox: CheckBox!
     @IBOutlet weak var titleTextView: UITextView!
@@ -44,10 +45,26 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(ShowDetailViewController.updateScrollView(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ShowDetailViewController.updateScrollView(notification:)), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
     }
+    
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        UIView.animate(withDuration: 0.05) {
+            self.navigationController?.navigationBar.alpha = 1
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        //self.titleTextView.resignFirstResponder()
+        print("touch")
+        self.view.endEditing(true)
     }
     
     
@@ -82,6 +99,18 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         }
         return true
     }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "hideKeyboard"), style: .plain, target: self, action: #selector(ShowDetailViewController.hideKeyboardButtonClicked(_:)))
+        self.navigationItem.leftBarButtonItem?.isEnabled = false
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.leftBarButtonItem?.isEnabled = true
+        task.title = titleTextView.text
+        task.remark = remarkTextView.text
+    }
 
     
     
@@ -105,12 +134,27 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
                 fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
             }
             dateViewController.view.backgroundColor = customColor.PopviewMaskBackground
+            dateViewController.toSetDate = task.date
             
+        case "setAlertFromEdit":
+            print("setAlertSegue")
+            
+            // Set toSetDate, toSetAlert & MaskBG
+            guard let alertViewController = segue.destination as? AlertViewController else {
+                fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
+            }
+            if let AlertHasSet = task.alert {
+                alertViewController.toSetAlert = AlertHasSet
+            }
+            alertViewController.view.backgroundColor = customColor.PopviewMaskBackground
+            alertViewController.toSetDate = task.date
+
+            
+       
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
             
         }
-        // date
         
         
         //alert
@@ -124,11 +168,13 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
             task.alert = toSetAlert
             
         // Set Date
-        } else if let sourceViewController = sender.source as? DateViewController, let toSetDate = sourceViewController.todayDate {
+        } else if let sourceViewController = sender.source as? DateViewController, let toSetDate = sourceViewController.toSetDate {
             if !compareDate(date1: task.date, date2: toSetDate) {
                 task.date = toSetDate
                 task.alert = nil
             }
+        } else {
+            task.alert = nil
         }
         
         updateButtonsInfo()
@@ -145,19 +191,11 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         
         // ---------------
         //Navigation Bar
+        self.navigationController?.navigationBar.alpha = 0.1
+        // ReturnButton
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "return"), style: .plain, target: self, action: #selector(ShowDetailViewController.returnButtonClicked(_:)))
         
-        // returnButton
-        returnButton.image = #imageLiteral(resourceName: "return")
-        returnButton.tintColor = customColor.Black3
-        returnButton.title = ""
-        
-        
-        // hideKeyboard Button
-        //hideKeyboardButton.image = #imageLiteral(resourceName: "hideKeyboard")
-        hideKeyboardButton.title = ""
-        hideKeyboardButton.isEnabled = false
-        
-        
+
         
         // LargeTitle
         if #available(iOS 11, *) {
@@ -288,9 +326,11 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
             alertButton.setTitleColor(customColor.Orange_alert, for: .normal)
             
             alertButton.setImage(#imageLiteral(resourceName: "Alert_active"), for: .normal)
+            alertButton.tintColor = customColor.Orange_alert
         } else {
             alertButton.setTitle("无提醒", for: .normal)
             alertButton.setTitleColor(customColor.Black3, for: .normal)
+            alertButton.tintColor = customColor.Black3
         }
         
         
@@ -327,8 +367,16 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     
     // MARK: - Navigation Mehtods
     
-    @IBAction func returnButtonClicked(_ sender: UIBarButtonItem) {
+    
+    
+    @objc func returnButtonClicked(_ sender: UIBarButtonItem) {
+        self.navigationController?.navigationBar.alpha = 0
         self.performSegue(withIdentifier: "unwindToTodayListFromEdit", sender: self)
+    }
+    
+    @objc func hideKeyboardButtonClicked(_ sender: UIBarButtonItem) {
+        self.view.endEditing(true)
+        //self.scrollView.endEditing(true)
     }
     
     
@@ -349,6 +397,7 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func alertButtonClicked(_ sender: AddedTouchAreaButton) {
+        self.performSegue(withIdentifier: "setAlertFromEdit", sender: self)
     }
     
     

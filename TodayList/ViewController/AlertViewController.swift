@@ -35,14 +35,15 @@ class AlertViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         // Set Time
         setTime()
         
         // Setup View
         setupView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
+        
         segueAnmiation()
     }
 
@@ -78,12 +79,29 @@ class AlertViewController: UIViewController {
         newLayout()
     }
     
+    // Dismiss
+     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        //self.dismiss(animated: true, completion: nil)
+        unwindAnimation()
+     }
     
     func unwindAnimation() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             let frame = self.PopView.frame
             self.PopView.frame = CGRect(x: 0, y: self.view.frame.height, width: frame.width, height: frame.height)
-            self.performSegue(withIdentifier: "alertButtonUnwind", sender: self)
+            
+            // Determine which viewController to unwind
+            let isPresentingInAddTaskPopView = self.presentingViewController is AddTaskPopViewController
+            
+            if isPresentingInAddTaskPopView {
+                self.performSegue(withIdentifier: "alertButtonUnwind", sender: self)
+            
+            } else {
+                self.view.backgroundColor = UIColor.clear
+                self.performSegue(withIdentifier: "unwindToShowDetalView", sender: self)
+            }
+            
         }, completion: nil)
     }
     

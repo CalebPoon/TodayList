@@ -55,7 +55,7 @@
                                 <connections>
                                     <outlet property="Checkbox" destination="6Hd-Ka-thl" id="WQQ-xt-WxG"/>
                                     <outlet property="TaskTitle" destination="Miw-2Z-B79" id="31S-04-Qbq"/>
-                                    <segue destination="Phc-26-BZ0" kind="show" identifier="ShowDetail" animates="NO" id="DAm-2Z-Q19"/>
+                                    <segue destination="Phc-26-BZ0" kind="show" identifier="ShowDetail" id="7Fb-DG-Nor"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -65,7 +65,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="今日" id="Lmm-zr-dnN">
-                        <barButtonItem key="backBarButtonItem" title="a " id="QCD-LE-7jv"/>
+                        <barButtonItem key="backBarButtonItem" title=" " id="xo0-2O-cKk"/>
                     </navigationItem>
                     <connections>
                         <segue destination="ChP-I6-jG0" kind="presentation" identifier="AddTask" id="CIW-xv-M20"/>
@@ -234,6 +234,7 @@
                         <outlet property="morningButton" destination="Zy1-iB-Mzh" id="ZT4-a1-b61"/>
                         <outlet property="otherTimeButton" destination="hpT-zA-A7k" id="orE-Pd-rN7"/>
                         <segue destination="Hm1-Rz-Nvx" kind="unwind" identifier="alertButtonUnwind" unwindAction="unwindToAddTaskPopViewWithAlertWithSender:" id="3OY-h8-dIc"/>
+                        <segue destination="Hm1-Rz-Nvx" kind="unwind" identifier="unwindToShowDetalView" unwindAction="unwindToShowDetailViewWithSender:" id="bzg-Af-G27"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1EU-Ou-Nzh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -339,7 +340,7 @@
             </objects>
             <point key="canvasLocation" x="-340" y="15"/>
         </scene>
-        <!--今日-->
+        <!--Show Detail View Controller-->
         <scene sceneID="TSE-VP-DRW">
             <objects>
                 <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="Phc-26-BZ0" customClass="ShowDetailViewController" customModule="TodayList" customModuleProvider="target" sceneMemberID="viewController">
@@ -348,7 +349,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pcj-qk-hJ0">
-                                <rect key="frame" x="0.0" y="116" width="375" height="551"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lki-Ln-LiY" userLabel="Content View">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="491.5"/>
@@ -463,40 +464,51 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PaJ-bN-X8B"/>
                     </view>
-                    <navigationItem key="navigationItem" title="今日" largeTitleDisplayMode="always" id="x8x-vy-Nih">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="Thb-kz-pRZ">
-                            <connections>
-                                <action selector="returnButtonClicked:" destination="Phc-26-BZ0" id="ZBB-Y2-6x2"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="Kcd-t2-YXk">
-                            <connections>
-                                <action selector="hidekeyboardButtonClicked:" destination="Phc-26-BZ0" id="GSc-MN-ZjD"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="x8x-vy-Nih"/>
                     <connections>
                         <outlet property="alertButton" destination="SDg-h7-WKE" id="ekG-rd-ObM"/>
                         <outlet property="checkbox" destination="pib-cS-bKa" id="XEY-hj-rQD"/>
                         <outlet property="dateButton" destination="UyP-wx-obT" id="2oC-Fe-FSd"/>
-                        <outlet property="hideKeyboardButton" destination="Kcd-t2-YXk" id="b8Q-h0-MSl"/>
                         <outlet property="moreButton" destination="V6M-NG-0JK" id="sT0-qA-7Le"/>
                         <outlet property="remarkTextView" destination="RWw-Vd-pjL" id="BIT-bD-cLz"/>
-                        <outlet property="returnButton" destination="Thb-kz-pRZ" id="3el-CA-0Tk"/>
                         <outlet property="scrollView" destination="pcj-qk-hJ0" id="bzd-jr-eOa"/>
                         <outlet property="titleTextView" destination="h1y-lZ-eDt" id="nbS-yE-MTl"/>
                         <outlet property="topicButton" destination="CWd-76-ZIH" id="Khf-fp-u2q"/>
                         <segue destination="YD4-ls-utb" kind="unwind" identifier="unwindToTodayListFromEdit" unwindAction="unwindToTodayListWithSender:" id="lFE-0i-n9V"/>
                         <segue destination="P77-gn-RLL" kind="presentation" identifier="setDateFromEdit" id="KdP-dq-Gk1"/>
+                        <segue destination="SGN-Ot-AWw" kind="presentation" identifier="setAlertFromEdit" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="yjW-vg-PZu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vfu-O7-BLG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="YD4-ls-utb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1063" y="785"/>
+            <point key="canvasLocation" x="1778" y="785"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="87y-bP-eZf">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="B8q-R1-VSd" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ste-QB-6Xx">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0dy-Mb-17f">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="Phc-26-BZ0" kind="relationship" relationship="rootViewController" id="jaH-9n-ETc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LOh-h4-HZ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="998" y="785"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="7Fb-DG-Nor"/>
         <segue reference="KdP-dq-Gk1"/>
+        <segue reference="yjW-vg-PZu"/>
     </inferredMetricsTieBreakers>
 </document>

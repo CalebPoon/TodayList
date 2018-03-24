@@ -79,6 +79,11 @@ class DateViewController: UIViewController {
         newLayout()
     }
     
+    // Dismiss
+     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        unwindAnimation()
+     }
 
     func unwindAnimation() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
@@ -87,7 +92,6 @@ class DateViewController: UIViewController {
             
             // Determine which viewController to unwind
             let isPresentingInAddTaskPopView = self.presentingViewController is AddTaskPopViewController
-            // let isPresentingInShowDetailView = self.presentingViewController is ShowDetailViewController
             
             if isPresentingInAddTaskPopView {
                 self.performSegue(withIdentifier: "todayButtonUnwind", sender: self)

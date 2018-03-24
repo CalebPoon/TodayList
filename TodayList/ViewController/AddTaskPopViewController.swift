@@ -69,8 +69,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             self.PopView.frame = CGRect(x: 0, y: self.view.frame.height - 140, width: self.view.frame.width, height: 140)
             self.TaskTitleTextView.becomeFirstResponder()
         }) { (_: Bool) in
-            // Show Keyborad
-            
+
         }
     }
     
@@ -142,6 +141,11 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             
         case "SetDateSegue":
             print("SetDateSegue")
+            guard let dateViewController = segue.destination as? DateViewController else {
+                fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
+            }
+            
+            dateViewController.toSetDate = setDate
             
         case "setAlertSegue":
             print("setAlertSegue")
@@ -151,7 +155,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
                 fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
             }
             
-            alertViewController.toSetDate = self.setDate
+            alertViewController.toSetDate = setDate
             
             if let AlertHasSet = setAlert {
                 alertViewController.toSetAlert = AlertHasSet
@@ -277,17 +281,15 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             AlertButton.tintColor = customColor.Orange_alert
             AlertButton.setTitle(" \(getStringOfDate(date: toSetAlert, type: 2))", for: .normal)
             
-            self.updateButtonsLayout()
-            
         } else {
             // nil
             setAlert = nil
             AlertButton.setImage(#imageLiteral(resourceName: "Alert"), for: .normal)
             AlertButton.tintColor = customColor.Black3
             AlertButton.setTitle("", for: .normal)
-            
-            self.updateButtonsLayout()
+
         }
+        self.updateButtonsLayout()
         
         if let printAlert = setAlert {
             print("[Alert] A task is set an alert ot \(printAlert)")
