@@ -292,6 +292,25 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         }
         
     }
+    
+    @IBAction func unwindToTodayListForDeleting(sender: UIStoryboardSegue) {
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        loadAddButtonAnimation()
+        UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseInOut, animations: {
+            self.navigationController?.navigationBar.alpha = 1
+        }) { (_: Bool) in
+        }
+        
+        if let selectedIndexPath = self.tableView.indexPathForSelectedRow {
+            self.uncheckedTasks.remove(at: selectedIndexPath.row)
+            self.tableView.deleteRows(at: [selectedIndexPath], with: .fade)
+        }
+        
+        if self.uncheckedTasks.count == 0 {
+            self.TodayListIsEmpty(isEmpty: true)
+        }
+    }
 
     
     // MARK: - Check Task

@@ -417,6 +417,20 @@
                                                     <action selector="moreButtonClicked:" destination="Phc-26-BZ0" eventType="touchUpInside" id="ZMg-DA-Rgw"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mXr-qa-CRk" customClass="AddedTouchAreaButton" customModule="TodayList" customModuleProvider="target">
+                                                <rect key="frame" x="335" y="459" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="KLO-8L-afJ"/>
+                                                    <constraint firstAttribute="height" constant="24" id="Kyc-1D-Msy"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="fEt-MT-Pa2"/>
+                                                    <constraint firstAttribute="width" constant="24" id="h3q-JB-fpb"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <connections>
+                                                    <action selector="deleteButtonClicked:" destination="Phc-26-BZ0" eventType="touchUpInside" id="4tP-0N-E7F"/>
+                                                    <action selector="moreButtonClicked:" destination="Phc-26-BZ0" eventType="touchUpInside" id="TCc-25-XWV"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -425,6 +439,7 @@
                                             <constraint firstItem="RWw-Vd-pjL" firstAttribute="top" secondItem="h1y-lZ-eDt" secondAttribute="bottom" constant="16" id="4v4-cc-pIo"/>
                                             <constraint firstItem="pib-cS-bKa" firstAttribute="leading" secondItem="Lki-Ln-LiY" secondAttribute="leadingMargin" constant="8" id="6vL-Cg-sQs"/>
                                             <constraint firstItem="pib-cS-bKa" firstAttribute="top" secondItem="Lki-Ln-LiY" secondAttribute="topMargin" constant="8" id="7MV-le-dcV"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="mXr-qa-CRk" secondAttribute="bottom" id="8mS-xR-uMZ"/>
                                             <constraint firstItem="V6M-NG-0JK" firstAttribute="bottom" secondItem="Lki-Ln-LiY" secondAttribute="bottomMargin" id="DDs-1d-I0I"/>
                                             <constraint firstItem="CWd-76-ZIH" firstAttribute="top" secondItem="UyP-wx-obT" secondAttribute="bottom" constant="24" id="Erm-e7-r9f"/>
                                             <constraint firstItem="UyP-wx-obT" firstAttribute="top" secondItem="RWw-Vd-pjL" secondAttribute="bottom" constant="24" id="Fxc-bU-vLa"/>
@@ -441,6 +456,7 @@
                                             <constraint firstItem="SDg-h7-WKE" firstAttribute="leading" secondItem="UyP-wx-obT" secondAttribute="trailing" constant="16" id="hQh-1c-ciK"/>
                                             <constraint firstItem="h1y-lZ-eDt" firstAttribute="top" secondItem="Lki-Ln-LiY" secondAttribute="topMargin" id="jHE-hG-XkI"/>
                                             <constraint firstItem="UyP-wx-obT" firstAttribute="leading" secondItem="Lki-Ln-LiY" secondAttribute="leadingMargin" constant="36" id="luy-9Q-b1Z"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="mXr-qa-CRk" secondAttribute="trailing" constant="8" id="ov5-3n-Y5E"/>
                                             <constraint firstItem="CWd-76-ZIH" firstAttribute="top" secondItem="UyP-wx-obT" secondAttribute="bottom" constant="24" id="wLc-zB-iSZ"/>
                                             <constraint firstItem="RWw-Vd-pjL" firstAttribute="leading" secondItem="Lki-Ln-LiY" secondAttribute="leadingMargin" constant="36" id="woO-65-DRu"/>
                                         </constraints>
@@ -469,6 +485,7 @@
                         <outlet property="alertButton" destination="SDg-h7-WKE" id="ekG-rd-ObM"/>
                         <outlet property="checkbox" destination="pib-cS-bKa" id="XEY-hj-rQD"/>
                         <outlet property="dateButton" destination="UyP-wx-obT" id="2oC-Fe-FSd"/>
+                        <outlet property="deleteButton" destination="mXr-qa-CRk" id="ZQV-ty-T3O"/>
                         <outlet property="moreButton" destination="V6M-NG-0JK" id="sT0-qA-7Le"/>
                         <outlet property="remarkTextView" destination="RWw-Vd-pjL" id="BIT-bD-cLz"/>
                         <outlet property="scrollView" destination="pcj-qk-hJ0" id="bzd-jr-eOa"/>
@@ -477,6 +494,7 @@
                         <segue destination="YD4-ls-utb" kind="unwind" identifier="unwindToTodayListFromEdit" unwindAction="unwindToTodayListWithSender:" id="lFE-0i-n9V"/>
                         <segue destination="P77-gn-RLL" kind="presentation" identifier="setDateFromEdit" id="KdP-dq-Gk1"/>
                         <segue destination="SGN-Ot-AWw" kind="presentation" identifier="setAlertFromEdit" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="yjW-vg-PZu"/>
+                        <segue destination="YD4-ls-utb" kind="unwind" identifier="unwindToTodayListForDeleting" unwindAction="unwindToTodayListForDeletingWithSender:" id="SRj-JR-jJa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vfu-O7-BLG" userLabel="First Responder" sceneMemberID="firstResponder"/>

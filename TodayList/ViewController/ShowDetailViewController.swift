@@ -28,6 +28,8 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var topicButton: AddedTouchAreaButton!
     
     @IBOutlet weak var moreButton: AddedTouchAreaButton!
+    @IBOutlet weak var deleteButton: AddedTouchAreaButton!
+    
     
     @IBOutlet weak var scrollView: UIScrollView!
     // MARK: Model
@@ -90,6 +92,7 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         if remarkTextView.markedTextRange == nil {
             remarkTextView.attributedText = NSAttributedString(string: remarkTextView.text, attributes:remarkAttributes)
         }
+        
     }
     
     // Disable newline in titleTextView
@@ -107,9 +110,14 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         self.navigationItem.rightBarButtonItem = nil
-        self.navigationItem.leftBarButtonItem?.isEnabled = true
         task.title = titleTextView.text
         task.remark = remarkTextView.text
+        
+        if titleTextView.text.isEmpty {
+            self.navigationItem.leftBarButtonItem?.isEnabled = false
+        } else {
+            self.navigationItem.leftBarButtonItem?.isEnabled = true
+        }
     }
 
     
@@ -125,6 +133,9 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         case "unwindToTodayListFromEdit":
             print("unwindToTodayListFormEdit")
             
+            
+        case "unwindToTodayListForDeleting":
+            print("unwindToTodayListForDeleting")
             
         case "setDateFromEdit":
             print("SetDateSegue")
@@ -149,7 +160,7 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
             alertViewController.view.backgroundColor = customColor.PopviewMaskBackground
             alertViewController.toSetDate = task.date
 
-            
+        
        
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
@@ -266,7 +277,7 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         dateButton.setImage(#imageLiteral(resourceName: "Date"), for: .normal)
         dateButton.tintColor = customColor.Green_date
         
-        dateButton.setTitleColor(customColor.Green_date, for: .normal)
+        //dateButton.setTitleColor(customColor.Green_date, for: .normal)
         dateButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         
         dateButton.addedTouchArea = 2
@@ -292,6 +303,15 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         
         moreButton.setTitle("", for: .normal)
         moreButton.addedTouchArea = 4
+        
+        // deleteButton
+        deleteButton.setImage(#imageLiteral(resourceName: "deleteTask"), for: .normal)
+        deleteButton.tintColor = customColor.Red_delete
+        
+        deleteButton.setTitle("", for: .normal)
+        deleteButton.addedTouchArea = 4
+        deleteButton.alpha = 0
+
         
         updateButtonsInfo()
     }
@@ -323,13 +343,13 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         // Determin the alert
         if let alert = task.alert {
             alertButton.setTitle(" \(getStringOfDate(date: alert, type: 2))", for: .normal)
-            alertButton.setTitleColor(customColor.Orange_alert, for: .normal)
+            //alertButton.setTitleColor(customColor.Orange_alert, for: .normal)
             
             alertButton.setImage(#imageLiteral(resourceName: "Alert_active"), for: .normal)
             alertButton.tintColor = customColor.Orange_alert
         } else {
             alertButton.setTitle("无提醒", for: .normal)
-            alertButton.setTitleColor(customColor.Black3, for: .normal)
+            //alertButton.setTitleColor(customColor.Black3, for: .normal)
             alertButton.tintColor = customColor.Black3
         }
         
@@ -365,9 +385,7 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         scrollView.scrollRectToVisible(dateButton.frame, animated: true)
     }
     
-    // MARK: - Navigation Mehtods
-    
-    
+    // MARK: - Action Mehtods
     
     @objc func returnButtonClicked(_ sender: UIBarButtonItem) {
         self.navigationController?.navigationBar.alpha = 0
@@ -402,10 +420,41 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     
     
     @IBAction func moreButtonClicked(_ sender: AddedTouchAreaButton) {
+        self.deleteButton.isEnabled = true
+        self.moreButton.isEnabled = false
+        UIView.animate(withDuration: 0.3) {
+            self.deleteButton.alpha = 1
+            self.moreButton.alpha = 0
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            UIView.animate(withDuration: 0.3) {
+                self.deleteButton.alpha = 0
+                self.moreButton.alpha = 1
+            }
+            self.deleteButton.isEnabled = false
+            self.moreButton.isEnabled = true
+        })
     }
     
-    @IBAction func hidekeyboardButtonClicked(_ sender: UIBarButtonItem) {
+    @IBAction func deleteButtonClicked(_ sender: AddedTouchAreaButton) {
+        print("delete clicked")
+        showDeleteActionSheet()
+        
     }
     
+    func showDeleteActionSheet() {
+        let actionSheet = UIAlertController(title: "确定要删除此任务吗？", message: nil, preferredStyle: .actionSheet)
+        
+        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        let delete = UIAlertAction(title: "确认删除", style: .destructive) { action in
+            self.performSegue(withIdentifier: "unwindToTodayListForDeleting", sender: self)
+        }
+        
+        actionSheet.addAction(cancel)
+        actionSheet.addAction(delete)
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
     
 }
