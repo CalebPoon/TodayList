@@ -24,6 +24,8 @@
 		78C367A52058CC60009B759B /* TodayList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 78C367A32058CC60009B759B /* TodayList.xcdatamodeld */; };
 		78C88A202059564A0087FF06 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C88A1F2059564A0087FF06 /* DateViewController.swift */; };
 		78F186FC2057793400486E3B /* AddedTouchAreaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F186FB2057793400486E3B /* AddedTouchAreaButton.swift */; };
+		78F3ECC220970335005AC915 /* TopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F3ECC120970335005AC915 /* TopicViewController.swift */; };
+		78F3ECC420971326005AC915 /* TopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F3ECC320971326005AC915 /* TopicTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,8 @@
 		78C367A42058CC60009B759B /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		78C88A1F2059564A0087FF06 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
 		78F186FB2057793400486E3B /* AddedTouchAreaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedTouchAreaButton.swift; sourceTree = "<group>"; };
+		78F3ECC120970335005AC915 /* TopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicViewController.swift; sourceTree = "<group>"; };
+		78F3ECC320971326005AC915 /* TopicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TopicTableViewCell.swift; path = TodayList/TopicTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +106,7 @@
 			children = (
 				789EE12820499408009FD9FD /* AppDelegate.swift */,
 				789EE14820499A70009FD9FD /* TodayListTaskTableViewCell.swift */,
+				78F3ECC320971326005AC915 /* TopicTableViewCell.swift */,
 				78370460204D884C00F673E5 /* Others.swift */,
 				78F186FF2057798100486E3B /* Model */,
 				78F186FD2057794F00486E3B /* Button */,
@@ -140,6 +145,7 @@
 				789FF68E205171DC00ED70F8 /* AddTaskPopViewController.swift */,
 				78C88A1F2059564A0087FF06 /* DateViewController.swift */,
 				78AD7A1B205D078A009371A8 /* AlertViewController.swift */,
+				78F3ECC120970335005AC915 /* TopicViewController.swift */,
 				785EABF42060F4C100A40B9D /* ShowDetailViewController.swift */,
 			);
 			path = ViewController;
@@ -262,9 +268,11 @@
 				785EABF52060F4C100A40B9D /* ShowDetailViewController.swift in Sources */,
 				789EE12920499408009FD9FD /* AppDelegate.swift in Sources */,
 				789FF68F205171DC00ED70F8 /* AddTaskPopViewController.swift in Sources */,
+				78F3ECC220970335005AC915 /* TopicViewController.swift in Sources */,
 				78370461204D884C00F673E5 /* Others.swift in Sources */,
 				78C367A52058CC60009B759B /* TodayList.xcdatamodeld in Sources */,
 				78AD7A1C205D078A009371A8 /* AlertViewController.swift in Sources */,
+				78F3ECC420971326005AC915 /* TopicTableViewCell.swift in Sources */,
 				78AD7A20205FF804009371A8 /* EditViewController.swift in Sources */,
 				7837045B204D65F800F673E5 /* Task.swift in Sources */,
 				789EE14920499A70009FD9FD /* TodayListTaskTableViewCell.swift in Sources */,

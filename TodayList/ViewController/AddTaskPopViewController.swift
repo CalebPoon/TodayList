@@ -33,7 +33,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     var setAlert: Date?
     
     var task: Task?
-    var topics: [String]?
     
     // MARK: Content
     var editingTaskTitle: String?
@@ -160,6 +159,11 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             if let AlertHasSet = setAlert {
                 alertViewController.toSetAlert = AlertHasSet
             }
+            
+            
+        case "setTopicSegue":
+            print("setTopicSegue")
+            
             
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
@@ -294,6 +298,12 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         if let printAlert = setAlert {
             print("[Alert] A task is set an alert ot \(printAlert)")
         }
+    }
+    
+    @IBAction func unwindToAddTaskPopViewWtihTopic(sender: UIStoryboardSegue) {
+        animationOfUnwindFromSettingTaskViews()
+        
+        
     }
     
     func animationOfUnwindFromSettingTaskViews() {
@@ -516,6 +526,11 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         setTaskSegueAnimation(identifier: "setAlertSegue")
     }
     
+    @IBAction func topicButtonClicked(_ sender: AddedTouchAreaButton) {
+        setTaskSegueAnimation(identifier: "setTopicSegue")
+    }
+    
+    
     
     func setTaskSegueAnimation(identifier: String) {
         let PopViewFrame = PopView.frame
@@ -523,6 +538,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         if self.TaskTitleTextView.isFirstResponder {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
                 self.TaskTitleTextView.resignFirstResponder()
+                self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.view.frame.height, width: PopViewFrame.width, height: PopViewFrame.height)
             }, completion:{ (_: Bool) in
                 self.performSegue(withIdentifier: identifier, sender: self)
             })

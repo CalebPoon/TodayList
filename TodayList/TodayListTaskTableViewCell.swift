@@ -78,7 +78,7 @@ class TodayListTaskTableViewCell: UITableViewCell {
         }
         
     }
-    
+    /*
     func layoutWithAlert() {
         // Checkbox
         Checkbox.frame = CGRect(x: 16, y: self.center.y - Checkbox.frame.height/2, width: Checkbox.frame.width, height: Checkbox.frame.height)
@@ -95,7 +95,7 @@ class TodayListTaskTableViewCell: UITableViewCell {
         //AlertIcon
         addAlertIcon()
     
-    }
+    }*/
     
     func addAlertIcon() {
         alertIcon = UIImageView()

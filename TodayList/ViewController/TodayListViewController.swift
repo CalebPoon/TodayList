@@ -21,13 +21,14 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     var checkedTasks = [Task]()
     var otherDayTasks = [Task]()
     
-    var checkingRow =  [Int]()
+    var checkingRow = [Int]()
     
     
     // MARK: UI
     var addButton = UIButton.init(type: UIButtonType.system)
     
     var emptyStateView: UILabel!
+    var emptyStateImage: UIImageView!
     
     // MARK: Content
     var editingTaskTitle = String()
@@ -127,8 +128,8 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     // Keep the addButton floating
     override func scrollViewDidScroll(_ scrollView: UIScrollView){
         
-        var frame: CGRect = self.addButton.frame
-        frame.origin.y = scrollView.contentOffset.y + self.tableView.frame.size.height
+        // var frame: CGRect = self.addButton.frame
+        // frame.origin.y = scrollView.contentOffset.y + self.tableView.frame.size.height
         addButton.frame.origin.y = scrollView.contentOffset.y + self.tableView.frame.size.height - 60 - 12
         
         tableView.bringSubview(toFront: addButton)
@@ -199,7 +200,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             guard let indexPath = tableView.indexPath(for: selectedTaskCell) else {
                 fatalError("The selected cell is not being displayed by the table")
             }
-            
+           
             self.addButton.alpha = 0
             
             let selectedTask = uncheckedTasks[indexPath.row]
@@ -472,9 +473,10 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     
     
     func setupEmptyStateView() {
+        // Label
         emptyStateView = UILabel()
-        emptyStateView.text = "无事。"
-        emptyStateView.textColor = customColor.Black2
+        emptyStateView.text = "无事"
+        emptyStateView.textColor = customColor.Black1
         emptyStateView.font = UIFont.systemFont(ofSize: 34, weight: .light)
         emptyStateView.sizeToFit()
         
@@ -486,24 +488,38 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         self.view.addSubview(emptyStateView)
         
         emptyStateView.isHidden = true
+        
+        // Image
+        emptyStateImage = UIImageView(image: #imageLiteral(resourceName: "EmptyStateImage"))
+        emptyStateImage.center = CGPoint(x: self.view.frame.width/2, y: self.view.frame.height/2 - 60)
+        
+        emptyStateImage.alpha = 0
+        self.view.addSubview(emptyStateImage)
+        emptyStateImage.isHidden = true
     }
     
     func TodayListIsEmpty(isEmpty: Bool) {
         if isEmpty {
+            self.tableView.isScrollEnabled = false
             emptyStateView.isHidden = false
+            emptyStateImage.isHidden = false
             //emptyStateView.isEnabled = true
             
             UIView.animate(withDuration: 0.3, delay: 1, options: .curveEaseInOut, animations: {
                 self.emptyStateView.alpha = 1
+                self.emptyStateImage.alpha = 1
                 self.emptyStateView.transform = CGAffineTransform(scaleX: 1, y: 1)
             }, completion: nil)
             
         } else {
             UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
                 self.emptyStateView.alpha = 0
+                self.emptyStateImage.alpha = 0
                 self.emptyStateView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
             }, completion: nil)
+            self.tableView.isScrollEnabled = true
             emptyStateView.isHidden = true
+            emptyStateImage.isHidden = true
             //emptyStateView.isEnabled = false
         }
         

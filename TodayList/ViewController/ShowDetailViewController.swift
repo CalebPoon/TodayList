@@ -105,6 +105,7 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "hideKeyboard"), style: .plain, target: self, action: #selector(ShowDetailViewController.hideKeyboardButtonClicked(_:)))
+        
         self.navigationItem.leftBarButtonItem?.isEnabled = false
     }
     
@@ -119,7 +120,6 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
             self.navigationItem.leftBarButtonItem?.isEnabled = true
         }
     }
-
     
     
     // MARK: - Navigation
@@ -377,12 +377,13 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         
         if notification.name == Notification.Name.UIKeyboardWillHide {
             scrollView.contentInset = UIEdgeInsets.zero
-            scrollView.scrollRectToVisible(checkbox.frame, animated: true)
+            scrollView.scrollRectToVisible(titleTextView.frame, animated: true)
         } else {
             scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardEndFrame.height + 8, right: 0)
             scrollView.scrollIndicatorInsets = scrollView.contentInset
+            scrollView.scrollRectToVisible(dateButton.frame, animated: true)
         }
-        scrollView.scrollRectToVisible(dateButton.frame, animated: true)
+        
     }
     
     // MARK: - Action Mehtods
