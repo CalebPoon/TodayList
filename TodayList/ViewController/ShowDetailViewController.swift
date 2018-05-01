@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShowDetailViewController: UIViewController, UITextViewDelegate {
+class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     // MARK: UI
@@ -41,6 +41,7 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         //task = Task(title: "try", isChecked: false, date: Date())
         
         setupView()
+        setupGestrueRecognizer()
         
         setupLineSpace()
         
@@ -49,7 +50,6 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(ShowDetailViewController.updateScrollView(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ShowDetailViewController.updateScrollView(notification:)), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
     }
-    
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -61,14 +61,6 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        //self.titleTextView.resignFirstResponder()
-        print("touch")
-        self.view.endEditing(true)
     }
     
     
@@ -212,7 +204,6 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "return"), style: .plain, target: self, action: #selector(ShowDetailViewController.returnButtonClicked(_:)))
         
 
-        
         // LargeTitle
         if #available(iOS 11, *) {
             self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -272,8 +263,6 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         titleTextView.enablesReturnKeyAutomatically = true
         remarkTextView.enablesReturnKeyAutomatically = true
         
-        //
-        
         
         // ---------------
         // Buttons
@@ -317,8 +306,25 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         deleteButton.addedTouchArea = 4
         deleteButton.alpha = 0
 
-        
         updateButtonsInfo()
+    }
+    
+    func setupGestrueRecognizer() {
+        // Tap
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        singleTap.cancelsTouchesInView = false
+        singleTap.numberOfTapsRequired = 1
+        scrollView.addGestureRecognizer(singleTap)
+        
+        // Pop gestrue
+        /*
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        */
+    }
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
     }
     
     func updateButtonsInfo() {
@@ -361,7 +367,7 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         
         // Determin the topic
         if let topic = task.topic {
-            
+        
         } else {
             topicButton.setTitle("无主题", for: .normal)
             topicButton.setTitleColor(customColor.Black3, for: .normal)
@@ -393,6 +399,15 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
     
     // MARK: - Action Mehtods
     
+    // MARK: Gesture functions
+    
+    @objc func handleTap(_ recognizer: UITapGestureRecognizer) {
+        print("touch")
+        self.view.endEditing(true)
+    }
+    
+    
+    // MARK: Buttons clicked
     @objc func returnButtonClicked(_ sender: UIBarButtonItem) {
         self.navigationController?.navigationBar.alpha = 0
         self.performSegue(withIdentifier: "unwindToTodayListFromEdit", sender: self)
