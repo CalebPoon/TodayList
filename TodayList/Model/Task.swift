@@ -21,10 +21,6 @@ class Task {
     var topic: String?
     var remark: String?
     
-    //var date: Date
-    //var alert:
-    
-    
     //MARK: - Initialization
     
     init?(title: String, isChecked: Bool, date: Date) {

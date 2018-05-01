@@ -32,10 +32,16 @@ class TodayListTaskTableViewCell: UITableViewCell {
         
         // Set background color
         backgroundColor = customColor.globalBackground
-        backgroundView = UIImageView(image: #imageLiteral(resourceName: "CheckedCell"))
-        backgroundView?.alpha = 0
+        //backgroundView = UIImageView(image: #imageLiteral(resourceName: "CheckedCell"))
+        //backgroundView?.alpha = 0
         
         Checkbox.addedTouchArea = 6
+        
+        // selection background
+        let selectedView = UIView()
+        selectedView.backgroundColor = customColor.globalShadow
+        selectedView.layer.cornerRadius = 10
+        selectedBackgroundView = selectedView
         
         /*
         //addAlertIcon()

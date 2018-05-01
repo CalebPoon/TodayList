@@ -31,6 +31,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     // MARK: Model
     var setDate = Date()
     var setAlert: Date?
+    var setTopic: String?
     
     var task: Task?
     
@@ -122,6 +123,11 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
                 task?.alert = alert
             }
             
+            // Set Topic
+            if let topic = setTopic {
+                task?.topic = topic
+            }
+            
             // Delete Draft
             editingTaskTitle = ""
         
@@ -157,6 +163,10 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             
         case "setTopicSegue":
             print("setTopicSegue")
+            guard let topicViewController = segue.destination as? TopicViewController else {
+                fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
+            }
+            topicViewController.toSetTopic = setTopic
             
             
         default:
@@ -297,7 +307,25 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     @IBAction func unwindToAddTaskPopViewWtihTopic(sender: UIStoryboardSegue) {
         animationOfUnwindFromSettingTaskViews()
         
+        // Set Model's topic and UI
+        if let sourceViewController = sender.source as? TopicViewController, let toSetTopic = sourceViewController.toSetTopic {
+            setTopic = toSetTopic
+            
+            TopicButton.setImage(#imageLiteral(resourceName: "Topic_active"), for: .normal)
+            TopicButton.tintColor = customColor.Gray_topic
+            TopicButton.setTitle(" \(toSetTopic)", for: .normal)
+        } else {
+            // nil
+            setTopic = nil
+            TopicButton.setImage(#imageLiteral(resourceName: "Topic"), for: .normal)
+            TopicButton.tintColor = customColor.Black3
+            TopicButton.setTitle("", for: .normal)
+        }
+        self.updateButtonsLayout()
         
+        if let printTopic = setTopic {
+            print("[Topic] A topic of \(printTopic) is set")
+        }
     }
     
     func animationOfUnwindFromSettingTaskViews() {
@@ -377,6 +405,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         
         // Topic
         TopicButton.setImage(#imageLiteral(resourceName: "Topic"), for: .normal)
+        TopicButton.setTitleColor(customColor.Gray_topic, for: .normal)
         TopicButton.tintColor = customColor.Black3
         TopicButton.addedTouchArea = 2
 
@@ -413,8 +442,6 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         // CornerRadius
         setupCornerRadius(corner: 2, sender: PopView)
         
-        // Shadow
-        //PopView.dropShadow(offSet: CGSize(width: 0, height: -24))
         
         // Buttons
         AddConFirm.frame = CGRect(x: PopView.frame.width - 54 - 16, y: PopView.frame.height - 32 - 16, width: 54, height: 32)
@@ -433,9 +460,16 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         let alertWidth = AlertButton.frame.width
         let topicWidth = TopicButton.frame.width
         DateButton.frame = CGRect(x: 16, y: PopView.frame.height - 24 - 20, width: dateWidth, height: 24)
-        AlertButton.frame = CGRect(x: 16 + DateButton.frame.width + 16, y: PopView.frame.height - 24 - 20, width: alertWidth, height: 24)
-        TopicButton.frame = CGRect(x: 16 + DateButton.frame.width + 16 + AlertButton.frame.width + 16, y: PopView.frame.height - 24 - 20, width: topicWidth, height: 24)
+        AlertButton.frame = CGRect(x: 32 + DateButton.frame.width, y: PopView.frame.height - 24 - 20, width: alertWidth, height: 24)
+        TopicButton.frame = CGRect(x: 48 + DateButton.frame.width + AlertButton.frame.width, y: PopView.frame.height - 24 - 20, width: topicWidth, height: 24)
+        
+        let topicFrame = TopicButton.frame
+        if topicFrame.minX + topicFrame.width > AddConFirm.frame.minX {
+            let updateTopicWidth = AddConFirm.frame.minX - topicFrame.minX - 16
+            TopicButton.frame = CGRect(x: topicFrame.minX, y: topicFrame.minY, width: updateTopicWidth, height: 24)
+        }
     }
+
     
    // MARK: Update Methods
     
@@ -506,15 +540,15 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
                     self.UpdatePopViewLayout()
 
                     // Buttons
-                    self.AddConFirm.frame = CGRect(x: self.PopView.frame.width - 54 - 16, y: self.PopView.frame.height - 32 - 16 - 24, width: 54, height: 32)
+                    self.AddConFirm.frame = CGRect(x: self.PopView.frame.width - 54 - 16, y: self.PopView.frame.height - 72, width: 54, height: 32)
                     
                     let dateWidth = self.DateButton.frame.width
                     let alertWidth = self.AlertButton.frame.width
                     let topicWidth = self.TopicButton.frame.width
                     
-                    self.DateButton.frame = CGRect(x: 16, y: self.PopView.frame.height - 24 - 20 - 24, width: dateWidth, height: 24)
-                    self.AlertButton.frame = CGRect(x: 16 + self.DateButton.frame.width + 16, y: self.PopView.frame.height - 24 - 20 - 24, width: alertWidth, height: 24)
-                    self.TopicButton.frame = CGRect(x: 16 + self.DateButton.frame.width + 16 + self.AlertButton.frame.width + 16, y: self.PopView.frame.height - 24 - 20 - 24, width: topicWidth, height: 24)
+                    self.DateButton.frame = CGRect(x: 16, y: self.PopView.frame.height - 68, width: dateWidth, height: 24)
+                    self.AlertButton.frame = CGRect(x: 32 + self.DateButton.frame.width, y: self.PopView.frame.height - 68, width: alertWidth, height: 24)
+                    self.TopicButton.frame = CGRect(x: 48 + self.DateButton.frame.width + self.AlertButton.frame.width, y: self.PopView.frame.height - 68, width: topicWidth, height: 24)
                     
                 }, completion: {(finished: Bool) in
                     self.PopView.frame = CGRect(x: PopViewFrame.origin.x, y: self.PopView.frame.origin.y, width: PopViewFrame.width, height: 140)
@@ -560,18 +594,4 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     }
     
 }
-/*
-extension UIView {
-    func dropShadow(offSet: CGSize, scale: Bool = true) {
-        layer.masksToBounds = false
-        layer.shadowColor = UIColor.red.cgColor
-        layer.shadowOpacity = 1
-        layer.shadowOffset = offSet
-        layer.shadowRadius = 24
-        
-        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
-        layer.shouldRasterize = true
-        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
-    }
-}*/
 

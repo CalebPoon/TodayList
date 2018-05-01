@@ -156,9 +156,20 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
             }
             alertViewController.view.backgroundColor = customColor.PopviewMaskBackground
             alertViewController.toSetDate = task.date
+            
+        case "setTopicFromEdit":
+            print("setTopicSegue")
+            
+            // Set toSetTopic & MaskBG
+            guard let topicViewController = segue.destination as? TopicViewController else {
+                fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
+            }
+            if let TopicHasSet = task.topic {
+                topicViewController.toSetTopic = TopicHasSet
+            }
+            topicViewController.view.backgroundColor = customColor.PopviewMaskBackground
 
         
-       
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier!)")
             
@@ -175,15 +186,23 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
         if let sourceViewController = sender.source as? AlertViewController, let toSetAlert = sourceViewController.toSetAlert {
             task.alert = toSetAlert
             
+        // Set Topic
+        } else if let sourceViewController = sender.source as? TopicViewController, let toSetTopic = sourceViewController.toSetTopic {
+            task.topic = toSetTopic
+            
+            
         // Set Date
         } else if let sourceViewController = sender.source as? DateViewController, let toSetDate = sourceViewController.toSetDate {
             if !compareDate(date1: task.date, date2: toSetDate) {
                 task.date = toSetDate
                 task.alert = nil
             }
+            
         } else {
             task.alert = nil
+            task.topic = nil
         }
+
         
         updateButtonsInfo()
     }
@@ -359,7 +378,7 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
             alertButton.setImage(#imageLiteral(resourceName: "Alert_active"), for: .normal)
             alertButton.tintColor = customColor.Orange_alert
         } else {
-            alertButton.setTitle("无提醒", for: .normal)
+            alertButton.setTitle(" 无提醒", for: .normal)
             //alertButton.setTitleColor(customColor.Black3, for: .normal)
             alertButton.tintColor = customColor.Black3
         }
@@ -367,10 +386,15 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
         
         // Determin the topic
         if let topic = task.topic {
-        
+            topicButton.setTitle(" \(topic)", for: .normal)
+            
+            topicButton.setImage(#imageLiteral(resourceName: "Topic_active"), for: .normal)
+            topicButton.tintColor = customColor.Gray_topic
+            //topicButton.setTitleColor(customColor.Gray_topic, for: .normal)
         } else {
-            topicButton.setTitle("无主题", for: .normal)
-            topicButton.setTitleColor(customColor.Black3, for: .normal)
+            topicButton.setTitle(" 无主题", for: .normal)
+            topicButton.tintColor = customColor.Black3
+            //topicButton.setTitleColor(customColor.Black3, for: .normal)
         }
         
         // UpdateLayout
@@ -402,7 +426,6 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
     // MARK: Gesture functions
     
     @objc func handleTap(_ recognizer: UITapGestureRecognizer) {
-        print("touch")
         self.view.endEditing(true)
     }
     
@@ -439,6 +462,11 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
         self.performSegue(withIdentifier: "setAlertFromEdit", sender: self)
     }
     
+    @IBAction func topicButtonClicked(_ sender: AddedTouchAreaButton) {
+        self.performSegue(withIdentifier: "setTopicFromEdit", sender: self)
+    }
+    
+    
     
     @IBAction func moreButtonClicked(_ sender: AddedTouchAreaButton) {
         self.deleteButton.isEnabled = true
@@ -461,7 +489,6 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
     @IBAction func deleteButtonClicked(_ sender: AddedTouchAreaButton) {
         print("delete clicked")
         showDeleteActionSheet()
-        
     }
     
     func showDeleteActionSheet() {

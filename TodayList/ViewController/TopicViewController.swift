@@ -20,7 +20,7 @@ class TopicViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     // MARK: Topic
     var topics = [String]()
-    var toSetTopic: String?
+    var toSetTopic: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +41,9 @@ class TopicViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.didReceiveMemoryWarning()
     }
     
+    
+    //MARK: - TableView delegate functions
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return topics.count
     }
@@ -51,15 +54,54 @@ class TopicViewController: UIViewController, UITableViewDataSource, UITableViewD
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? TopicTableViewCell else {
             fatalError("The dequeued cell is not an instance of TopicTableViewCell.")
         }
-        
+        // Set cell's label
         let topic = topics[indexPath.row]
         cell.TopicTitle.text = topic
         cell.TopicTitle.sizeToFit()
+        
+        // Set cell's accessoryView
         if indexPath.row == 0 {
             cell.TopicTitle.textColor = customColor.Black3
+            if toSetTopic == nil {
+                cell.accessoryView = UIImageView(image: #imageLiteral(resourceName: "confirm"))
+            }
+        } else {
+            if toSetTopic == topic {
+                cell.accessoryView = UIImageView(image: #imageLiteral(resourceName: "confirm"))
+            } else {
+                cell.accessoryView = nil
+            }
         }
         
         return cell
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Change cell's accesoryView after select
+        for i in 0..<topics.count {
+            if let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) {
+                if cell.accessoryView != nil {
+                    cell.accessoryView = nil
+                }
+            }
+        }
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.accessoryView = UIImageView(image: #imageLiteral(resourceName: "confirm"))
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        // Set toSetTopic and unwind
+        if indexPath.row == 0 {
+            toSetTopic = nil
+        } else {
+            toSetTopic = topics[indexPath.row]
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.unwindAnimation()
+            print(self.toSetTopic)
+        }
     }
     
     
@@ -79,8 +121,19 @@ class TopicViewController: UIViewController, UITableViewDataSource, UITableViewD
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             let frame = self.PopView.frame
             self.PopView.frame = CGRect(x: 0, y: self.view.frame.height, width: frame.width, height: frame.height)
-        })
-        self.performSegue(withIdentifier: "topicButtonUnwind", sender: self)
+            
+            // Determine which viewController to unwind
+            let isPresentingInAddTaskPopView = self.presentingViewController is AddTaskPopViewController
+            
+            if isPresentingInAddTaskPopView {
+                self.performSegue(withIdentifier: "topicButtonUnwind", sender: self)
+                
+            } else {
+                self.view.backgroundColor = UIColor.clear
+                self.performSegue(withIdentifier: "unwindToShowDetalView", sender: self)
+            }
+            
+        }, completion: nil)
     }
 
     // MARK: - Setup View

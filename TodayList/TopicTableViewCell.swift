@@ -20,6 +20,12 @@ class TopicTableViewCell: UITableViewCell {
         // Initialization code
         backgroundColor = customColor.popViewBackground
         TopicTitle.textColor = customColor.Black1
+        
+        // selection background
+        let selectedView = UIView()
+        selectedView.backgroundColor = customColor.globalShadow
+        selectedView.layer.cornerRadius = 10
+        selectedBackgroundView = selectedView
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
