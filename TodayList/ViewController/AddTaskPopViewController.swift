@@ -49,6 +49,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         // Setup View
         SetupButtons()
         setupPopView()
+        setupLineSpace()
         
         // Setup View
         setupTextView()
@@ -70,6 +71,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         }) { (_: Bool) in
 
         }
+        resizeTextView(height: TaskTitleTextView.contentSize.height)
     }
     
     override func didReceiveMemoryWarning() {
@@ -82,23 +84,15 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     func textViewDidChange(_  TaskTitleTextView: UITextView) {
         placeholderLabel.isHidden = !TaskTitleTextView.text.isEmpty
 
-        if TaskTitleTextView.contentSize.height > 45 {
-            resizeTextView(resizeOrRecover: true)
-            // print("TextViewFrame: y: \(TaskTitleTextView.frame.origin.y), height: \(TaskTitleTextView.frame.height), ContentHeight: \(TaskTitleTextView.contentSize.height)")
-            // print("PopViewFrame: y: \(PopView.frame.origin.y), height:\(PopView.frame.height)")
-        } else {
-            resizeTextView(resizeOrRecover: false)
-        }
+        resizeTextView(height: TaskTitleTextView.contentSize.height)
         
         // Line Space
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = 8
-        let attributes = [NSAttributedStringKey.paragraphStyle: style, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20), NSAttributedStringKey.foregroundColor: customColor.Black1]
-        if TaskTitleTextView.markedTextRange == nil {
-            TaskTitleTextView.attributedText = NSAttributedString(string: TaskTitleTextView.text, attributes:attributes)
-        }
+        setupLineSpace()
+        
         updateAddButtonState()
     }
+    
+
     
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -331,6 +325,15 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    private func setupLineSpace() {
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 8
+        let attributes = [NSAttributedStringKey.paragraphStyle: style, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20), NSAttributedStringKey.foregroundColor: customColor.Black1]
+        if TaskTitleTextView.markedTextRange == nil {
+            TaskTitleTextView.attributedText = NSAttributedString(string: TaskTitleTextView.text, attributes:attributes)
+        }
+    }
+    
     // MARK: - Setup View
 
     // Setup PopView
@@ -474,7 +477,13 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     }
     
     // Resize when editing
-    func resizeTextView(resizeOrRecover: Bool) {
+    func resizeTextView(height: CGFloat) {
+        
+        var resizeOrRecover: Bool = true
+        if height < 60 {
+            resizeOrRecover = false
+        }
+        
         let PopViewFrame = PopView.frame
         
         switch resizeOrRecover {
@@ -497,7 +506,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
                     self.UpdatePopViewLayout()
 
                     // Buttons
-                    self.AddConFirm.frame = CGRect(x: self.PopView.frame.width - 46 - 16, y: self.PopView.frame.height - 32 - 16 - 24, width: 46, height: 32)
+                    self.AddConFirm.frame = CGRect(x: self.PopView.frame.width - 54 - 16, y: self.PopView.frame.height - 32 - 16 - 24, width: 54, height: 32)
                     
                     let dateWidth = self.DateButton.frame.width
                     let alertWidth = self.AlertButton.frame.width

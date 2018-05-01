@@ -504,11 +504,11 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             emptyStateView.isHidden = false
             emptyStateImage.isHidden = false
             //emptyStateView.isEnabled = true
-            
             UIView.animate(withDuration: 0.3, delay: 1, options: .curveEaseInOut, animations: {
                 self.emptyStateView.alpha = 1
                 self.emptyStateImage.alpha = 1
                 self.emptyStateView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                
             }, completion: nil)
             
         } else {

@@ -42,6 +42,8 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         
         setupView()
         
+        setupLineSpace()
+        
         // Update View
         NotificationCenter.default.addObserver(self, selector: #selector(ShowDetailViewController.updateScrollView(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ShowDetailViewController.updateScrollView(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
@@ -77,6 +79,10 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         remarkPlaceholder.isHidden = !remarkTextView.text.isEmpty
         
         // Line Space
+        setupLineSpace()
+    }
+    
+    private func setupLineSpace() {
         let titleStyle = NSMutableParagraphStyle()
         let remarkStyle = NSMutableParagraphStyle()
         
@@ -92,7 +98,6 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate {
         if remarkTextView.markedTextRange == nil {
             remarkTextView.attributedText = NSAttributedString(string: remarkTextView.text, attributes:remarkAttributes)
         }
-        
     }
     
     // Disable newline in titleTextView
