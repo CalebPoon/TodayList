@@ -30,8 +30,10 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
     @IBOutlet weak var moreButton: AddedTouchAreaButton!
     @IBOutlet weak var deleteButton: AddedTouchAreaButton!
     
-    
     @IBOutlet weak var scrollView: UIScrollView!
+    
+    var swipeRight = UISwipeGestureRecognizer()
+    
     // MARK: Model
     var task: Task!
     
@@ -43,7 +45,7 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
         setupView()
         setupGestrueRecognizer()
         
-        setupLineSpace()
+        //setupLineSpace()
         
         // Update View
         NotificationCenter.default.addObserver(self, selector: #selector(ShowDetailViewController.updateScrollView(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
@@ -71,10 +73,11 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
         remarkPlaceholder.isHidden = !remarkTextView.text.isEmpty
         
         // Line Space
-        setupLineSpace()
+        //setupLineSpace()
     }
     
     private func setupLineSpace() {
+        /*
         let titleStyle = NSMutableParagraphStyle()
         let remarkStyle = NSMutableParagraphStyle()
         
@@ -85,11 +88,10 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
         if titleTextView.markedTextRange == nil {
             titleTextView.attributedText = NSAttributedString(string: titleTextView.text, attributes:titleAttributes)
         }
-        
         let remarkAttributes = [NSAttributedStringKey.paragraphStyle: remarkStyle, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: customColor.Black2]
         if remarkTextView.markedTextRange == nil {
             remarkTextView.attributedText = NSAttributedString(string: remarkTextView.text, attributes:remarkAttributes)
-        }
+        }*/
     }
     
     // Disable newline in titleTextView
@@ -104,6 +106,8 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "hideKeyboard"), style: .plain, target: self, action: #selector(ShowDetailViewController.hideKeyboardButtonClicked(_:)))
         
         self.navigationItem.leftBarButtonItem?.isEnabled = false
+        
+        swipeRight.isEnabled = false
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -116,6 +120,8 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
         } else {
             self.navigationItem.leftBarButtonItem?.isEnabled = true
         }
+        
+        swipeRight.isEnabled = true
     }
     
     
@@ -335,6 +341,11 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
         singleTap.numberOfTapsRequired = 1
         scrollView.addGestureRecognizer(singleTap)
         
+        // Swipe Right
+        swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
+        swipeRight.direction = .right
+        self.view.addGestureRecognizer(swipeRight)
+        
         // Pop gestrue
         /*
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
@@ -429,6 +440,10 @@ class ShowDetailViewController: UIViewController, UITextViewDelegate, UIGestureR
         self.view.endEditing(true)
     }
     
+    @objc func handleSwipe(_ recognizer: UISwipeGestureRecognizer) {
+        self.navigationController?.navigationBar.alpha = 0
+        self.performSegue(withIdentifier: "unwindToTodayListFromEdit", sender: self)
+    }
     
     // MARK: Buttons clicked
     @objc func returnButtonClicked(_ sender: UIBarButtonItem) {

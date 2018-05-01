@@ -88,7 +88,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
         resizeTextView(height: TaskTitleTextView.contentSize.height)
         
         // Line Space
-        setupLineSpace()
+        //setupLineSpace()
         
         updateAddButtonState()
     }
@@ -354,12 +354,13 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
     }
     
     private func setupLineSpace() {
+        /*
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 8
         let attributes = [NSAttributedStringKey.paragraphStyle: style, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20), NSAttributedStringKey.foregroundColor: customColor.Black1]
         if TaskTitleTextView.markedTextRange == nil {
             TaskTitleTextView.attributedText = NSAttributedString(string: TaskTitleTextView.text, attributes:attributes)
-        }
+        }*/
     }
     
     // MARK: - Setup View
