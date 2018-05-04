@@ -116,7 +116,7 @@ class AddTaskPopViewController: UIViewController, UITextViewDelegate {
             let title = TaskTitleTextView.text ?? ""
             
             // Set the task to be passed to TodayListViewController after the unwind segue.
-            task = Task(title: title, isChecked: false, date: setDate)
+            task = Task(title: title, isChecked: false, date: setDate, alert: nil, topic: nil, remark: nil)
             
             // Set alert
             if let alert = setAlert {

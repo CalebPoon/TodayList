@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import os.log
 
-class Task {
-    
+class Task: NSObject, NSCoding {
+
     //MARK - Properties
     
     var title: String
@@ -21,15 +22,25 @@ class Task {
     var topic: String?
     var remark: String?
     
-    //MARK: - Initialization
+    // MARK: Types
+    struct PropertyKey{
+        static let title = "title"
+        static let isChecked = "isChecked"
+        static let date = "date"
+        static let alert = "alert"
+        static let topic = "topic"
+        static let remark = "remark"
+    }
     
-    init?(title: String, isChecked: Bool, date: Date) {
+    // MARK: - Initialization
+    
+    init?(title: String, isChecked: Bool, date: Date, alert: Date?, topic: String?, remark: String?) {
         // The title must not be empty
         if title.isEmpty {
             return nil
         }
         
-        // isChecked must be false
+        
         if isChecked {
             return nil
         }
@@ -44,4 +55,40 @@ class Task {
         self.isChecked = isChecked
         self.date = date
     }
+    
+    // MARK: - NSCoding
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(title, forKey: PropertyKey.title)
+        aCoder.encode(isChecked, forKey: PropertyKey.isChecked)
+        aCoder.encode(date, forKey: PropertyKey.date)
+        aCoder.encode(alert, forKey: PropertyKey.alert)
+        aCoder.encode(topic, forKey: PropertyKey.topic)
+        aCoder.encode(remark, forKey: PropertyKey.remark)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        // The title is required. If we cannot decode a title string, the initializer should fail.
+        guard let title = aDecoder.decodeObject(forKey: PropertyKey.title) as? String else {
+            os_log("Unable to decode the title for a Task object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        
+        let isChecked = aDecoder.decodeBool(forKey: PropertyKey.isChecked)
+        
+        guard let date = aDecoder.decodeObject(forKey: PropertyKey.date) as? Date else {
+            os_log("Unable to decode the Date for a Task object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        
+        let alert = aDecoder.decodeObject(forKey: PropertyKey.alert) as? Date
+        let topic = aDecoder.decodeObject(forKey: PropertyKey.topic) as? String
+        let remark = aDecoder.decodeObject(forKey: PropertyKey.remark) as? String
+
+        
+        self.init(title: title, isChecked: isChecked, date: date, alert: alert, topic: topic, remark: remark)
+    }
+    
+    // MARK: - Archiving Paths
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("AllTasks")
 }

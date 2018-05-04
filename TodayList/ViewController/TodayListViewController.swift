@@ -8,6 +8,7 @@
 
 import UIKit
 import AudioToolbox
+import os.log
 
 class TodayListViewController: UITableViewController, TodayListTaskTableViewCellDelegate {
 
@@ -232,7 +233,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         // Unwind From AddTaskPopView
         if let sourceViewController = sender.source as? AddTaskPopViewController, let task = sourceViewController.task {
             // Add a new task
-            AllTasks.append(task)
+            //AllTasks.append(task)
             
             // if the task is on today, add it to the uncheckedTasks array and tableView
             if compareDate(date1: task.date, date2: todayDate)  {
@@ -286,6 +287,8 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             }
         }
         
+        saveTasks()
+        
         print("AllTasks: \(AllTasks.count), CheckedTasks: \(checkedTasks.count), UncheckedTasks: \(uncheckedTasks.count)")
         
         if self.uncheckedTasks.count == 0 {
@@ -311,6 +314,8 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         if self.uncheckedTasks.count == 0 {
             self.TodayListIsEmpty(isEmpty: true)
         }
+        
+        saveTasks()
     }
 
     
@@ -407,6 +412,8 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
                         self.TodayListIsEmpty(isEmpty: true)
                     }
                     
+                    self.saveTasks()
+                    
                 } else {
                     
                     // Pop the row in CheckingRowArray if it is unchecked
@@ -423,40 +430,45 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
     }
     
     //MARK: - Private Methods
+    private func loadTasks() -> [Task]? {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: Task.ArchiveURL.path) as? [Task]
+    }
+    
     private func loadSampleTask() {
-        guard let task1 = Task(title: "点击左侧方框完成任务", isChecked: false, date: todayDate) else {
+        
+        guard let task1 = Task(title: "点击左侧方框完成任务", isChecked: false, date: todayDate, alert: nil, topic: nil, remark: nil) else {
             fatalError("Unable to instantiate task1")
         }
         
-        guard let task2 = Task(title: "点击右下角加号按钮添加任务", isChecked: false, date: todayDate) else {
+        AllTasks += [task1]
+        /*
+        guard let task2 = Task(title: "点击右下角加号按钮添加任务", isChecked: false, date: todayDate, alert: nil, topic: nil, remark: nil) else {
             fatalError("Unable to instantiate task2")
         }
         
-        guard let task3 = Task(title: "点击任务标题编辑详情", isChecked: false, date: todayDate) else {
+        guard let task3 = Task(title: "点击任务标题编辑详情", isChecked: false, date: todayDate, alert: nil, topic: nil, remark: nil) else {
             fatalError("Unable to instantiate task3")
         }
         
         let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: todayDate)
-        guard let task4 = Task(title: "明天的任务", isChecked: false, date: tomorrowDate!) else {
+        guard let task4 = Task(title: "明天的任务", isChecked: false, date: tomorrowDate!, alert: nil, topic: nil, remark: nil) else {
             fatalError("Unable to instantiate task4")
         }
 
-        AllTasks += [task1, task2, task3, task4]
-        
-        /*
-        // Test Tasks
-        for index in 0...12 {
-            guard let task = Task(title: "测试任务\(index)", isChecked: false) else {
-                fatalError("Unable to instantiate task\(index)")
-            }
-            self.uncheckedTasks += [task]
-        }*/
-        
+        AllTasks += [task1, task2, task3, task4]*/
         
     }
     
     private func loadUncheckedTasks() {
-        loadSampleTask()
+        // Load any saved tasks, otherwise load sample data.
+        if let savedTasks = loadTasks() {
+            AllTasks += savedTasks
+            print("loadTasks")
+        } else {
+            // Load the sample data.
+            loadSampleTask()
+        }
+        
         for element in AllTasks {
             if compareDate(date1: element.date, date2: todayDate) {
                 uncheckedTasks += [element]
@@ -540,6 +552,19 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
             })
     }
     
+    private func saveTasks() {
+        AllTasks.removeAll()
+        AllTasks += uncheckedTasks
+        AllTasks += otherDayTasks
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(AllTasks, toFile: Task.ArchiveURL.path)
+        
+        if isSuccessfulSave {
+            os_log("Tasks successfully saved.", log: OSLog.default, type: .debug)
+        } else {
+            os_log("Failed to save tasks...", log: OSLog.default, type: .error)
+        }
+    }
+    
     
 
     // MARK: - AddButon functions
@@ -551,7 +576,7 @@ class TodayListViewController: UITableViewController, TodayListTaskTableViewCell
         addButton.frame.size = CGSize(width: 60, height: 60)
         
         // Set its original place by frame
-        addButton.frame = CGRect(x: self.view.frame.width - 60 - 12, y: self.view.frame.height - 112 - 12 - 60 - 12, width: 60, height: 60)
+        addButton.frame = CGRect(x: self.view.frame.width - 72, y: self.view.frame.height - 196, width: 60, height: 60)
         
         self.view.addSubview(addButton)
         

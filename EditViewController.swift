@@ -35,7 +35,7 @@ class EditViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        task = Task(title: "try", isChecked: false, date: Date())
+        //task = Task(title: "try", isChecked: false, date: Date(), alert: nil, topic: nil, remark: nil)
         
         setView()
         
